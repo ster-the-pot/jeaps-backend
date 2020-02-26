@@ -21,4 +21,16 @@ public class RegisterController {
         return "Successfully saved user";
     }
 
+    @PostMapping(path="/login")
+    //consider mapping to UserDTO instead of User
+    public @ResponseBody Object LoginUser(UserDTO user) {
+
+        User login = this.userRepo.findByUsername(user.getUsername());
+        if (login == null || login.getPassword() != user.getPassword()) {
+            return "authentication failure";
+        }
+        return login;
+
+    }
+
 }
