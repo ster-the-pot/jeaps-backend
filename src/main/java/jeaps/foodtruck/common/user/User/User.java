@@ -1,4 +1,4 @@
-package jeaps.foodtruck.common.user;
+package jeaps.foodtruck.common.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,10 +9,7 @@ import javax.persistence.Id;
 public class User {
 
     @Id
-<<<<<<< HEAD
-=======
     @GeneratedValue(strategy = GenerationType.IDENTITY)
->>>>>>> 83418584dc27f3e92c79127f3ac3a3ec95f7796b
     private Integer id;
     private String username;
     private String name;

@@ -1,6 +1,8 @@
 package jeaps.foodtruck.controllers;
 
-import jeaps.foodtruck.common.user.User;
+import jeaps.foodtruck.common.user.User.User;
+import jeaps.foodtruck.common.user.User.UserDAO;
+import jeaps.foodtruck.common.user.User.UserDTO;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.customer.CustomerDTO;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
@@ -17,15 +19,16 @@ public class RegisterController {
     @Autowired
     private CustomerDAO customerRepo;
     @Autowired
-    private OwnerDAO ownerRepo;
+    private UserDAO userRepo;
 
     @PostMapping(path="/create")
     //consider mapping to UserDTO instead of User
-    public @ResponseBody String addUser(@RequestBody CustomerDTO user, String owner){
+    public @ResponseBody String addUser(@RequestBody UserDTO user, String owner){
         if(Boolean.parseBoolean(owner)) {
-            this.customerRepo.save(user);
+            Integer id = this.userRepo.save(user);
+            this.customerRepo.save(id);
         } else {
-            this.ownerRepo.save(user);
+            //this.ownerRepo.save(user);
         }
 
         return "Successfully saved user";

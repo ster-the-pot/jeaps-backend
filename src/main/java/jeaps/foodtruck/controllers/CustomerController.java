@@ -1,6 +1,6 @@
 package jeaps.foodtruck.controllers;
 
-import jeaps.foodtruck.common.user.User;
+import jeaps.foodtruck.common.user.User.User;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
