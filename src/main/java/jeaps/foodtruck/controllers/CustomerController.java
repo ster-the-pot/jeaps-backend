@@ -17,4 +17,6 @@ public class CustomerController {
     User getUserDetails(@RequestParam String username){
         return userDAO.findByUsername(username);
     }
+
+
 }
