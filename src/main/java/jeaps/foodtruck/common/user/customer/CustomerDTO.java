@@ -1,6 +1,6 @@
-package jeaps.foodtruck.common.user;
+package jeaps.foodtruck.common.user.customer;
 
-public class UserDTO {
+public class CustomerDTO {
     private String username;
     private String name;
     private String password;

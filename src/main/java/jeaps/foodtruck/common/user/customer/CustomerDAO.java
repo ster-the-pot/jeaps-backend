@@ -1,23 +1,23 @@
-package jeaps.foodtruck.common.user;
+package jeaps.foodtruck.common.user.customer;
 
 
+import jeaps.foodtruck.common.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class UserDAO {
+public class CustomerDAO {
 
 
     @Autowired
-    private UserRepository userRepo;
+    private CustomerRepository userRepo;
 
     public void save(User u){
         this.userRepo.save(u);
     }
 
-    public void save(UserDTO u){
+    public void save(CustomerDTO u){
         User user = new User();
         user.setUsername(u.getUsername());
         user.setPassword(u.getPassword());
