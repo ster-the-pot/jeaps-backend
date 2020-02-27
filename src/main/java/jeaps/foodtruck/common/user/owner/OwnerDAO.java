@@ -16,7 +16,7 @@ public class OwnerDAO {
         this.userRepo.save(u);
     }
 
-    public void save(OwnerDTO u){
+    public void save(CustomerDTO u){
         User user = new User();
         user.setUsername(u.getUsername());
         user.setPassword(u.getPassword());
