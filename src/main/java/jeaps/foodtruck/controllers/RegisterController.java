@@ -3,6 +3,7 @@ package jeaps.foodtruck.controllers;
 import jeaps.foodtruck.common.user.User;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.customer.CustomerDTO;
+import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.auth0.jwt.JWT;
@@ -14,26 +15,32 @@ public class RegisterController {
 
     //AutoWired lets Spring handle the creation of the instance (singleton)
     @Autowired
-    private CustomerDAO userRepo;
+    private CustomerDAO custRepo;
+    @Autowired
+    private OwnerDAO ownerRepo;
 
     @PostMapping(path="/create")
     //consider mapping to UserDTO instead of User
-    public @ResponseBody String addUser(@RequestBody CustomerDTO user){
-        this.userRepo.save(user);
+    public @ResponseBody String addUser(@RequestBody CustomerDTO user, String owner){
+        if(owner.equals("false")){
+            this.custRepo.save(user);
+        }
+        else{
+
+        }
         return "Successfully saved user";
     }
 
     @PostMapping(path="/login")
     //consider mapping to UserDTO instead of User
-    public @ResponseBody Object LoginUser(@RequestBody CustomerDTO user) {
-        System.out.println(user.getPassword());
-        User login = this.userRepo.findByUsername(user.getUsername());
-        System.out.println(login.getPassword());
-        if (login == null || !login.getPassword().equals(user.getPassword())) {
+    public @ResponseBody Object LoginUser(@RequestBody String username,  String password) {
+
+        User login = this.userRepo.findByUsername(username);
+        if (login == null || !login.getPassword().equals(password)) {
             return "authentication failure";
         }
-        return JWT.create().withAudience(user.getUsername())
-                .sign(Algorithm.HMAC256(user.getPassword()));
+        return JWT.create().withAudience(username)
+                .sign(Algorithm.HMAC256(password));
     }
 
 }
