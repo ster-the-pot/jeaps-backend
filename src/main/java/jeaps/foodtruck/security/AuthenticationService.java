@@ -1,14 +1,13 @@
 package jeaps.foodtruck.security;
 
-import jeaps.foodtruck.common.user.User;
-import jeaps.foodtruck.common.user.UserDAO;
+import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
     @Autowired
-    UserDAO userDAO;
+    CustomerDAO userDAO;
 
     //TODO
     //public User authenticateCustomer(){ }
