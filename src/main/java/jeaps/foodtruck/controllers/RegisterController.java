@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping(path="/account")
 public class RegisterController {
 
     //AutoWired lets Spring handle the creation of the instance (singleton)
     @Autowired
     private UserDAO userRepo;
 
-    @PostMapping(path="/register")
+    @PostMapping(path="/create")
     //consider mapping to UserDTO instead of User
     public @ResponseBody String addUser(UserDTO user){
         this.userRepo.save(user);
@@ -30,7 +30,6 @@ public class RegisterController {
             return "authentication failure";
         }
         return login;
-
     }
 
 }
