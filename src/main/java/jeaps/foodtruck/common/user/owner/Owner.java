@@ -13,6 +13,6 @@ public class Owner extends User {
 
     //ID from superclass
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 }

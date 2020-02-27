@@ -15,19 +15,19 @@ public class RegisterController {
 
     //AutoWired lets Spring handle the creation of the instance (singleton)
     @Autowired
-    private CustomerDAO custRepo;
+    private CustomerDAO customerRepo;
     @Autowired
     private OwnerDAO ownerRepo;
 
     @PostMapping(path="/create")
     //consider mapping to UserDTO instead of User
     public @ResponseBody String addUser(@RequestBody CustomerDTO user, String owner){
-        if(owner.equals("false")){
-            this.custRepo.save(user);
+        if(Boolean.parseBoolean(owner)) {
+            this.customerRepo.save(user);
+        } else {
+            this.ownerRepo.save(user);
         }
-        else{
 
-        }
         return "Successfully saved user";
     }
 
@@ -35,11 +35,12 @@ public class RegisterController {
     //consider mapping to UserDTO instead of User
     public @ResponseBody Object LoginUser(@RequestBody String username,  String password) {
 
-        User login = this.userRepo.findByUsername(username);
+        User login = this.customerRepo.findByUsername(username);
         if (login == null || !login.getPassword().equals(password)) {
             return "authentication failure";
         }
-        return JWT.create().withAudience(username)
+
+        return JWT.create().withAudience(username) // ****TO PUT IN A SERVICE FILE**************
                 .sign(Algorithm.HMAC256(password));
     }
 

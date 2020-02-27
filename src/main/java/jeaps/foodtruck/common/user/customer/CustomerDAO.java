@@ -13,6 +13,7 @@ public class CustomerDAO {
     @Autowired
     private CustomerRepository userRepo;
 
+
     public void save(User u){
         this.userRepo.save(u);
     }
@@ -24,6 +25,7 @@ public class CustomerDAO {
         user.setName(u.getName());
         user.setEmail(u.getEmail());
         this.userRepo.save(user);
+
     }
 
     public User findByUsername(String username){

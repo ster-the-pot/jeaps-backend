@@ -12,6 +12,5 @@ public class Customer extends User {
 
     //ID from superclass
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 }
