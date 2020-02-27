@@ -1,5 +1,7 @@
 package jeaps.foodtruck.common.user.User;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

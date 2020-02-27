@@ -27,8 +27,5 @@ public class CustomerDAO {
 
     }
 
-    public User findByUsername(String username){
-        return this.userRepo.findByUsername(username);
-    }
 }
 
