@@ -1,9 +1,7 @@
 package jeaps.foodtruck.common.user.customer;
 
 
-import jeaps.foodtruck.common.user.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 

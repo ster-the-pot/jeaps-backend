@@ -1,6 +1,5 @@
-package jeaps.foodtruck.common.user.User;
+package jeaps.foodtruck.common.user.user;
 
-import jeaps.foodtruck.common.user.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

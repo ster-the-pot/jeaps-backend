@@ -1,6 +1,5 @@
 package jeaps.foodtruck.common.user.customer;
 
-import jeaps.foodtruck.common.user.User.User;
 import org.springframework.data.repository.CrudRepository;
 
 
