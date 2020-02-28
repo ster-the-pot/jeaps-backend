@@ -55,8 +55,8 @@ public class TruckDAO {
     public Truck findByType(String type){
         return this.truckRepo.findByType(type);
     }
-    public Truck findByOwner(String owner){
+    /*public Truck findByOwner(String owner){
         return this.truckRepo.findByOwner_id(owner);
-    }
+    }*/
 
 }

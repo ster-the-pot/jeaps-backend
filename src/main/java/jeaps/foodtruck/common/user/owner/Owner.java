@@ -27,6 +27,7 @@ public class Owner extends User {
         this.id = id;
     }
 
+
     public Set<Truck> getTrucks() {
         return trucks;
     }
