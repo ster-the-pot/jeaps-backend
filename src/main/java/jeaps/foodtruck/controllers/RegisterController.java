@@ -1,9 +1,11 @@
 package jeaps.foodtruck.controllers;
 
+
 import jeaps.foodtruck.common.user.User.User;
 import jeaps.foodtruck.common.user.User.UserDAO;
 import jeaps.foodtruck.common.user.User.UserDTO;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
+import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.auth0.jwt.JWT;
@@ -17,19 +19,21 @@ public class RegisterController {
     @Autowired
     private CustomerDAO customerRepo;
     @Autowired
+    private OwnerDAO ownerRepo;
+    @Autowired
     private UserDAO userRepo;
+
 
     @PostMapping(path="/create")
     //consider mapping to UserDTO instead of User
-    public @ResponseBody String addUser(@RequestBody UserDTO user, String owner){
+    public @ResponseBody String addUser(@RequestBody UserDTO user, String owner) {
 
         System.out.println(user.getUsername());
 
+        Integer id = this.userRepo.save(user);
         if(Boolean.parseBoolean(owner)) {
-            //this.ownerRepo.save(user);
+            this.ownerRepo.save(id);
         } else {
-
-            Integer id = this.userRepo.save(user);
             this.customerRepo.save(id);
         }
 
@@ -44,6 +48,8 @@ public class RegisterController {
         if (login == null || !login.getPassword().equals(password)) {
             return "authentication failure";
         }
+
+        //FIGURE OUT IF CUSTOMER OR OWNER
 
         return JWT.create().withAudience(username) // ****TO PUT IN A SERVICE FILE**************
                 .sign(Algorithm.HMAC256(password));
