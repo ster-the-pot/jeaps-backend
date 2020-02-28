@@ -25,10 +25,9 @@ public class RegisterController {
 
 
     @PostMapping(path="/create")
-    //consider mapping to UserDTO instead of User
-    public @ResponseBody String addUser(@RequestBody UserDTO user, String owner) {
 
-        System.out.println(user.getUsername());
+    //consider mapping to UserDTO instead of User
+    public @ResponseBody String addUser(@RequestBody UserDTO user, @RequestParam String owner) {
 
         Integer id = this.userRepo.save(user);
         if(Boolean.parseBoolean(owner)) {
@@ -42,17 +41,17 @@ public class RegisterController {
 
     @PostMapping(path="/login")
     //consider mapping to UserDTO instead of User
-    public @ResponseBody Object LoginUser(@RequestBody String username,  String password) {
+    public @ResponseBody Object LoginUser(@RequestBody UserDTO user) {
 
-        User login = this.userRepo.findByUsername(username);
-        if (login == null || !login.getPassword().equals(password)) {
+        User login = this.userRepo.findByUsername(user.getUsername());
+        if (login == null || !login.getPassword().equals(user.getPassword())) {
             return "authentication failure";
         }
 
         //FIGURE OUT IF CUSTOMER OR OWNER
 
-        return JWT.create().withAudience(username) // ****TO PUT IN A SERVICE FILE**************
-                .sign(Algorithm.HMAC256(password));
+        return JWT.create().withAudience(user.getUsername()) // ****TO PUT IN A SERVICE FILE**************
+                .sign(Algorithm.HMAC256(user.getPassword()));
     }
 
 }
