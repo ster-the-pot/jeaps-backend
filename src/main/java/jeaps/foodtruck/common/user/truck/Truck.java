@@ -12,7 +12,9 @@ public class Truck {
     private Integer id;
     private Integer owner_id;
     private String name;
-    private String location;
+    private String type;
+    //SHOULD BE AN IMAGE??
+    private String menu;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")
@@ -42,12 +44,20 @@ public class Truck {
         this.owner_id = owner_id;
     }
 
-    public String getLocation() {
-        return location;
+    public String getType() {
+        return type;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
     }
 
     public Route getRoute() {

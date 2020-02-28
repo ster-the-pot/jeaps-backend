@@ -2,6 +2,7 @@ package jeaps.foodtruck.controllers;
 
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
+import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,5 +19,12 @@ public class CustomerController {
         return userDAO.findByUsername(username);
     }
 
+    @PostMapping(path="/manage")
+    //consider mapping to UserDTO instead of User
+    public @ResponseBody Object manageUserDetails(@RequestBody UserDTO user) {
+
+        this.userDAO.update(user);
+        return "Successfully updated Customer info";
+    }
 
 }
