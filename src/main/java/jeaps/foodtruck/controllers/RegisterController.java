@@ -24,19 +24,20 @@ public class RegisterController {
     private UserDAO userRepo;
 
 
-    @PostMapping(path="/create")
-
+    @PostMapping(path="/register/customer")
     //consider mapping to UserDTO instead of User
-    public @ResponseBody String addUser(@RequestBody UserDTO user, @RequestParam String owner) {
-
+    public @ResponseBody String registerCustomer(@RequestBody UserDTO user) {
         Integer id = this.userRepo.save(user);
-        if(Boolean.parseBoolean(owner)) {
-            this.ownerRepo.save(id);
-        } else {
             this.customerRepo.save(id);
-        }
+        return "Successfully saved Customer";
+    }
 
-        return "Successfully saved user";
+    @PostMapping(path="/register/owner")
+    //consider mapping to UserDTO instead of User
+    public @ResponseBody String registerOwner(@RequestBody UserDTO user){
+        Integer id = this.userRepo.save(user);
+        this.ownerRepo.save(id);
+        return "Successfully saved Owner";
     }
 
     @PostMapping(path="/login")
@@ -50,6 +51,7 @@ public class RegisterController {
 
         //FIGURE OUT IF CUSTOMER OR OWNER
 
+        //TODO Authentication
         return JWT.create().withAudience(user.getUsername()) // ****TO PUT IN A SERVICE FILE**************
                 .sign(Algorithm.HMAC256(user.getPassword()));
     }

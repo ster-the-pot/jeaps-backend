@@ -1,22 +1,20 @@
 package jeaps.foodtruck.common.user.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String username;
-    private String name;
-    private String email;
-    private String password;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Integer id;
+    @Column(unique=true)
+    protected String username;
+    protected String name;
+    protected String email;
+    protected String password;
 
-//should we include type here??
 
 
     public String getUsername() {
