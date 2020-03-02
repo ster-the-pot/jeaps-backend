@@ -47,7 +47,7 @@ public class TruckDTO {
     public void setMenu(String menu) {
         this.menu = menu;
     }
-    
+
     public Set<Route> getRoute() {
         return route;
     }

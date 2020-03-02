@@ -1,5 +1,6 @@
 package jeaps.foodtruck.common.user.truck;
 
+import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.truck.route.Route;
 
 import javax.persistence.*;
@@ -11,11 +12,12 @@ public class Truck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer owner_id;
     private String name;
     private String type;
     //SHOULD BE AN IMAGE??
     private String menu;
+
+    @ManyToOne Owner owner;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")
@@ -37,13 +39,13 @@ public class Truck {
         this.name = name;
     }
 
-    public Integer getOwner_id() {
+    /*public Integer getOwner_id() {
         return owner_id;
     }
 
     public void setOwner_id(Integer owner_id) {
         this.owner_id = owner_id;
-    }
+    }*/
 
     public String getType() {
         return type;

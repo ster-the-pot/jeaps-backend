@@ -1,5 +1,7 @@
 package jeaps.foodtruck.common.user.user;
 
+import jeaps.foodtruck.common.user.truck.Truck;
+import jeaps.foodtruck.common.user.truck.TruckDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -47,6 +49,9 @@ public class UserDAO {
     public User findByUsername(String username){
         return this.userRepo.findByUsername(username);
     }
+
+
+
 }
 
 

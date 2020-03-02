@@ -1,7 +1,10 @@
 package jeaps.foodtruck.common.user.truck.route;
 
+import jeaps.foodtruck.common.user.truck.Truck;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
@@ -11,6 +14,9 @@ public class Route {
     private Integer id;
     private Location location;
     private Date date;
+
+    @ManyToOne Truck truck;
+
 
     public Integer getId() {
         return id;

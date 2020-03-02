@@ -36,6 +36,8 @@ public class Owner {
         this.trucks = trucks;
     }
 }
+
+
 /*@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Owner extends User {
