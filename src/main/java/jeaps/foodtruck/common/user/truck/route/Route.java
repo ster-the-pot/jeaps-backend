@@ -15,7 +15,6 @@ public class Route {
     private Location location;
     private Date date;
 
-
     public Integer getId() {
         return id;
     }
