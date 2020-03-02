@@ -2,8 +2,11 @@ package jeaps.foodtruck.common.user.truck;
 
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.owner.OwnerRepository;
+import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class TruckDAO {
@@ -14,17 +17,7 @@ public class TruckDAO {
         this.truckRepo.save(t);
     }
 
-    public void save(TruckDTO truckDTO){
-        //How are we Determining the Owner??? TOKEN maybe
-        Truck t = new Truck();
-        t.setName(truckDTO.getName());
-        t.setRoute(truckDTO.getRoute());
-        t.setMenu(truckDTO.getMenu());
-        t.setType(truckDTO.getType());
 
-        this.truckRepo.save(t);
-
-    }
     public void update(TruckDTO truckDTO){
 
         Truck t = this.truckRepo.findByName(truckDTO.getName());
@@ -44,6 +37,13 @@ public class TruckDAO {
 
     }
 
+    public void delete(TruckDTO truckDTO) {
+        Truck t = this.truckRepo.findByName(truckDTO.getName());
+
+        this.truckRepo.deleteById(t.getId());
+    }
+
+
     public Iterable<Truck> getAllTrucks() {
         return this.truckRepo.findAll();
     }
@@ -55,8 +55,7 @@ public class TruckDAO {
     public Truck findByType(String type){
         return this.truckRepo.findByType(type);
     }
-    /*public Truck findByOwner(String owner){
-        return this.truckRepo.findByOwner_id(owner);
-    }*/
+    public List<Truck> findByOwner(Integer id) { return this.truckRepo.findByOwner_id(id); }
+
 
 }
