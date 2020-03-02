@@ -1,26 +1,28 @@
 package jeaps.foodtruck.common.user.truck.route;
 
+import java.util.Date;
 import java.util.List;
 
 public class RouteDTO {
-    String time;
+
     //How will this be represented?
-    String location;
+    private Location location;
+    private Date date;
 
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

@@ -1,15 +1,21 @@
 package jeaps.foodtruck.common.user.truck;
 
+import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Repository
 public class TruckDAO {
     @Autowired
     private TruckRepository truckRepo;
+    @Autowired
+    private UserDAO userDAO;
+
 
     public void save(Truck t){
         this.truckRepo.save(t);
@@ -56,8 +62,20 @@ public class TruckDAO {
     public Truck findByType(String type){
         return this.truckRepo.findByType(type);
     }
-    public List<Truck> findByOwner(Integer id) { return this.truckRepo.findByOwner_id(id); }
+
+    public List<Truck> findByOwner(String username) {
+        Integer id = this.userDAO.findByUsername(username).getId();
+        return this.truckRepo.findByOwner_id(id);
+    }
 
     public Optional<Truck> findById(Integer id) { return this.truckRepo.findById(id); }
+
+    public List<Truck> findALL() {
+        Iterable<Truck> iter =  this.truckRepo.findAll();
+        return StreamSupport.stream(iter.spliterator(), false)
+                        .collect(Collectors.toList());
+    }
+
+
 
 }

@@ -63,13 +63,14 @@ public class OwnerController {
         return "Successfully delete truck";
     }
 
-    /*@RequestMapping(path="/manageTruck")
+    @RequestMapping(path="/findTruck")
     public @ResponseBody
-    Truck manageTruck(@RequestParam String name){
-        return this.truckDAO.findByOwner(1235);
+    List<Truck> findTruck(@RequestParam String username){
+        return this.truckDAO.findByOwner(username);
     }
     //HOW ARE WE FIGURING OUT if it an owner???????????????????????????????
-*/
+
+
 
     @PostMapping(path="/editTruck")
     public @ResponseBody Object editTruck(@RequestBody TruckDTO truck) {
