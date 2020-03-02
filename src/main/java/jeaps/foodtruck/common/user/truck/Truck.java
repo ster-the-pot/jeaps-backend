@@ -20,7 +20,7 @@ public class Truck {
     @ManyToOne Owner owner;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "truck_id", referencedColumnName = "id")
     private Set<Route> route;
 
     public Integer getId() {

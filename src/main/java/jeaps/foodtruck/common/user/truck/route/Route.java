@@ -3,9 +3,7 @@ package jeaps.foodtruck.common.user.truck.route;
 
 import jeaps.foodtruck.common.user.truck.Truck;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -13,6 +11,7 @@ import java.util.Set;
 public class Route {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Location location;
     private Date date;

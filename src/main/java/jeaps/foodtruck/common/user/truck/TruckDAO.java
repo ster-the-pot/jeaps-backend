@@ -1,12 +1,10 @@
 package jeaps.foodtruck.common.user.truck;
 
-import jeaps.foodtruck.common.user.owner.Owner;
-import jeaps.foodtruck.common.user.owner.OwnerRepository;
-import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TruckDAO {
@@ -17,6 +15,9 @@ public class TruckDAO {
         this.truckRepo.save(t);
     }
 
+    public void update(Truck t) {
+        this.truckRepo.save(t);
+    }
 
     public void update(TruckDTO truckDTO){
 
@@ -57,5 +58,6 @@ public class TruckDAO {
     }
     public List<Truck> findByOwner(Integer id) { return this.truckRepo.findByOwner_id(id); }
 
+    public Optional<Truck> findById(Integer id) { return this.truckRepo.findById(id); }
 
 }

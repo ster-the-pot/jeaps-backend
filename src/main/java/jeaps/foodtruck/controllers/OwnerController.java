@@ -6,6 +6,7 @@ import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.truck.Truck;
 import jeaps.foodtruck.common.user.truck.TruckDAO;
 import jeaps.foodtruck.common.user.truck.TruckDTO;
+import jeaps.foodtruck.common.user.truck.route.Route;
 import jeaps.foodtruck.common.user.truck.route.RouteDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
@@ -41,11 +42,19 @@ public class OwnerController {
     }
 
     @PostMapping(path="/createTruck")
-    public @ResponseBody Object createTruck(@RequestBody TruckDTO truck, @RequestBody UserDTO user) {
-        if(this.ownerDAO.saveTruck(truck, user)) {
+    public @ResponseBody Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
+        if(this.ownerDAO.saveTruck(truck, username)) {
             return "Successfully added truck";
         }
         return "Issue adding truck";
+    }
+
+    @PostMapping(path="/createRoute")
+    public @ResponseBody Object createRoute(@RequestBody Route route, @RequestParam String truckID, @RequestParam String username) {
+        if(this.ownerDAO.saveRoute(route, truckID, username)) {
+            return "Successfully added Route";
+        }
+        return "Issue adding Route";
     }
 
     @PostMapping(path="/deleteTruck")
