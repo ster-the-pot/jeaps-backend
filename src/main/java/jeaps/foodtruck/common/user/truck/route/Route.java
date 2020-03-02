@@ -1,27 +1,20 @@
 package jeaps.foodtruck.common.user.truck.route;
 
+import javafx.util.Pair;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 public class Route {
+
     @Id
     private Integer id;
+    private Location location;
+    private Date date;
 
-    //Set<Pair<Date,Location>> route;
-
-//    public Set<Pair<Date, Location>> getRoute() {
-//        return route;
-//    }
-//
-//    public void setRoute(Set<Pair<Date, Location>> route) {
-//        this.route = route;
-//    }
 
     public Integer getId() {
         return id;
@@ -31,5 +24,20 @@ public class Route {
         this.id = id;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
 }
