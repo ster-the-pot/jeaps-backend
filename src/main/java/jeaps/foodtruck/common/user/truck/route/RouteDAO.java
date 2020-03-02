@@ -16,7 +16,9 @@ public class RouteDAO {
     public void save(RouteDTO routeDTO){
         Route r = new Route();
 
-        //TODO
+        r.setDate(routeDTO.getDate());
+        r.setLocation(routeDTO.getLocation());
+
         this.routeRepo.save(r);
     }
 

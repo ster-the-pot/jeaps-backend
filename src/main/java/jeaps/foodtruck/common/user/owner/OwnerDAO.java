@@ -5,6 +5,7 @@ import jeaps.foodtruck.common.user.truck.TruckDAO;
 import jeaps.foodtruck.common.user.truck.TruckDTO;
 import jeaps.foodtruck.common.user.truck.TruckRepository;
 import jeaps.foodtruck.common.user.truck.route.Route;
+import jeaps.foodtruck.common.user.truck.route.RouteDTO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
@@ -18,13 +19,13 @@ import java.util.Set;
 @Repository
 public class OwnerDAO {
 
-
     @Autowired
     private UserDAO userDAO;
     @Autowired
     private OwnerRepository ownerRepo;
     @Autowired
     private TruckDAO truckDAO;
+
 
     public void save(Owner o){
         this.ownerRepo.save(o);
@@ -68,7 +69,7 @@ public class OwnerDAO {
 
     public Optional<Owner> findById(Integer id) { return this.ownerRepo.findById(id); }
 
-    public Boolean saveRoute(Route route, String truckID, String username){
+    public Boolean saveRoute(RouteDTO routeDTO, String truckID, String username){
 
         User user = this.userDAO.findByUsername(username);
 
@@ -87,6 +88,10 @@ public class OwnerDAO {
             return false;
         }
 
+        Route route = new Route();
+
+        route.setDate(routeDTO.getDate());
+        route.setLocation(routeDTO.getLocation());
 
         Set<Route> r = t.get().getRoute();
         r.add(route);

@@ -44,10 +44,8 @@ public class TruckDAO {
 
     }
 
-    public void delete(TruckDTO truckDTO) {
-        Truck t = this.truckRepo.findByName(truckDTO.getName());
-
-        this.truckRepo.deleteById(t.getId());
+    public void delete(String truckID) {
+        this.truckRepo.deleteById(Integer.parseInt(truckID));
     }
 
 
