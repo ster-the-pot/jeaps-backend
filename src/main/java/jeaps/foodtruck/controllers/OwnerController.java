@@ -51,16 +51,26 @@ public class OwnerController {
     }
 
     @PostMapping(path="/createRoute")
-    public Object createRoute(@RequestBody RouteDTO route, @RequestParam String truckID, @RequestParam String username) {
+    public Object createRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID, @RequestParam String username) {
         if(this.ownerDAO.saveRoute(route, truckID, username)) {
             return "Successfully added Route";
         }
         return "Issue adding Route";
     }
 
+    @RequestMapping(path="/getRoutes")
+    public List<Route> getRoutes(@RequestParam Integer truckID){
+        return this.routeDAO.findByTruck(truckID);
+    }
+
+    @PostMapping(path="/deleteRoute")
+    public Object deleteRoute(@RequestParam Integer routeID) {
+        this.routeDAO.deleteRoute(routeID);
+        return "Successfully deleted truck";
+    }
 
     @PostMapping(path="/deleteTruck")
-    public Object deleteTruck(@RequestParam String truckID) {
+    public Object deleteTruck(@RequestParam Integer truckID) {
         this.truckDAO.delete(truckID);
         return "Successfully deleted truck";
     }
@@ -74,8 +84,8 @@ public class OwnerController {
 
 
     @PostMapping(path="/editTruck")
-    public Object editTruck(@RequestBody TruckDTO truck) {
-        this.truckDAO.update(truck);
+    public Object editTruck(@RequestBody TruckDTO truck, @RequestParam Integer truckID) {
+        this.truckDAO.update(truck, truckID);
         return "Successfully updated truck";
     }
 

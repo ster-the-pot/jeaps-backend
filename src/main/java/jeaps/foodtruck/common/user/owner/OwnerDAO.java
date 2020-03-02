@@ -69,7 +69,7 @@ public class OwnerDAO {
 
     public Optional<Owner> findById(Integer id) { return this.ownerRepo.findById(id); }
 
-    public Boolean saveRoute(RouteDTO routeDTO, String truckID, String username){
+    public Boolean saveRoute(RouteDTO routeDTO, Integer truckID, String username){
 
         User user = this.userDAO.findByUsername(username);
 
@@ -78,7 +78,7 @@ public class OwnerDAO {
         if(!owner.isPresent()) {
             return false;
         }
-        Optional<Truck> t =  this.truckDAO.findById(Integer.parseInt(truckID));
+        Optional<Truck> t =  this.truckDAO.findById(truckID);
         if(!t.isPresent()) {
             return false;
         }

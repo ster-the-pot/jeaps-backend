@@ -25,28 +25,32 @@ public class TruckDAO {
         this.truckRepo.save(t);
     }
 
-    public void update(TruckDTO truckDTO){
+    public void update(TruckDTO truckDTO, Integer truckID){
 
-        Truck t = this.truckRepo.findByName(truckDTO.getName());
+        Optional<Truck> t = this.truckRepo.findById(truckID);
         //WE SHOULD BE ABLE TO CHANGE THE TRUCK NAME.....
         //t.setName(truckDTO.getName());
         if(truckDTO.getRoute() != null) {
-            t.setRoute(truckDTO.getRoute());
+            t.get().setRoute(truckDTO.getRoute());
         }
         if(truckDTO.getMenu() != null) {
-            t.setMenu(truckDTO.getMenu());
+            t.get().setMenu(truckDTO.getMenu());
         }
         if(truckDTO.getType() != null) {
-            t.setType(truckDTO.getType());
+            t.get().setType(truckDTO.getType());
+        }
+        if(truckDTO.getName() != null) {
+            t.get().setName(truckDTO.getName());
         }
 
-        this.truckRepo.save(t);
+        this.truckRepo.save(t.get());
 
     }
 
-    public void delete(String truckID) {
-        this.truckRepo.deleteById(Integer.parseInt(truckID));
+    public void delete(Integer truckID) {
+        this.truckRepo.deleteById(truckID);
     }
+
 
 
     public Iterable<Truck> getAllTrucks() {
