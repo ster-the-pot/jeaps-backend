@@ -25,15 +25,13 @@ public class RegisterController {
 
 
     @PostMapping(path="/register/customer")
-    //consider mapping to UserDTO instead of User
     public @ResponseBody String registerCustomer(@RequestBody UserDTO user) {
         Integer id = this.userRepo.save(user);
-            this.customerRepo.save(id);
+        this.customerRepo.save(id);
         return "Successfully saved Customer";
     }
 
     @PostMapping(path="/register/owner")
-    //consider mapping to UserDTO instead of User
     public @ResponseBody String registerOwner(@RequestBody UserDTO user){
         Integer id = this.userRepo.save(user);
         this.ownerRepo.save(id);
@@ -41,11 +39,10 @@ public class RegisterController {
     }
 
     @PostMapping(path="/login")
-    //consider mapping to UserDTO instead of User
     public @ResponseBody Object LoginUser(@RequestBody UserDTO user) {
 
         User login = this.userRepo.findByUsername(user.getUsername());
-        if (login == null || !login.getPassword().equals(user.getPassword())) {
+        if (login == null || login.getId() == null || !login.getPassword().equals(user.getPassword())) {
             return "authentication failure";
         }
 

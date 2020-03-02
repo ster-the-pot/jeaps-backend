@@ -26,7 +26,6 @@ public class OwnerController {
     }
 
     @PostMapping(path="/manage")
-    //consider mapping to UserDTO instead of User
     public @ResponseBody Object manageUserDetails(@RequestBody UserDTO user) {
 
         this.userDAO.update(user);
@@ -34,13 +33,11 @@ public class OwnerController {
     }
 
     @PostMapping(path="/createTruck")
-    //consider mapping to UserDTO instead of User
     public @ResponseBody Object createTruck(@RequestBody TruckDTO truck) {
         this.truckDAO.save(truck);
         return "Successfully added truck";
     }
     @PostMapping(path="/manageTruck")
-    //consider mapping to UserDTO instead of User
     public @ResponseBody Object manageTruck(@RequestBody TruckDTO truck) {
         this.truckDAO.update(truck);
         return "Successfully updated truck";
