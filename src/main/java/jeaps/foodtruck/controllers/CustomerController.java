@@ -1,5 +1,6 @@
 package jeaps.foodtruck.controllers;
 
+import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
     @Autowired
     UserDAO userDAO;
-
 
     @RequestMapping(path="/details")
     public @ResponseBody

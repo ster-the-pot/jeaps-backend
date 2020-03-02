@@ -3,6 +3,7 @@ package jeaps.foodtruck.common.user.truck;
 import jeaps.foodtruck.common.user.truck.route.Route;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Truck {
@@ -16,9 +17,9 @@ public class Truck {
     //SHOULD BE AN IMAGE??
     private String menu;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")
-    private Route route;
+    private Set<Route> route;
 
     public Integer getId() {
         return id;
@@ -60,11 +61,11 @@ public class Truck {
         this.menu = menu;
     }
 
-    public Route getRoute() {
+    public Set<Route> getRoute() {
         return route;
     }
 
-    public void setRoute(Route route) {
+    public void setRoute(Set<Route> route) {
         this.route = route;
     }
 }

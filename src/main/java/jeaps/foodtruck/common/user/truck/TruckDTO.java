@@ -5,6 +5,7 @@ import jeaps.foodtruck.common.user.truck.route.Route;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import java.util.Set;
 
 public class TruckDTO {
 
@@ -13,7 +14,7 @@ public class TruckDTO {
     private String type;
     //SHOULD BE AN IMAGE??
     private String menu;
-    private Route route;
+    private Set<Route> route;
 
     public String getName() {
         return name;
@@ -46,12 +47,12 @@ public class TruckDTO {
     public void setMenu(String menu) {
         this.menu = menu;
     }
-
-    public Route getRoute() {
+    
+    public Set<Route> getRoute() {
         return route;
     }
 
-    public void setRoute(Route route) {
+    public void setRoute(Set<Route> route) {
         this.route = route;
     }
 }
