@@ -1,11 +1,9 @@
 package jeaps.foodtruck.common.user.truck.route;
 
-
 import jeaps.foodtruck.common.user.truck.Truck;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 public class Route {
