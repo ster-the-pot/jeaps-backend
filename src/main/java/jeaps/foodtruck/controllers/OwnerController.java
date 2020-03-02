@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path="/owner")
+@ResponseBody
 public class OwnerController {
     @Autowired
     UserDAO userDAO;
@@ -29,20 +30,19 @@ public class OwnerController {
     OwnerDAO ownerDAO;
 
     @RequestMapping(path="/details")
-    public @ResponseBody
-    User getUserDetails(@RequestParam String username){
+    public User getUserDetails(@RequestParam String username){
         return userDAO.findByUsername(username);
     }
 
     @PostMapping(path="/manage")
-    public @ResponseBody Object manageUserDetails(@RequestBody UserDTO user) {
+    public Object manageUserDetails(@RequestBody UserDTO user) {
 
         this.userDAO.update(user);
         return "Successfully updated Owner info";
     }
 
     @PostMapping(path="/createTruck")
-    public @ResponseBody Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
+    public Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
         if(this.ownerDAO.saveTruck(truck, username)) {
             return "Successfully added truck";
         }
@@ -50,7 +50,7 @@ public class OwnerController {
     }
 
     @PostMapping(path="/createRoute")
-    public @ResponseBody Object createRoute(@RequestBody Route route, @RequestParam String truckID, @RequestParam String username) {
+    public Object createRoute(@RequestBody Route route, @RequestParam String truckID, @RequestParam String username) {
         if(this.ownerDAO.saveRoute(route, truckID, username)) {
             return "Successfully added Route";
         }
@@ -58,14 +58,13 @@ public class OwnerController {
     }
 
     @PostMapping(path="/deleteTruck")
-    public @ResponseBody Object deleteTruck(@RequestBody TruckDTO truck) {
+    public Object deleteTruck(@RequestBody TruckDTO truck) {
         this.truckDAO.delete(truck);
         return "Successfully delete truck";
     }
 
     @RequestMapping(path="/findTruck")
-    public @ResponseBody
-    List<Truck> findTruck(@RequestParam String username){
+    public List<Truck> findTruck(@RequestParam String username){
         return this.truckDAO.findByOwner(username);
     }
     //HOW ARE WE FIGURING OUT if it an owner???????????????????????????????
@@ -73,15 +72,15 @@ public class OwnerController {
 
 
     @PostMapping(path="/editTruck")
-    public @ResponseBody Object editTruck(@RequestBody TruckDTO truck) {
+    public Object editTruck(@RequestBody TruckDTO truck) {
         this.truckDAO.update(truck);
         return "Successfully updated truck";
     }
 
-    @PostMapping(path="/manageRoute")
+   /* @PostMapping(path="/manageRoute")
     public @ResponseBody Object manageRoute(@RequestBody TruckDTO truck) {
         this.truckDAO.update(truck);
-        return "Successfully updated truck";
-    }
+        return "Successfully updated Route";
+    }*/
 
 }

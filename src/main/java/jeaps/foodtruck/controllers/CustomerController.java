@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path="/customer")
+@ResponseBody
 public class CustomerController {
     @Autowired
     UserDAO userDAO;
@@ -20,20 +21,18 @@ public class CustomerController {
     TruckDAO truckDAO;
 
     @RequestMapping(path="/details")
-    public @ResponseBody
-    User getUserDetails(@RequestParam String username){
+    public User getUserDetails(@RequestParam String username){
         return userDAO.findByUsername(username);
     }
 
     @PostMapping(path="/manage")
-    public @ResponseBody Object manageUserDetails(@RequestBody UserDTO user) {
+    public Object manageUserDetails(@RequestBody UserDTO user) {
         this.userDAO.update(user);
         return "Successfully updated Customer info";
     }
 
     @RequestMapping(path="/allTruck")
-    public @ResponseBody
-    List<Truck> allTruck(){
+    public List<Truck> allTruck(){
         return this.truckDAO.findALL();
     }
 

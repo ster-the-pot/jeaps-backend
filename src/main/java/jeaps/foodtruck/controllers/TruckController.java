@@ -13,12 +13,12 @@ public class TruckController {
     @Autowired
     TruckDAO truckDAO;
 
-    @RequestMapping(path="/all")
+ /*   @RequestMapping(path="/all")
     public @ResponseBody
     Iterable<Truck> getAllTrucks(){
         return this.truckDAO.getAllTrucks();
     }
-
+*/
     @RequestMapping(path="/details")
     public @ResponseBody
     Truck getUserDetails(@RequestParam String name){

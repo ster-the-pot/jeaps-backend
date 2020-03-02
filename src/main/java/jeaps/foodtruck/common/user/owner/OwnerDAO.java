@@ -65,6 +65,9 @@ public class OwnerDAO {
         return true;
     }
 
+
+    public Optional<Owner> findById(Integer id) { return this.ownerRepo.findById(id); }
+
     public Boolean saveRoute(Route route, String truckID, String username){
 
         User user = this.userDAO.findByUsername(username);
