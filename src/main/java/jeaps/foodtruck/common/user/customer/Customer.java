@@ -11,8 +11,18 @@ import javax.persistence.InheritanceType;
 //Inherits from User, @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 // this strategy makes it so that each class is placed into it's own table (ID's will still be unique
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Customer extends User {
+public class Customer {
+
+    //ID from superclass
+    @Id
+    private Integer id;
 
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
