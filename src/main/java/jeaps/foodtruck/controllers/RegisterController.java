@@ -8,16 +8,17 @@ import jeaps.foodtruck.common.user.user.UserDTO;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
 @RequestMapping(path="/account")
 @ResponseBody
 public class RegisterController {
@@ -50,7 +51,8 @@ public class RegisterController {
 
         User login = this.userRepo.findByUsername(user.getUsername());
         if (login == null || login.getId() == null || !login.getPassword().equals(user.getPassword())) {
-            return "authentication failure";
+
+            return ResponseEntity.status(404).body("Invalid Credentials");
         }
 
         Optional<Owner> owner = this.ownerRepo.findById(login.getId());
@@ -65,10 +67,10 @@ public class RegisterController {
         //TODO Authentication
 
         // ****TO PUT IN A SERVICE FILE**************
-        List<String> str = new ArrayList<String>();
-        str.add(JWT.create().withAudience(user.getUsername())
+        HashMap<String,String> str = new HashMap<>();
+        str.put("token",JWT.create().withAudience(user.getUsername())
                 .sign(Algorithm.HMAC256(user.getPassword())));
-        str.add(type);
+        str.put("type",type);
         return str;
     }
 

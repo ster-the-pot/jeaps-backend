@@ -30,7 +30,7 @@ public class OwnerController {
     @Autowired
     OwnerDAO ownerDAO;
 
-    @RequestMapping(path="/details")
+    @RequestMapping(path="/details", method = RequestMethod.GET)
     public User getUserDetails(@RequestParam String username){
         return userDAO.findByUsername(username);
     }
