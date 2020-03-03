@@ -14,6 +14,9 @@ public class UserDAO {
     @Autowired
     private UserRepository userRepo;
 
+    public void setUserRepo(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
 
     /**
      * Saves a user object into the database

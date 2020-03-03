@@ -108,4 +108,7 @@ public class OwnerDAO {
     }
 
 
+    public void setOwnerRepo(OwnerRepository ownerRepo) {
+        this.ownerRepo = ownerRepo;
+    }
 }
