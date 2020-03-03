@@ -75,7 +75,7 @@ public class OwnerController {
         return "Successfully deleted truck";
     }
 
-    @RequestMapping(path="/myTrucks")
+    @RequestMapping(path="/myTrucks",method=RequestMethod.GET)
     public List<Truck> findTruck(@RequestParam String username){
         return this.truckDAO.findByOwner(username);
     }
