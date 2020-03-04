@@ -5,7 +5,7 @@ import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
 import jeaps.foodtruck.common.user.user.UserRepository;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
