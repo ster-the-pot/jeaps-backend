@@ -25,7 +25,7 @@ public class TruckDAO {
         this.truckRepo.save(t);
     }
 
-    public void update(TruckDTO truckDTO, Integer truckID){
+    public void update(TruckDTO truckDTO, Integer truckID) {
 
         Optional<Truck> t = this.truckRepo.findById(truckID);
         //WE SHOULD BE ABLE TO CHANGE THE TRUCK NAME.....
@@ -79,5 +79,7 @@ public class TruckDAO {
     }
 
 
-
+    public void setTruckRepo(TruckRepository truckRepo) {
+        this.truckRepo = truckRepo;
+    }
 }

@@ -16,6 +16,11 @@ public class RouteDAO {
     @Autowired
     private TruckDAO truckDAO;
 
+
+    public void setRouteRepo(RouteRepository routeRepo) {
+        this.routeRepo = routeRepo;
+    }
+
     public void save(Route r){ this.routeRepo.save(r); }
 
     public void save(RouteDTO routeDTO){
@@ -34,4 +39,5 @@ public class RouteDAO {
     public List<Route> findByTruck(Integer truckID) {
         return this.routeRepo.findByTruck_id(truckID);
     }
+
 }

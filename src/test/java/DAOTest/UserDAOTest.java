@@ -4,6 +4,7 @@ import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
 import jeaps.foodtruck.common.user.user.UserRepository;
+<<<<<<< HEAD
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -11,33 +12,43 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
+=======
+import org.junit.Before;
+import org.junit.Test;
+>>>>>>> 70251312c976f94c15aaafa1ebb028737fe6b381
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {UserDAO.class, UserRepository.class})
-//@DataJpaTest
-//@ContextConfiguration()
 //@RunWith(MockitoJUnitRunner.class)
 public class UserDAOTest {
 
+    //@Mock UserRepository userRepo;
+    //@InjectMocks UserDAO userDAO;
+
 
     @Autowired
-    //@Mock
-    private UserDAO userDAO;
+    private UserDAO userDAO = new UserDAO();
 
-    //@Rule
-    //public MockitoRule mockitoRule = MockitoJUnit.rule();
+    UserRepository userRepo;
+
+    User userTest = new User();
+    @Before
+    public void setUp() {
+        userRepo = mock(UserRepository.class);
+        userDAO.setUserRepo(userRepo);
+
+        userTest.setUsername("username");
+        userTest.setPassword("password");
+        userTest.setName("name");
+        userTest.setEmail("email");
+    }
 
     @Test
-    public void saveUserTest() {
+    public void findByUsernameTest() {
+
         User user = new User();
 
         user.setUsername("username");
@@ -45,16 +56,13 @@ public class UserDAOTest {
         user.setName("name");
         user.setEmail("email");
 
-        System.out.println(user.getUsername());
-        userDAO.save(user);
+        when(userRepo.findByUsername(user.getUsername())).thenReturn(userTest);
+        User userTest2 = userDAO.findByUsername(user.getUsername());
 
-        User userTest = userDAO.findByUsername("username");
-        System.out.println(userTest.getUsername());
-       /* assertAll(() -> assertEquals(userTest.getUsername(), user.getUsername()),
-                () -> assertEquals(userTest.getEmail(), user.getEmail()),
-                () -> assertEquals(userTest.getId(), user.getId()),
-                () -> assertEquals(userTest.get))*/
-       assertEquals(user, userTest);
+        assertAll(() -> assertEquals(userTest.getUsername(), userTest2.getUsername()),
+                () -> assertEquals(userTest.getEmail(), userTest2.getEmail()),
+                () -> assertEquals(userTest.getName(), userTest2.getName()),
+                () -> assertEquals(userTest.getPassword(), userTest2.getPassword()));
     }
 
 
@@ -62,14 +70,18 @@ public class UserDAOTest {
     public void saveUserDTOTest() {
         UserDTO userDTO = new UserDTO();
 
-        userDTO.setUsername("username2");
-        userDTO.setPassword("password2");
-        userDTO.setName("name2");
-        userDTO.setEmail("email2");
+        userDTO.setUsername("username");
+        userDTO.setPassword("password");
+        userDTO.setName("name");
+        userDTO.setEmail("email");
+
+        when(userRepo.save(any(User.class))).thenReturn(new User());
 
         userDAO.save(userDTO);
 
+        when(userRepo.findByUsername(userDTO.getUsername())).thenReturn(userTest);
         User userTest = userDAO.findByUsername(userDTO.getUsername());
+
         assertAll(() -> assertEquals(userTest.getUsername(), userDTO.getUsername()),
                 () -> assertEquals(userTest.getEmail(), userDTO.getEmail()),
                 () -> assertEquals(userTest.getName(), userDTO.getName()),
