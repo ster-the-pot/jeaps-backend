@@ -1,27 +1,31 @@
 package jeaps.foodtruck.common.user.customer;
 
 
-import jeaps.foodtruck.common.user.user.User;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
-//Inherits from User, @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-// this strategy makes it so that each class is placed into it's own table (ID's will still be unique
+/**
+ * Customer class holds an ID of a user that is a customer.
+ */
 @Entity
 public class Customer {
 
-    //ID from superclass
+    //The customer's ID
     @Id
     private Integer id;
 
-
+    /**
+     * Returns the customer's ID
+     * @return the customer's ID
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the customer's ID
+     * @param id The ID to be set for the customer
+     */
     public void setId(Integer id) {
         this.id = id;
     }

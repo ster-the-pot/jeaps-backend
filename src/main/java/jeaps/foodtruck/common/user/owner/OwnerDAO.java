@@ -16,35 +16,60 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * A class to interact with the Owner table in the database
+ */
 @Repository
 public class OwnerDAO {
 
+    //
     @Autowired
     private UserDAO userDAO;
+    //The repository used to store Owner objects
     @Autowired
     private OwnerRepository ownerRepo;
+    //Used to edit the trucks possessed by the owner
     @Autowired
     private TruckDAO truckDAO;
 
-
+    /**
+     * Saves an Owner object in the database
+     * @param o The owner to be saved in the database
+     */
     public void save(Owner o){
         this.ownerRepo.save(o);
     }
 
+    /**
+     * Saves an Owner in the database with the given ID
+     * @param id The ID of the owner to be saved in the database
+     */
     public void save(Integer id){
+        //Create the Owner and set the ID
         Owner o = new Owner();
         o.setId(id);
 
+        //Save the Owner in the database
         this.ownerRepo.save(o);
 
     }
 
+    /**
+     *
+     *
+     * @param truckDTO
+     * @param username
+     * @return
+     */
     public Boolean saveTruck(TruckDTO truckDTO, String username){
-        //How are we Determining the Owner??? TOKEN maybe
+
+        //
         User user = this.userDAO.findByUsername(username);
 
+        //Check if the user is an owner
         Optional<Owner> owner = this.ownerRepo.findById(user.getId());
 
+        //If the user is not an owner
         if(!owner.isPresent()) {
             return false;
         }
@@ -66,9 +91,20 @@ public class OwnerDAO {
         return true;
     }
 
-
+    /**
+     * Finds if an owner exists with the following ID
+     * @param id The id of the owner to find
+     * @return An Owner if it exists, otherwise an empty Optional
+     */
     public Optional<Owner> findById(Integer id) { return this.ownerRepo.findById(id); }
 
+    /**
+     *
+     * @param routeDTO
+     * @param truckID
+     * @param username
+     * @return
+     */
     public Boolean saveRoute(RouteDTO routeDTO, Integer truckID, String username){
 
         User user = this.userDAO.findByUsername(username);

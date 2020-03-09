@@ -4,18 +4,8 @@ import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
 import jeaps.foodtruck.common.user.user.UserRepository;
-<<<<<<< HEAD
-import org.junit.Rule;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.MockitoRule;
-=======
 import org.junit.Before;
 import org.junit.Test;
->>>>>>> 70251312c976f94c15aaafa1ebb028737fe6b381
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertAll;

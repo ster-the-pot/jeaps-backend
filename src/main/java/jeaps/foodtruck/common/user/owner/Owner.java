@@ -2,55 +2,54 @@ package jeaps.foodtruck.common.user.owner;
 
 
 import jeaps.foodtruck.common.user.truck.Truck;
-import jeaps.foodtruck.common.user.truck.route.Route;
-import jeaps.foodtruck.common.user.user.User;
 
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Owner class holds the ID of an owner
+ */
 @Entity
 public class Owner {
 
-    //ID from superclass
+    //ID of the owner
     @Id
     private Integer id;
 
+    //The set of trucks that the Owner possesses, linked to the truck database table
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private Set<Truck> trucks;
 
+    /**
+     * Returns the ID of the Owner
+     * @return the ID of the Owner
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the ID of the Owner
+     * @param id the ID to be set for the Owner
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-
+    /**
+     * Returns all of the trucks that are possessed by this Owner
+     * @return a set of Truck objects
+     */
     public Set<Truck> getTrucks() {
         return trucks;
     }
 
+    /**
+     * Assigns the Owner a set of owned trucks
+     * @param trucks The trucks to be assigned to the Owner
+     */
     public void setTrucks(Set<Truck> trucks) {
         this.trucks = trucks;
     }
 }
-
-
-/*@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Owner extends User {
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    private Set<Truck> trucks;
-
-    public Set<Truck> getTrucks() {
-        return trucks;
-    }
-
-    public void setTrucks(Set<Truck> trucks) {
-        this.trucks = trucks;
-    }
-}*/
