@@ -23,6 +23,15 @@ public class Truck {
     @JoinColumn(name = "truck_id", referencedColumnName = "id")
     private Set<Route> route;
 
+    public Truck(){};
+
+    public Truck(String name, Set<Route> route, String type, String menu){
+        this.setName(name);
+        this.setRoute(route);
+        this.setType(type);
+        this.setMenu(menu);
+    }
+
     public Integer getId() {
         return id;
     }
@@ -38,14 +47,6 @@ public class Truck {
     public void setName(String name) {
         this.name = name;
     }
-
-    /*public Integer getOwner_id() {
-        return owner_id;
-    }
-
-    public void setOwner_id(Integer owner_id) {
-        this.owner_id = owner_id;
-    }*/
 
     public String getType() {
         return type;

@@ -3,13 +3,11 @@ package jeaps.foodtruck.common.user.owner;
 import jeaps.foodtruck.common.user.truck.Truck;
 import jeaps.foodtruck.common.user.truck.TruckDAO;
 import jeaps.foodtruck.common.user.truck.TruckDTO;
-import jeaps.foodtruck.common.user.truck.TruckRepository;
+import jeaps.foodtruck.common.truck.TruckRepository;
 import jeaps.foodtruck.common.user.truck.route.Route;
 import jeaps.foodtruck.common.user.truck.route.RouteDTO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
-import jeaps.foodtruck.common.user.user.UserDTO;
-import jeaps.foodtruck.common.user.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +20,7 @@ import java.util.Set;
 @Repository
 public class OwnerDAO {
 
-    //
+    //Used to get information about the Owner from the user table
     @Autowired
     private UserDAO userDAO;
     //The repository used to store Owner objects
@@ -63,7 +61,7 @@ public class OwnerDAO {
      */
     public Boolean saveTruck(TruckDTO truckDTO, String username){
 
-        //
+        //Gets the user information given the username
         User user = this.userDAO.findByUsername(username);
 
         //Check if the user is an owner
@@ -73,12 +71,9 @@ public class OwnerDAO {
         if(!owner.isPresent()) {
             return false;
         }
-        Truck t = new Truck();
-        t.setName(truckDTO.getName());
-        t.setRoute(truckDTO.getRoute());
-        t.setMenu(truckDTO.getMenu());
-        t.setType(truckDTO.getType());
 
+        //Creates and sets the information of the truck
+        Truck t = new Truck(truckDTO.getName(), truckDTO.getRoute(), truckDTO.getType(), truckDTO.getMenu());
 
         Set<Truck> set = owner.get().getTrucks();
         set.add(t);
