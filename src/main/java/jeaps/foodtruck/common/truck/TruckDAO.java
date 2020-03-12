@@ -1,4 +1,4 @@
-package jeaps.foodtruck.common.user.truck;
+package jeaps.foodtruck.common.truck;
 
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;

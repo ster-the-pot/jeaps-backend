@@ -1,10 +1,7 @@
-package jeaps.foodtruck.common.user.truck;
+package jeaps.foodtruck.common.truck;
 
-import jeaps.foodtruck.common.user.truck.route.Route;
+import jeaps.foodtruck.common.truck.route.Route;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import java.util.Set;
 
 public class TruckDTO {

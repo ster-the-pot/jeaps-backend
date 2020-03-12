@@ -1,7 +1,6 @@
-package jeaps.foodtruck.common.user.truck.route;
+package jeaps.foodtruck.common.truck.route;
 
 import java.util.Date;
-import java.util.List;
 
 public class RouteDTO {
 

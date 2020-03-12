@@ -1,4 +1,4 @@
-package jeaps.foodtruck.common.user.truck;
+package jeaps.foodtruck.common.truck;
 
 
 import org.springframework.data.repository.CrudRepository;

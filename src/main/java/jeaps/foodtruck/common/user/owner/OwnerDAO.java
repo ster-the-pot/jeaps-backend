@@ -1,11 +1,11 @@
 package jeaps.foodtruck.common.user.owner;
 
-import jeaps.foodtruck.common.user.truck.Truck;
-import jeaps.foodtruck.common.user.truck.TruckDAO;
-import jeaps.foodtruck.common.user.truck.TruckDTO;
+import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.truck.TruckDAO;
+import jeaps.foodtruck.common.truck.TruckDTO;
 import jeaps.foodtruck.common.truck.TruckRepository;
-import jeaps.foodtruck.common.user.truck.route.Route;
-import jeaps.foodtruck.common.user.truck.route.RouteDTO;
+import jeaps.foodtruck.common.truck.route.Route;
+import jeaps.foodtruck.common.truck.route.RouteDTO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;

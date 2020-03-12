@@ -1,7 +1,7 @@
-package jeaps.foodtruck.common.user.truck;
+package jeaps.foodtruck.common.truck;
 
 import jeaps.foodtruck.common.user.owner.Owner;
-import jeaps.foodtruck.common.user.truck.route.Route;
+import jeaps.foodtruck.common.truck.route.Route;
 
 import javax.persistence.*;
 import java.util.Set;

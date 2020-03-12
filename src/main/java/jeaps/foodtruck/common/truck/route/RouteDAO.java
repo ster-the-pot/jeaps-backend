@@ -1,9 +1,6 @@
-package jeaps.foodtruck.common.user.truck.route;
+package jeaps.foodtruck.common.truck.route;
 
-import jeaps.foodtruck.common.user.truck.Truck;
-import jeaps.foodtruck.common.user.truck.TruckDAO;
-import jeaps.foodtruck.common.user.truck.TruckDTO;
-import jeaps.foodtruck.common.user.truck.TruckRepository;
+import jeaps.foodtruck.common.truck.TruckDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

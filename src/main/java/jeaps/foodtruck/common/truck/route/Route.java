@@ -1,6 +1,6 @@
-package jeaps.foodtruck.common.user.truck.route;
+package jeaps.foodtruck.common.truck.route;
 
-import jeaps.foodtruck.common.user.truck.Truck;
+import jeaps.foodtruck.common.truck.Truck;
 
 import javax.persistence.*;
 import java.util.Date;

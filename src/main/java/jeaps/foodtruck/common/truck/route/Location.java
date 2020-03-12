@@ -1,4 +1,4 @@
-package jeaps.foodtruck.common.user.truck.route;
+package jeaps.foodtruck.common.truck.route;
 
 import javax.persistence.Embeddable;
 
