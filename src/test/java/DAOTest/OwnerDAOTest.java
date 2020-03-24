@@ -5,8 +5,6 @@ import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.owner.OwnerRepository;
 import jeaps.foodtruck.common.user.user.User;
-import jeaps.foodtruck.common.user.user.UserDAO;
-import jeaps.foodtruck.common.user.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

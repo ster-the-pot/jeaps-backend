@@ -3,7 +3,6 @@ package jeaps.foodtruck.common.user.owner;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.TruckDTO;
-import jeaps.foodtruck.common.truck.TruckRepository;
 import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.truck.route.RouteDTO;
 import jeaps.foodtruck.common.user.user.User;
