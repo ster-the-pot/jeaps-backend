@@ -3,6 +3,7 @@ package jeaps.foodtruck.common.truck;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
+import jeaps.foodtruck.common.truck.Prices;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,6 +18,7 @@ public class Truck {
     private String type;
     //SHOULD BE AN IMAGE??
     private String menu;
+    private Prices price;
 
     @ManyToOne Owner owner;
 
@@ -76,4 +78,8 @@ public class Truck {
     public void setRoute(Set<Route> route) {
         this.route = route;
     }
+
+    public void setPrice(Prices price){this.price = price;}
+
+    public Prices getPrice(){return this.price;}
 }

@@ -11,6 +11,7 @@ public class TruckDTO {
     private String type;
     //SHOULD BE AN IMAGE??
     private String menu;
+    private Prices price;
     private Set<Route> route;
 
     public String getName() {
@@ -52,4 +53,8 @@ public class TruckDTO {
     public void setRoute(Set<Route> route) {
         this.route = route;
     }
+
+    public void setPrice(Prices price){this.price = price;}
+
+    public Prices getPrice(){return this.price;}
 }
