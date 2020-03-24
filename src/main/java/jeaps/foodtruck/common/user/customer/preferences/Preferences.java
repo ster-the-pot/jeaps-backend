@@ -17,7 +17,7 @@ public class Preferences {
     private Integer id;
 
     @ManyToMany
-    private Set<Food> foodPref;
+    private Food foodPref;
 
     private String proxPref;
 
