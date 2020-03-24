@@ -1,8 +1,13 @@
 package jeaps.foodtruck.common.user.customer;
 
 
+import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.user.user.User;
+import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * A class to interact with the Customer table in the database
@@ -14,6 +19,8 @@ public class CustomerDAO {
     @Autowired
     private CustomerRepository customerRepo;
 
+    @Autowired
+    private UserDAO userDAO;
     /**
      * Saves the Customer object in the database
      * @param c The Customer object to be saved
@@ -36,5 +43,11 @@ public class CustomerDAO {
 
     }
 
+    public List<Truck> getRecomendations(String username) {
+        User user = userDAO.findByUsername(username);
+
+
+        return null;
+    }
 }
 
