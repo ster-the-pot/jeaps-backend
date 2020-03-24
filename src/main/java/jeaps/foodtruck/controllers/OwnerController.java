@@ -30,7 +30,7 @@ public class OwnerController {
     @Autowired
     OwnerDAO ownerDAO;
 
-    @RequestMapping(path="/details")
+    @RequestMapping(path="/details", method = RequestMethod.GET)
     public User getUserDetails(@RequestParam String username){
         return userDAO.findByUsername(username);
     }
@@ -75,7 +75,7 @@ public class OwnerController {
         return "Successfully deleted truck";
     }
 
-    @RequestMapping(path="/findTruck")
+    @RequestMapping(path="/myTrucks",method=RequestMethod.GET)
     public List<Truck> findTruck(@RequestParam String username){
         return this.truckDAO.findByOwner(username);
     }
