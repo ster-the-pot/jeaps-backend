@@ -13,19 +13,19 @@ import java.util.List;
 
 @RestController
 @ResponseBody
-public class RecomendationController {
+public class RecommendationController {
     @Autowired
     UserDAO userDAO;
     @Autowired
     CustomerDAO customerDAO;
 
-    @RequestMapping(path="/customer/recomendation")
-    public List<Truck> getRecomendation(@RequestParam String username){
+    @RequestMapping(path="/customer/recommendation")
+    public List<Truck> getRecommendation(@RequestParam String username){
         return customerDAO.getRecomendations(username);
     }
 
-    @RequestMapping(path="/recomendation")
-    public Object getRecomendation(@RequestBody UserDTO user) {
+    @RequestMapping(path="/recommendation")
+    public Object getRecommendation(@RequestBody UserDTO user) {
        return null;
     }
 
