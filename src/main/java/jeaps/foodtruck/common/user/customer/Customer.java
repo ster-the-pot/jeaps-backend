@@ -47,4 +47,8 @@ public class Customer {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public Preferences getPreference(){
+        return this.preference;
+    }
 }

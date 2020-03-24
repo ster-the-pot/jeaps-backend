@@ -2,14 +2,10 @@ package jeaps.foodtruck.common.user.customer.preferences;
 
 import jeaps.foodtruck.common.user.customer.food.Food;
 
-import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-
-@Entity
-public class Preferences {
-
+public class PreferencesDTO {
 
     @Id
     private Integer id;
@@ -53,6 +49,4 @@ public class Preferences {
     public void setMaxPricePref(Integer maxPricePref) {
         this.maxPricePref = maxPricePref;
     }
-
-
 }

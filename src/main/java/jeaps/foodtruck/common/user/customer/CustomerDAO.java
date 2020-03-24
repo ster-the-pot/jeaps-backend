@@ -7,6 +7,7 @@ import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,10 +45,15 @@ public class CustomerDAO {
     }
 
     public List<Truck> getRecomendations(String username) {
+        //Initialise the list of trucks to return
+        List<Truck> suggestions = new ArrayList<Truck>();
+
+        //Get the user info that we need
         User user = userDAO.findByUsername(username);
 
 
-        return null;
+
+        return suggestions;
     }
 }
 
