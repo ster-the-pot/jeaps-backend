@@ -1,7 +1,6 @@
 package jeaps.foodtruck.common.user.customer;
 
 
-import jeaps.foodtruck.common.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,21 +13,17 @@ public class CustomerDAO {
     private CustomerRepository userRepo;
 
 
-    public void save(User u){
-        this.userRepo.save(u);
+    public void save(Customer c){
+        this.userRepo.save(c);
     }
 
-    public void save(CustomerDTO u){
-        User user = new User();
-        user.setUsername(u.getUsername());
-        user.setPassword(u.getPassword());
-        user.setName(u.getName());
-        user.setEmail(u.getEmail());
-        this.userRepo.save(user);
+    public void save(Integer id){
+        Customer c = new Customer();
+        c.setId(id);
+
+        this.userRepo.save(c);
 
     }
 
-    public User findByUsername(String username){
-        return this.userRepo.findByUsername(username);
-    }
 }
+
