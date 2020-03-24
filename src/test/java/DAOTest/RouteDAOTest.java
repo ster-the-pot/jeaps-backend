@@ -1,10 +1,10 @@
 package DAOTest;
 
+import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.truck.route.Route;
+import jeaps.foodtruck.common.truck.route.RouteDAO;
+import jeaps.foodtruck.common.truck.route.RouteRepository;
 import jeaps.foodtruck.common.user.owner.Owner;
-import jeaps.foodtruck.common.user.truck.Truck;
-import jeaps.foodtruck.common.user.truck.route.Route;
-import jeaps.foodtruck.common.user.truck.route.RouteDAO;
-import jeaps.foodtruck.common.user.truck.route.RouteRepository;
 import jeaps.foodtruck.common.user.user.User;
 import org.junit.Before;
 import org.junit.Test;

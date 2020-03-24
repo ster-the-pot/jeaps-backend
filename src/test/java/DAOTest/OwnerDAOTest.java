@@ -1,11 +1,9 @@
 package DAOTest;
 
+import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.owner.OwnerRepository;
-import jeaps.foodtruck.common.user.truck.Truck;
-import jeaps.foodtruck.common.user.truck.TruckDAO;
-import jeaps.foodtruck.common.user.truck.TruckRepository;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserRepository;
