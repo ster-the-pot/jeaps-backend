@@ -1,5 +1,6 @@
 package jeaps.foodtruck.common.truck;
 
+import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
 
@@ -18,6 +19,10 @@ public class Truck {
     private String menu;
 
     @ManyToOne Owner owner;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "truck_id", referencedColumnName = "id")
+    private Set<Customer> customers;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "truck_id", referencedColumnName = "id")
