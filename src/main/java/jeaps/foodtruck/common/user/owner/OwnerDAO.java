@@ -72,7 +72,7 @@ public class OwnerDAO {
         }
 
         //Creates and sets the information of the truck
-        Truck t = new Truck(truckDTO.getName(), truckDTO.getRoute(), truckDTO.getType(), truckDTO.getMenu());
+        Truck t = new Truck(truckDTO.getName(), truckDTO.getRoute(), truckDTO.getType().name(), truckDTO.getMenu());
 
         Set<Truck> set = owner.get().getTrucks();
         set.add(t);
