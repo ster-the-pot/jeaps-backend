@@ -15,10 +15,10 @@ public class Truck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private String type;
     //SHOULD BE AN IMAGE??
     private String menu;
     private Prices price;
+    private FoodTypes type;
 
     @ManyToOne Owner owner;
 
@@ -35,7 +35,7 @@ public class Truck {
     public Truck(String name, Set<Route> route, String type, String menu){
         this.setName(name);
         this.setRoute(route);
-        this.setType(type);
+        this.setType(FoodTypes.valueOf(type));
         this.setMenu(menu);
     }
 
@@ -53,14 +53,6 @@ public class Truck {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getMenu() {
@@ -82,4 +74,8 @@ public class Truck {
     public void setPrice(Prices price){this.price = price;}
 
     public Prices getPrice(){return this.price;}
+
+    public void setType(FoodTypes type){this.type = type;}
+
+    public FoodTypes getType(){return this.type;}
 }

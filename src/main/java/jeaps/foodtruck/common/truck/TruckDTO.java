@@ -1,6 +1,7 @@
 package jeaps.foodtruck.common.truck;
 
 import jeaps.foodtruck.common.truck.route.Route;
+import jeaps.foodtruck.common.user.customer.food.Food;
 
 import java.util.Set;
 
@@ -8,11 +9,11 @@ public class TruckDTO {
 
     private Integer owner_id;
     private String name;
-    private String type;
     //SHOULD BE AN IMAGE??
     private String menu;
     private Prices price;
     private Set<Route> route;
+    private FoodTypes type;
 
     public String getName() {
         return name;
@@ -28,14 +29,6 @@ public class TruckDTO {
 
     public void setOwner_id(Integer owner_id) {
         this.owner_id = owner_id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getMenu() {
@@ -57,4 +50,8 @@ public class TruckDTO {
     public void setPrice(Prices price){this.price = price;}
 
     public Prices getPrice(){return this.price;}
+
+    public void setType(FoodTypes type){this.type = type;}
+
+    public FoodTypes getType(){return this.type;}
 }
