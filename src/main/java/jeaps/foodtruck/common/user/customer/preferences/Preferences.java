@@ -1,5 +1,7 @@
 package jeaps.foodtruck.common.user.customer.preferences;
 
+import jeaps.foodtruck.common.truck.FoodTypes;
+import jeaps.foodtruck.common.truck.Prices;
 import jeaps.foodtruck.common.user.customer.food.Food;
 
 import javax.persistence.*;
@@ -15,11 +17,11 @@ public class Preferences {
     private Integer id;
 
     @ManyToOne
-    private Food foodPref;
+    private FoodTypes foodPref;
 
     private String proxPref;
 
-    private Integer maxPricePref;
+    private Prices maxPricePref;
 
 
     public Integer getId() {
@@ -30,11 +32,11 @@ public class Preferences {
         this.id = id;
     }
 
-    public Food getFoodPref() {
+    public FoodTypes getFoodPref() {
         return foodPref;
     }
 
-    public void setFoodPref(Food foodPref) {
+    public void setFoodPref(FoodTypes foodPref) {
         this.foodPref = foodPref;
     }
 
@@ -46,11 +48,11 @@ public class Preferences {
         this.proxPref = proxPref;
     }
 
-    public Integer getMaxPricePref() {
+    public Prices getMaxPricePref() {
         return maxPricePref;
     }
 
-    public void setMaxPricePref(Integer maxPricePref) {
+    public void setMaxPricePref(Prices maxPricePref) {
         this.maxPricePref = maxPricePref;
     }
 

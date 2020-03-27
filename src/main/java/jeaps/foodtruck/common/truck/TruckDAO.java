@@ -78,6 +78,12 @@ public class TruckDAO {
                         .collect(Collectors.toList());
     }
 
+    // to find trucks within x distance
+    public List<Truck> findALLWithin(Integer distance){
+
+        return null;
+    }
+
 
     public void setTruckRepo(TruckRepository truckRepo) {
         this.truckRepo = truckRepo;

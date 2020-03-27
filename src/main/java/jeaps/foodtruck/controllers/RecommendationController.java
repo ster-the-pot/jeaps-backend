@@ -21,7 +21,7 @@ public class RecommendationController {
 
     @RequestMapping(path="/customer/recommendation")
     public List<Truck> getRecommendation(@RequestParam String username){
-        return customerDAO.getRecomendations(username);
+        return customerDAO.getRecommendations(username);
     }
 
     @RequestMapping(path="/recommendation")
