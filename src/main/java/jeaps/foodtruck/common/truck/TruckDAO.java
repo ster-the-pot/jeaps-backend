@@ -4,6 +4,7 @@ import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,6 +69,19 @@ public class TruckDAO {
     public List<Truck> findByOwner(String username) {
         Integer id = this.userDAO.findByUsername(username).getId();
         return this.truckRepo.findByOwner_id(id);
+    }
+
+    public List<Object> findByOwnerPlus(String username) {
+        List<Object> returns = new ArrayList<>();
+
+        Integer id = this.userDAO.findByUsername(username).getId();
+        List<Truck> trucks = this.truckRepo.findByOwner_id(id);
+
+        returns.add(id);
+        returns.add(username);
+        returns.add(trucks);
+
+        return returns;
     }
 
     public Optional<Truck> findById(Integer id) { return this.truckRepo.findById(id); }

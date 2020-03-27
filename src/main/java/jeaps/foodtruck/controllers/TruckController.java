@@ -25,5 +25,4 @@ public class TruckController {
         return this.truckDAO.findByName(name);
     }
 
-
 }

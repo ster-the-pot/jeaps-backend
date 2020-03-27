@@ -1,7 +1,6 @@
 package jeaps.foodtruck.controllers;
 
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
-import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.TruckDTO;
 import jeaps.foodtruck.common.truck.route.Route;
@@ -74,8 +73,8 @@ public class OwnerController {
     }
 
     @RequestMapping(path="/myTrucks",method=RequestMethod.GET)
-    public List<Truck> findTruck(@RequestParam String username){
-        return this.truckDAO.findByOwner(username);
+    public List<Object> findTruck(@RequestParam String username){
+        return this.truckDAO.findByOwnerPlus(username);
     }
     //HOW ARE WE FIGURING OUT if it an owner???????????????????????????????
 
