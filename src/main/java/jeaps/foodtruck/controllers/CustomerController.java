@@ -2,6 +2,7 @@ package jeaps.foodtruck.controllers;
 
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
+import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
@@ -18,6 +19,8 @@ public class CustomerController {
     UserDAO userDAO;
     @Autowired
     TruckDAO truckDAO;
+    @Autowired
+    CustomerDAO customerDAO;
 
     @RequestMapping(path="/details")
     public User getUserDetails(@RequestParam String username){
@@ -34,6 +37,27 @@ public class CustomerController {
     public List<Truck> allTruck(){
         return this.truckDAO.findALL();
     }
+
+
+    @RequestMapping(path="/getSubscribedTrucks")
+    public List<Object> getSubscribedTrucks(@RequestParam String username){
+        return this.customerDAO.getSubscribedTrucks(username);
+    }
+
+    @PostMapping(path="/subscribe")
+    public Object subscribeToTruck(@RequestParam String username, @RequestParam Integer truckID) {
+        this.customerDAO.subscribeToTruck(username, truckID);
+        return "Successfully subscribed to truck";
+    }
+
+    @PostMapping(path="/unsubscribe")
+    public Object unsubscribeToTruck(@RequestParam String username, @RequestParam Integer truckID) {
+        this.customerDAO.unsubscribeToTruck(username, truckID);
+        return "Successfully unsubscribed to truck";
+    }
+
+
+
 
 /*@RequestMapping(path="/searchTruck")
     public @ResponseBody

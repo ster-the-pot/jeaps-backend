@@ -1,7 +1,6 @@
 package jeaps.foodtruck.common.user.customer;
 
 
-import jeaps.foodtruck.common.truck.Prices;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
@@ -41,7 +40,7 @@ public class CustomerDAO {
      * Saves the Customer object in the database
      * @param c The Customer object to be saved
      */
-    public void save(Customer c){
+    public void save(Customer c) {
         this.customerRepo.save(c);
     }
 
@@ -53,12 +52,79 @@ public class CustomerDAO {
         //Creates the Customer and sets the ID
         Customer c = new Customer();
         c.setId(id);
-
+        //c.preference = new Preferences(id);
         //Saves the customer in the database
         this.save(c);
 
     }
 
+    public List<Object> getSubscribedTrucks(String username) {
+        List<Object> returns = new ArrayList<>();
+        User user = userDAO.findByUsername(username);
+        Optional<Customer> customer = customerRepo.findById(user.getId());
+
+
+        if(customer.isPresent()) {
+
+            List<Object> userInfo = new ArrayList<>();
+            userInfo.add(user.getId());
+            userInfo.add(user.getUsername());
+            returns.add(userInfo);
+
+            returns.addAll(customer.get().getTrucks());
+
+            return returns;
+        }
+        return null;
+
+    }
+
+    public void subscribeToTruck(String username, Integer truckID) {
+        User user = userDAO.findByUsername(username);
+        Optional<Customer> customer = customerRepo.findById(user.getId());
+        Optional<Truck> truck = truckDAO.findById(truckID);
+
+
+        if(customer.isPresent() && truck.isPresent()) {
+
+
+
+            List<Customer> customers = truck.get().getCustomers();
+            customers.add(customer.get());
+            truck.get().setCustomers(customers);
+
+            List<Truck> trucks = customer.get().getTrucks();
+            trucks.add(truck.get());
+            customer.get().setTrucks(trucks);
+
+
+            customerRepo.save(customer.get());
+
+
+        } //HOW ARE WE THROWING ERRORS AGAIN?????
+    }
+
+    public void unsubscribeToTruck(String username, Integer truckID) {
+        User user = userDAO.findByUsername(username);
+        Optional<Customer> customer = customerRepo.findById(user.getId());
+        Optional<Truck> truck = truckDAO.findById(truckID);
+
+
+        if(customer.isPresent() && truck.isPresent()) {
+
+
+            List<Customer> customers = truck.get().getCustomers();
+            customers.remove(customer.get());
+            truck.get().setCustomers(customers);
+
+            List<Truck> trucks = customer.get().getTrucks();
+            trucks.remove(truck.get());
+            customer.get().setTrucks(trucks);
+
+
+            customerRepo.save(customer.get());
+        } //HOW ARE WE THROWING ERRORS AGAIN?????
+    }
     public List<Truck> getRecommendations(String username) {
         //Initialise the list of trucks to return
         List<Truck> suggestions = new ArrayList<Truck>();

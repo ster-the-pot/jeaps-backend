@@ -1,5 +1,6 @@
 package jeaps.foodtruck.controllers;
 
+import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.TruckDTO;
@@ -60,6 +61,15 @@ public class OwnerController {
         return this.routeDAO.findByTruck(truckID);
     }
 
+
+    /*
+        NEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     */
+    @RequestMapping(path="/getSubscribers")
+    public List<Object> getSubscribers(@RequestParam Integer truckID){
+        return this.truckDAO.getSubscribers(truckID);
+    }
+
     @PostMapping(path="/deleteRoute")
     public Object deleteRoute(@RequestParam Integer routeID) {
         this.routeDAO.deleteRoute(routeID);
@@ -76,8 +86,6 @@ public class OwnerController {
     public List<Object> findTruck(@RequestParam String username){
         return this.truckDAO.findByOwnerPlus(username);
     }
-    //HOW ARE WE FIGURING OUT if it an owner???????????????????????????????
-
 
 
     @PostMapping(path="/editTruck")

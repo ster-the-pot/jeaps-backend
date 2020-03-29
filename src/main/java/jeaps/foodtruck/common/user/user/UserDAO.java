@@ -3,6 +3,8 @@ package jeaps.foodtruck.common.user.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * This class is to be used as a means of doing database operations for User objects
  */
@@ -84,6 +86,8 @@ public class UserDAO {
         return this.userRepo.findByUsername(username);
     }
 
+
+    public Optional<User> findById(Integer id) { return this.userRepo.findById(id); }
 }
 
 

@@ -1,5 +1,7 @@
 package jeaps.foodtruck.common.truck;
 
+import jeaps.foodtruck.common.user.customer.Customer;
+import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -62,6 +64,7 @@ public class TruckDAO {
     public Truck findByName(String name){
         return this.truckRepo.findByName(name);
     }
+
     public Truck findByType(String type){
         return this.truckRepo.findByType(type);
     }
@@ -71,14 +74,45 @@ public class TruckDAO {
         return this.truckRepo.findByOwner_id(id);
     }
 
+    public List<Object> getSubscribers(Integer id) {
+        List<Object> returns = new ArrayList<>();
+
+
+        Optional<Truck> truck = truckRepo.findById(id);
+
+        if(truck.isPresent()) {
+            Optional<User> user = userDAO.findById(truck.get().getOwner().getId());
+            if(user.isPresent()) {
+                List<Object> userInfo = new ArrayList<>();
+                userInfo.add(user.get().getId());
+                userInfo.add(user.get().getUsername());
+                returns.add(userInfo);
+            }
+            for(Customer c: truck.get().getCustomers()) {
+                Optional<User> customerUser = userDAO.findById(c.getId());
+                if(customerUser.isPresent()){
+                    returns.add(customerUser.get().getUsername());
+                }
+            }
+            //returns.addAll(truck.get().getCustomers());
+            return returns;
+        }
+       return null;
+    }
+
+
     public List<Object> findByOwnerPlus(String username) {
         List<Object> returns = new ArrayList<>();
 
         Integer id = this.userDAO.findByUsername(username).getId();
         List<Truck> trucks = this.truckRepo.findByOwner_id(id);
 
-        returns.add(id);
-        returns.add(username);
+
+        List<Object> userInfo = new ArrayList<>();
+        userInfo.add(id);
+        userInfo.add(username);
+        returns.add(userInfo);
+
         returns.add(trucks);
 
         return returns;

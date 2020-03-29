@@ -1,9 +1,10 @@
 package jeaps.foodtruck.common.user.customer.food;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
+@Repository
 public class FoodDAO {
     @Autowired
     FoodRepository foodRepo;

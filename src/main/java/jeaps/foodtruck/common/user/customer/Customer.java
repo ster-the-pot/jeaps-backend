@@ -1,11 +1,14 @@
 package jeaps.foodtruck.common.user.customer;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.user.customer.food.Food;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,7 +22,7 @@ public class Customer {
     private Integer id;
 
     @OneToOne
-    @MapsId
+    //@MapsId
     @JoinColumn(name = "id")
     Preferences preference;
 
@@ -32,13 +35,23 @@ public class Customer {
         return id;
     }
 
-    public Set<Truck> getTrucks() { return trucks; }
+    public List<Truck> getTrucks() { return trucks; }
 
-    public void setTrucks(Set<Truck> trucks) { this.trucks = trucks; }
+    public void setTrucks(List<Truck> trucks) { this.trucks = trucks; }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Set<Truck> trucks;
+    /**
+     * Shows a list of subscribed trucks
+     */
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name="subscribed",
+            joinColumns={@JoinColumn(name = "customer_id")},
+            inverseJoinColumns={@JoinColumn(name="truck_id")})
+    private List<Truck> trucks = new ArrayList<>();
 
     /**
      * Sets the customer's ID

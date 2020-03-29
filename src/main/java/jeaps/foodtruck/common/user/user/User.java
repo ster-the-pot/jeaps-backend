@@ -1,9 +1,8 @@
 package jeaps.foodtruck.common.user.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.validator.constraints.UniqueElements;
+
+import javax.persistence.*;
 
 /**
  * This class represents an authorised user within the system. The User object will contain all of the information of
@@ -18,6 +17,7 @@ public class User {
     // Auto-generated id to ensure unique users
     private Integer id;
     // The unique user/screen name
+    @Column(unique=true)
     private String username;
     // The user's real name
     private String name;

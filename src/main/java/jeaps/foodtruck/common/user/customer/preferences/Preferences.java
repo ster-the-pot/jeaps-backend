@@ -16,12 +16,17 @@ public class Preferences {
     @Id
     private Integer id;
 
-    @ManyToOne
     private FoodTypes foodPref;
 
     private String proxPref;
 
     private Prices maxPricePref;
+
+    public Preferences() {};
+    public Preferences(Integer id) {
+        this.setId(id);
+    }
+
 
 
     public Integer getId() {

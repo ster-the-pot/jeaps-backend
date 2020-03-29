@@ -2,9 +2,11 @@ package jeaps.foodtruck.common.user.customer.preferences;
 
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public class PreferencesDAO {
 
     @Autowired

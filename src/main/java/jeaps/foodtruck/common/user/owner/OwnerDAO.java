@@ -10,6 +10,7 @@ import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -72,11 +73,17 @@ public class OwnerDAO {
         }
 
         //Creates and sets the information of the truck
-        Truck t = new Truck(truckDTO.getName(), truckDTO.getRoute(), truckDTO.getType().name(), truckDTO.getMenu());
+        //Truck t = new Truck(truckDTO.getName(), truckDTO.getRoute(), truckDTO.getType().name(), truckDTO.getMenu());
 
-        Set<Truck> set = owner.get().getTrucks();
-        set.add(t);
-        owner.get().setTrucks(set);
+        Truck t = new Truck();
+        t.setMenu(truckDTO.getMenu());
+        t.setName(truckDTO.getName());
+        //CONT>>>>>>>>>> FIX ALL
+
+
+        List<Truck> list = owner.get().getTrucks();
+        list.add(t);
+        owner.get().setTrucks(list);
 
         save(owner.get());
 
@@ -113,8 +120,8 @@ public class OwnerDAO {
             return false;
         }
 
-        Set<Truck> set = owner.get().getTrucks();
-        if(!set.contains(t.get())) {
+        List<Truck> list = owner.get().getTrucks();
+        if(!list.contains(t.get())) {
             return false;
         }
 

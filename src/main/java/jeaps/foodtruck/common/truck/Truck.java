@@ -1,11 +1,14 @@
 package jeaps.foodtruck.common.truck;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.truck.Prices;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,11 +23,23 @@ public class Truck {
     private Prices price;
     private FoodTypes type;
 
+    @JsonBackReference
     @ManyToOne Owner owner;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "truck_id", referencedColumnName = "id")
-    private Set<Customer> customers;
+
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "trucks")
+   /* @JoinTable(name="subscribed",
+            joinColumns=@JoinColumn(name = "truck_id", referencedColumnName = "id"),
+            inverseJoinColumns=@JoinColumn(name="customer_id"))*/
+    private List<Customer> customers = new ArrayList<>();
+
+
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "truck_id", referencedColumnName = "id")
@@ -37,6 +52,22 @@ public class Truck {
         this.setRoute(route);
         this.setType(FoodTypes.valueOf(type));
         this.setMenu(menu);
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 
     public Integer getId() {
