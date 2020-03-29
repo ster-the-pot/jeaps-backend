@@ -62,9 +62,7 @@ public class OwnerController {
     }
 
 
-    /*
-        NEW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     */
+
     @RequestMapping(path="/getSubscribers")
     public List<Object> getSubscribers(@RequestParam Integer truckID){
         return this.truckDAO.getSubscribers(truckID);

@@ -6,6 +6,8 @@ import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path="/truck")
 public class TruckController {
@@ -23,6 +25,13 @@ public class TruckController {
     public @ResponseBody
     Truck getUserDetails(@RequestParam String name){
         return this.truckDAO.findByName(name);
+    }
+
+
+    @RequestMapping(path="/search")
+    public @ResponseBody
+    List<Truck> searchTrucks(@RequestParam String name){
+        return null;
     }
 
 }

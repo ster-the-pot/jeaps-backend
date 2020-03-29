@@ -1,6 +1,7 @@
 package jeaps.foodtruck.common.truck;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
@@ -40,7 +41,7 @@ public class Truck {
     private List<Customer> customers = new ArrayList<>();
 
 
-
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "truck_id", referencedColumnName = "id")
     private Set<Route> route;

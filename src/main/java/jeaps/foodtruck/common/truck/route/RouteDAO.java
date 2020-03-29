@@ -22,9 +22,12 @@ public class RouteDAO {
 
     public void save(RouteDTO routeDTO){
         Route r = new Route();
-
+        if(routeDTO.getId() != null) {
+            r.setId(routeDTO.getId());
+        }
         r.setDate(routeDTO.getDate());
         r.setLocation(routeDTO.getLocation());
+        r.setTruck(routeDTO.getTruck());
 
         this.routeRepo.save(r);
     }
@@ -33,8 +36,11 @@ public class RouteDAO {
         routeRepo.deleteById(routeID);
     }
 
-    public List<Route> findByTruck(Integer truckID) {
-        return this.routeRepo.findByTruck_id(truckID);
+    public List<RouteDAO> findByTruck(Integer truckID) {
+        List<Route> routes = this.routeRepo.findByTruck_id(truckID);
+
+        
+        return ;
     }
 
 }

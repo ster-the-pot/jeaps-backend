@@ -1,5 +1,6 @@
 package jeaps.foodtruck.common.truck.route;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jeaps.foodtruck.common.truck.Truck;
 
 import javax.persistence.*;
@@ -14,7 +15,9 @@ public class Route {
     private Location location;
     private Date date;
 
-    @ManyToOne Truck truck;
+    @ManyToOne
+    @JsonBackReference
+    private Truck truck;
 
 
     public Integer getId() {
@@ -41,4 +44,11 @@ public class Route {
         this.date = date;
     }
 
+    public Truck getTruck() {
+        return truck;
+    }
+
+    public void setTruck(Truck truck) {
+        this.truck = truck;
+    }
 }
