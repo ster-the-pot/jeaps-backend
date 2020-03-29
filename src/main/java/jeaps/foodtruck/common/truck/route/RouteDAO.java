@@ -4,6 +4,7 @@ import jeaps.foodtruck.common.truck.TruckDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -36,11 +37,16 @@ public class RouteDAO {
         routeRepo.deleteById(routeID);
     }
 
-    public List<RouteDAO> findByTruck(Integer truckID) {
+    public List<RouteDTO> findByTruck(Integer truckID) {
         List<Route> routes = this.routeRepo.findByTruck_id(truckID);
-
+        List<RouteDTO> routeDTOList = new ArrayList<>();
+        RouteDTO routeDTO;
+        for(Route r: routes) {
+            routeDTO = new RouteDTO(r);
+            routeDTOList.add(routeDTO);
+        }
         
-        return ;
+        return routeDTOList;
     }
 
 }

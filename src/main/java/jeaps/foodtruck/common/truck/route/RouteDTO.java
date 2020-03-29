@@ -13,6 +13,16 @@ public class RouteDTO {
 
     private Truck truck;
 
+    public RouteDTO(){};
+
+    public RouteDTO(Route r){
+        if(r.getId() != null) {
+            r.setId(r.getId());
+        }
+        this.setDate(r.getDate());
+        this.setLocation(r.getLocation());
+        this.setTruck(r.getTruck());
+    }
 
     public Integer getId() {
         return id;

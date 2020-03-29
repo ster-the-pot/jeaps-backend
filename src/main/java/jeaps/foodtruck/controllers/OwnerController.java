@@ -57,7 +57,7 @@ public class OwnerController {
     }
 
     @RequestMapping(path="/getRoutes")
-    public List<Route> getRoutes(@RequestParam Integer truckID){
+    public List<RouteDTO> getRoutes(@RequestParam Integer truckID){
         return this.routeDAO.findByTruck(truckID);
     }
 
