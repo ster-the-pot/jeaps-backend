@@ -190,7 +190,7 @@ public class CustomerDAO {
 
         int highscore = 0;
         for(Truck t : suggestions){
-            int score = getScore(t, userPrefs.get());
+            int score = getScore(t, userPrefs.get(), user.getId());
             if(score > highscore){highscore = score;}
 
             //If the truck does not contain the score, add it
@@ -215,7 +215,7 @@ public class CustomerDAO {
         return suggestions;
     }
 
-    public Integer getScore(Truck truck, Preferences prefs){
+    public Integer getScore(Truck truck, Preferences prefs, Integer id){
         int score = 0;
 
         if(truck.getType() == prefs.getFoodPref()){
@@ -223,6 +223,11 @@ public class CustomerDAO {
         }
         if(truck.getPrice().getFloor() <= prefs.getMaxPricePref().getFloor()){
             score += 2;
+        }
+        Customer c = new Customer();
+        c.setId(id);
+        if(truck.getCustomers().contains(c)){
+            score += 1;
         }
 
         return score;
