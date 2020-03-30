@@ -3,7 +3,6 @@ package jeaps.foodtruck.common.user.customer;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
-import jeaps.foodtruck.common.user.customer.food.Food;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 
 import javax.persistence.*;
@@ -21,10 +20,10 @@ public class Customer {
     @Id
     private Integer id;
 
-    @OneToOne
-    //@MapsId
-    @JoinColumn(name = "id")
-    Preferences preference;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Preferences preference = new Preferences();
 
 
     /**
@@ -63,5 +62,9 @@ public class Customer {
 
     public Preferences getPreference(){
         return this.preference;
+    }
+
+    public void setPreference(Preferences preference) {
+        this.preference = preference;
     }
 }

@@ -115,32 +115,38 @@ public class OwnerDAO {
         if(!owner.isPresent()) {
             return false;
         }
+
         Optional<Truck> t =  this.truckDAO.findById(truckID);
         if(!t.isPresent()) {
             return false;
         }
 
-        List<Truck> list = owner.get().getTrucks();
-        if(!list.contains(t.get())) {
+        List<Truck> trucks = owner.get().getTrucks();
+
+        if(!trucks.contains(t.get())) {
             return false;
+        } else {
+            trucks.remove(t.get());
         }
 
         Route route = new Route();
-
         route.setDate(routeDTO.getDate());
-        route.setLocation(routeDTO.getLocation());
+        //route.setLocation(routeDTO.getLocation());
+        //SET STUFF HERE
 
-        Set<Route> r = t.get().getRoute();
+        List<Route> r = t.get().getRoute();
         r.add(route);
-
-
-
         t.get().setRoute(r);
 
-        this.truckDAO.update(t.get());
+        trucks.add(t.get());
 
 
-        //this.truckRepo.save(t);
+        owner.get().setTrucks(trucks);
+
+        //this.truckDAO.update(t.get());
+
+        this.save(owner.get());
+
         return true;
     }
 

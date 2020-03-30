@@ -79,6 +79,34 @@ public class CustomerDAO {
 
     }
 
+    public List<Object> getPreferences(String username) {
+        List<Object> returns = new ArrayList<>();
+        User user = userDAO.findByUsername(username);
+
+        List<Object> userInfo = new ArrayList<>();
+        userInfo.add(user.getId());
+        userInfo.add(user.getUsername());
+        userInfo.add(user.getEmail());
+        returns.add(userInfo);
+
+        Optional<Customer> customer = customerRepo.findById(user.getId());
+        if(customer.isPresent() && customer.get().getPreference() != null) {
+            returns.add(customer.get().getPreference());
+        }
+        return returns;
+    }
+
+    public void editPreferences(String username, Preferences pref) {
+
+        User user = userDAO.findByUsername(username);
+
+        Optional<Customer> customer = customerRepo.findById(user.getId());
+        if(customer.isPresent()) {
+           customer.get().setPreference(pref);
+        }
+
+    }
+
     public void subscribeToTruck(String username, Integer truckID) {
         User user = userDAO.findByUsername(username);
         Optional<Customer> customer = customerRepo.findById(user.getId());
@@ -125,6 +153,11 @@ public class CustomerDAO {
             customerRepo.save(customer.get());
         } //HOW ARE WE THROWING ERRORS AGAIN?????
     }
+
+
+
+
+
     public List<Truck> getRecommendations(String username) {
         //Initialise the list of trucks to return
         List<Truck> suggestions = new ArrayList<Truck>();
@@ -184,5 +217,7 @@ public class CustomerDAO {
 
         return score;
     }
+
+
 }
 

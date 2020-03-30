@@ -28,7 +28,6 @@ public class RouteDAO {
         }
         r.setDate(routeDTO.getDate());
         r.setLocation(routeDTO.getLocation());
-        r.setTruck(routeDTO.getTruck());
 
         this.routeRepo.save(r);
     }
@@ -37,12 +36,18 @@ public class RouteDAO {
         routeRepo.deleteById(routeID);
     }
 
+
     public List<RouteDTO> findByTruck(Integer truckID) {
         List<Route> routes = this.routeRepo.findByTruck_id(truckID);
         List<RouteDTO> routeDTOList = new ArrayList<>();
         RouteDTO routeDTO;
         for(Route r: routes) {
-            routeDTO = new RouteDTO(r);
+            routeDTO = new RouteDTO();
+            if(r.getId() != null) {
+                routeDTO.setId(r.getId());
+            }
+            routeDTO.setDate(r.getDate());
+            //routeDTO.setLocation(r.getLocation());
             routeDTOList.add(routeDTO);
         }
         

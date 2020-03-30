@@ -3,6 +3,7 @@ package jeaps.foodtruck.common.truck.route;
 import jeaps.foodtruck.common.truck.Truck;
 
 
+import javax.persistence.Embedded;
 import java.util.Date;
 
 public class RouteDTO {
@@ -11,17 +12,15 @@ public class RouteDTO {
     private Location location;
     private Date date;
 
-    private Truck truck;
 
-    public RouteDTO(){};
+    public RouteDTO(){ };
 
     public RouteDTO(Route r){
         if(r.getId() != null) {
-            r.setId(r.getId());
+            this.id = r.getId();
         }
-        this.setDate(r.getDate());
-        this.setLocation(r.getLocation());
-        this.setTruck(r.getTruck());
+        this.date = r.getDate();
+        this.location = r.getLocation();
     }
 
     public Integer getId() {
@@ -46,13 +45,5 @@ public class RouteDTO {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Truck getTruck() {
-        return truck;
-    }
-
-    public void setTruck(Truck truck) {
-        this.truck = truck;
     }
 }

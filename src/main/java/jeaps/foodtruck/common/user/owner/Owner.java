@@ -7,7 +7,6 @@ import jeaps.foodtruck.common.truck.Truck;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Owner class holds the ID of an owner

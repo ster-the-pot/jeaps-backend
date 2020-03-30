@@ -32,10 +32,10 @@ public class TruckDAO {
 
         Optional<Truck> t = this.truckRepo.findById(truckID);
         //WE SHOULD BE ABLE TO CHANGE THE TRUCK NAME.....
-        //t.setName(truckDTO.getName());
-        if(truckDTO.getRoute() != null) {
+        t.get().setName(truckDTO.getName());
+        /*if(truckDTO.getRoute() != null) {
             t.get().setRoute(truckDTO.getRoute());
-        }
+        }*/
         if(truckDTO.getMenu() != null) {
             t.get().setMenu(truckDTO.getMenu());
         }

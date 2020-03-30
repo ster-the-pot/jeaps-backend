@@ -3,6 +3,7 @@ package jeaps.foodtruck.controllers;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
+import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
@@ -21,6 +22,18 @@ public class CustomerController {
     TruckDAO truckDAO;
     @Autowired
     CustomerDAO customerDAO;
+
+    @RequestMapping(path="/preferences", method = RequestMethod.GET)
+    public List<Object> getPreferences(@RequestParam String username){
+        return customerDAO.getPreferences(username);
+    }
+
+    @PostMapping(path="/editPreferences")
+    public Object editPreferences(@RequestBody Preferences pref, @RequestParam String username) {
+        customerDAO.editPreferences(username, pref);
+        return "Successfully updated Preferences";
+    }
+
 
     @RequestMapping(path="/details")
     public User getUserDetails(@RequestParam String username){

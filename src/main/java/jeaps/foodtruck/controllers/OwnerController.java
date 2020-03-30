@@ -40,6 +40,7 @@ public class OwnerController {
         return "Successfully updated Owner info";
     }
 
+
     @PostMapping(path="/createTruck")
     public Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
         if(this.ownerDAO.saveTruck(truck, username)) {
@@ -49,7 +50,8 @@ public class OwnerController {
     }
 
     @PostMapping(path="/createRoute")
-    public Object createRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID, @RequestParam String username) {
+    public Object createRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID,
+                              @RequestParam String username) {
         if(this.ownerDAO.saveRoute(route, truckID, username)) {
             return "Successfully added Route";
         }

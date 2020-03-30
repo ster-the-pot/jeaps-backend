@@ -1,10 +1,8 @@
 package jeaps.foodtruck.common.user.owner;
 
-import javax.persistence.Id;
 
 public class OwnerDTO {
 
-    @Id
     private Integer id;
 
 

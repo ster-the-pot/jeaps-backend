@@ -53,7 +53,7 @@ public class RouteDAOTest {
         SetrouteTest = new LinkedHashSet<>();
         SetrouteTest.add(routeTest);
         SetrouteTest.add(routeTest);
-        truckTest2.setRoute(SetrouteTest);
+        //truckTest2.setRoute(SetrouteTest);
     }
 
     @Test
