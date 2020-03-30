@@ -77,7 +77,21 @@ public class NotificationsDAO {
     }
 
     public void sendAllSubscribers(Notifications n, String username) {
-
+        User user = this.userDAO.findByUsername(username);
+        Optional<Owner> o = this.ownerDAO.findById(user.getId());
+        if(o.isPresent()) {
+            List<Truck> trucks = o.get().getTrucks();
+            for(Truck t: trucks) {
+                List<Customer> customers = t.getCustomers();
+                for(Customer c: customers) {
+                    Optional<User> u = this.userDAO.findById(c.getId());
+                    List<Notifications> notify = u.get().getNotifications();
+                    notify.add(n);
+                    u.get().setNotifications(notify);
+                    this.userDAO.save(u.get());
+                }
+            }
+        }
     }
 
     public void sendAllTruckSubscribers(Notifications n, String username, Integer truckID) {
@@ -103,7 +117,13 @@ public class NotificationsDAO {
 
     }
 
-    public void sendToOwner(Notifications n, String username) {
-
+    public void sendToUser(Notifications n, String username) {
+        User user = this.userDAO.findByUsername(username);
+        List<Notifications> notify = user.getNotifications();
+        notify.add(n);
+        user.setNotifications(notify);
+        this.userDAO.save(user);
     }
+
+
 }
