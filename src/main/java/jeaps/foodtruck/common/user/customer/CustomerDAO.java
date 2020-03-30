@@ -92,8 +92,9 @@ public class CustomerDAO {
         returns.add(userInfo);
 
         Optional<Customer> customer = customerRepo.findById(user.getId());
-        if(customer.isPresent() && customer.get().getPreference() != null) {
-            returns.add(customer.get().getPreference());
+        Optional<Preferences> pref = preferencesDAO.findById(user.getId());
+        if(customer.isPresent() && pref.isPresent()) {
+            returns.add(pref.get());
         }
         return returns;
     }
@@ -104,7 +105,14 @@ public class CustomerDAO {
 
         Optional<Customer> customer = customerRepo.findById(user.getId());
         if(customer.isPresent()) {
-           customer.get().setPreference(pref);
+           //customer.get().setPreference(pref);
+            Optional<Preferences> oldPref = preferencesDAO.findById(user.getId());
+
+            //if(!oldPref.isPresent() || pref.getId() == null) {
+            pref.setId(user.getId());
+            //}
+            preferencesDAO.save(pref);
+
         }
 
     }

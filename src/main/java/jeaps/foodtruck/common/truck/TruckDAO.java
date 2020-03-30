@@ -1,5 +1,7 @@
 package jeaps.foodtruck.common.truck;
 
+import jeaps.foodtruck.common.truck.route.Location;
+import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
@@ -135,5 +137,33 @@ public class TruckDAO {
 
     public void setTruckRepo(TruckRepository truckRepo) {
         this.truckRepo = truckRepo;
+    }
+
+    public List<Truck> getNearbyTrucks(Location loc, Integer distance) {
+        List<Truck> allTrucks = (List<Truck>) this.truckRepo.findAll();
+        List<Truck> inRange = new ArrayList<>();
+        for(Truck t: allTrucks) {
+            List<Route> truckRoutes = t.getRoute();
+            for(Route r: truckRoutes) {
+                if(checkDistance(loc, r.getLocation(), distance)) {
+                    inRange.add(t);
+                    break;
+                }
+            }
+        }
+
+
+        return inRange;
+    }
+
+
+    private Boolean checkDistance(Location locGiven, Location locTest, Integer distance) {
+
+        Double calculation = Math.pow((locTest.getLatitude()-locGiven.getLatitude()), 2.0)
+                + Math.pow((locTest.getLongitude()-locGiven.getLongitude()), 2.0);
+        if(calculation <= (double)distance) {
+            return true;
+        }
+        return false;
     }
 }

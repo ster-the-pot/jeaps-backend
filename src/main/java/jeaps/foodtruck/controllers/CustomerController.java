@@ -2,6 +2,7 @@ package jeaps.foodtruck.controllers;
 
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
+import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 import jeaps.foodtruck.common.user.user.User;
@@ -33,6 +34,7 @@ public class CustomerController {
         customerDAO.editPreferences(username, pref);
         return "Successfully updated Preferences";
     }
+
 
 
     @RequestMapping(path="/details")

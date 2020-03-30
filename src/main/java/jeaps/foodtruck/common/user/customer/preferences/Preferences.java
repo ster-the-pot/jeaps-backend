@@ -17,7 +17,6 @@ public class Preferences {
 
 
     @Id
-    @Column(name = "customer_id")
     private Integer id;
 
     @Enumerated(EnumType.ORDINAL)
@@ -30,13 +29,18 @@ public class Preferences {
     private Prices maxPricePref;
 
 
+    //@MapsId
+    //@OneToOne(mappedBy = "preference")
+    //@JoinColumn(name = "customer_id", nullable = false)
+    /*@OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @OneToOne(mappedBy = "preference")
-    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
+*/
 
-
-
+    public Preferences(){};
+    public Preferences(Integer id) {
+        this.id = id;
+    }
 
 
     public Integer getId() {

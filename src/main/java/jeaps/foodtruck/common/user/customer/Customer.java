@@ -21,10 +21,18 @@ public class Customer {
     private Integer id;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Preferences preference = new Preferences();
+    //@OneToOne(cascade = CascadeType.ALL)
+    //@PrimaryKeyJoinColumn
+    //private Preferences preference;
+    /*@OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private Preferences preference;*/
 
+    /*public Customer(){};
+    public Customer(Integer id) {
+        this.id = id;
+        preference = new Preferences(id);
+    }*/
 
     /**
      * Returns the customer's ID
@@ -60,11 +68,11 @@ public class Customer {
         this.id = id;
     }
 
-    public Preferences getPreference(){
+    /*public Preferences getPreference(){
         return this.preference;
     }
 
     public void setPreference(Preferences preference) {
         this.preference = preference;
-    }
+    }*/
 }

@@ -50,5 +50,5 @@ public class NotificationsController {
         notificationsDAO.sendToUser(n, username);
         return "Successfully sent message to single User";
     }
-    
+
 }
