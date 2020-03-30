@@ -12,6 +12,7 @@ import jeaps.foodtruck.common.user.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,8 +100,10 @@ public class NotificationsDAO {
        Optional<Owner> o = this.ownerDAO.findById(user.getId());
        if(o.isPresent()) {
            Optional<Truck> t = this.truckDAO.findById(truckID);
-           List<Truck> check = o.get().getTrucks();
-           if(check.contains(t)) {
+           //List<Truck> check = o.get().getTrucks();
+
+
+           if(t.isPresent() && t.get().getOwner().getId().equals(o.get().getId())) {
                List<Customer> customers = t.get().getCustomers();
                for(Customer c: customers) {
                    Optional<User> u = this.userDAO.findById(c.getId());
@@ -109,10 +112,7 @@ public class NotificationsDAO {
                    u.get().setNotifications(notify);
                    this.userDAO.save(u.get());
                }
-
            }
-
-
        }
 
     }
@@ -125,5 +125,17 @@ public class NotificationsDAO {
         this.userDAO.save(user);
     }
 
+
+    public List<Object> getNotifications(String username) {
+        User user = this.userDAO.findByUsername(username);
+        List<Object> returns = new ArrayList<>();
+
+        returns.add(user.getId());
+        returns.add(user.getUsername());
+        returns.add(user.getEmail());
+        returns.addAll(user.getNotifications());
+
+        return returns;
+    }
 
 }

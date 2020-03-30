@@ -36,11 +36,12 @@ public class CustomerController {
     }
 
 
-
+    //WARNING!!!!!!!!!!!!!!!!!! RETURNS PASSWORD
     @RequestMapping(path="/details")
     public User getUserDetails(@RequestParam String username){
         return userDAO.findByUsername(username);
     }
+
 
     @PostMapping(path="/manage")
     public Object manageUserDetails(@RequestBody UserDTO user) {

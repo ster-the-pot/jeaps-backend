@@ -7,6 +7,8 @@ import jeaps.foodtruck.common.user.user.notification.NotificationsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path="/notifications")
 @ResponseBody
@@ -33,6 +35,7 @@ public class NotificationsController {
         return "Successfully sent message to all Customers";
     }
 
+    //DUPLICATION WILL OCCUR
     @PostMapping(path="/sendAllSubscribers")
     public Object sendAllSubscribers(@RequestBody Notifications n, @RequestParam String username) {
         notificationsDAO.sendAllSubscribers(n, username);
@@ -51,4 +54,8 @@ public class NotificationsController {
         return "Successfully sent message to single User";
     }
 
+    @RequestMapping(path="/getNotifications")
+    public List<Object> getNotifications(@RequestParam String username){
+        return this.notificationsDAO.getNotifications(username);
+    }
 }
