@@ -88,6 +88,8 @@ public class UserDAO {
 
 
     public Optional<User> findById(Integer id) { return this.userRepo.findById(id); }
+
+    public Iterable<User> findAll() { return this.userRepo.findAll(); }
 }
 
 

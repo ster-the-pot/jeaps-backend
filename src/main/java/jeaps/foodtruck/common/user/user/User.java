@@ -1,8 +1,13 @@
 package jeaps.foodtruck.common.user.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.user.user.notification.Notifications;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents an authorised user within the system. The User object will contain all of the information of
@@ -26,6 +31,19 @@ public class User {
     // The user's password
     //TODO: hash this so that security is at least half-@ssed
     private String password;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Notifications> notifications = new ArrayList<>();
+
+    public List<Notifications> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notifications> notifications) {
+        this.notifications = notifications;
+    }
 
     /**
      * Returns the user's username

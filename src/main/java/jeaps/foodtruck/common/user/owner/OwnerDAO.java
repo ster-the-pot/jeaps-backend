@@ -99,6 +99,8 @@ public class OwnerDAO {
      */
     public Optional<Owner> findById(Integer id) { return this.ownerRepo.findById(id); }
 
+
+    public Iterable<Owner> findAll() { return this.ownerRepo.findAll(); }
     /**
      *
      * @param routeDTO
