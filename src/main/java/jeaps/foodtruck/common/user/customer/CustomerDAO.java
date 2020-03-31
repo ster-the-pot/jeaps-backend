@@ -190,7 +190,12 @@ public class CustomerDAO {
 
         //If there are no preferences, return a random set of trucks
         if(!userPrefs.isPresent()){
-            return suggestions.subList(0, NUM_RECS-1);
+            if(suggestions.size() > NUM_RECS){
+                return suggestions.subList(0, NUM_RECS-1);
+            }
+            else{
+                return suggestions;
+            }
         }
 
         //Create a map to sort trucks based on scores
