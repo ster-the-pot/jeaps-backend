@@ -3,8 +3,11 @@ package jeaps.foodtruck.common.user.user.notification;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.user.User;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Notifications {
@@ -17,6 +20,8 @@ public class Notifications {
     private String subject;
     private String body;
 
+    @CreationTimestamp
+    private Date createDateTime;
 
     @JsonBackReference
     @ManyToOne
@@ -60,5 +65,13 @@ public class Notifications {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Date getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(Date createDateTime) {
+        this.createDateTime = createDateTime;
     }
 }

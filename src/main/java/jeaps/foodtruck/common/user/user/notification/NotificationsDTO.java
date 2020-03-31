@@ -1,11 +1,14 @@
 package jeaps.foodtruck.common.user.user.notification;
 
+import java.util.Date;
+
 public class NotificationsDTO {
     private Integer id;
 
     private String type;
     private String subject;
     private String body;
+    private Date createDateTime;
 
     public Integer getId() {
         return id;
@@ -37,5 +40,13 @@ public class NotificationsDTO {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Date getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(Date createDateTime) {
+        this.createDateTime = createDateTime;
     }
 }

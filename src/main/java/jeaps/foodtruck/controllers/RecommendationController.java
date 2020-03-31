@@ -26,7 +26,8 @@ public class RecommendationController {
 
     @RequestMapping(path="/recommendation")
     public Object getRecommendation(@RequestBody UserDTO user) {
-       return null;
+
+        return null;
     }
 
 }

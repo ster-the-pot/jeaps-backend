@@ -1,16 +1,23 @@
 package jeaps.foodtruck.common.user.customer.preferences;
 
 
+import jeaps.foodtruck.common.truck.FoodTypes;
+import jeaps.foodtruck.common.truck.Prices;
+import jeaps.foodtruck.common.truck.route.Location;
+
 public class PreferencesDTO {
 
 
     private Integer id;
 
 
+    private FoodTypes foodPref;
 
     private String proxPref;
 
-    private Integer maxPricePref;
+    private Prices maxPricePref;
+
+    private Location location;
 
 
     public Integer getId() {
@@ -21,6 +28,13 @@ public class PreferencesDTO {
         this.id = id;
     }
 
+    public FoodTypes getFoodPref() {
+        return foodPref;
+    }
+
+    public void setFoodPref(FoodTypes foodPref) {
+        this.foodPref = foodPref;
+    }
 
     public String getProxPref() {
         return proxPref;
@@ -30,11 +44,19 @@ public class PreferencesDTO {
         this.proxPref = proxPref;
     }
 
-    public Integer getMaxPricePref() {
+    public Prices getMaxPricePref() {
         return maxPricePref;
     }
 
-    public void setMaxPricePref(Integer maxPricePref) {
+    public void setMaxPricePref(Prices maxPricePref) {
         this.maxPricePref = maxPricePref;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

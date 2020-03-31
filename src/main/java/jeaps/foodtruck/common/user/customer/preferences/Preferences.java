@@ -1,15 +1,11 @@
 package jeaps.foodtruck.common.user.customer.preferences;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jeaps.foodtruck.common.truck.FoodTypes;
 import jeaps.foodtruck.common.truck.Prices;
-import jeaps.foodtruck.common.user.customer.Customer;
+import jeaps.foodtruck.common.truck.route.Location;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -28,14 +24,10 @@ public class Preferences {
     @Enumerated(EnumType.ORDINAL)
     private Prices maxPricePref;
 
+    @Embedded
+    private Location location;
 
-    //@MapsId
-    //@OneToOne(mappedBy = "preference")
-    //@JoinColumn(name = "customer_id", nullable = false)
-    /*@OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    private Customer customer;
-*/
+
 
     public Preferences(){};
     public Preferences(Integer id) {
@@ -75,5 +67,11 @@ public class Preferences {
         this.maxPricePref = maxPricePref;
     }
 
+    public Location getLocation() {
+        return location;
+    }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }
