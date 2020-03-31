@@ -203,7 +203,7 @@ public class CustomerDAO {
 
         int highscore = 0;
         for(Truck t : suggestions){
-            int score = getScore(t, userPrefs.get());
+            int score = getScore(t, userPrefs.get(), user.getId());
             if(score > highscore){highscore = score;}
 
             //If the truck does not contain the score, add it
@@ -228,7 +228,7 @@ public class CustomerDAO {
         return suggestions;
     }
 
-    public Integer getScore(Truck truck, Preferences prefs){
+    public Integer getScore(Truck truck, Preferences prefs, Integer id){
         int score = 0;
 
         //increase truck score if the food is preferred
@@ -242,9 +242,8 @@ public class CustomerDAO {
         //increase truck score if the customer is subscribed to the truck
         Customer c = new Customer();
         c.setId(id);
-        if(truck.getCustomers().contains(c)){
+        if(c.getTrucks().contains(truck)){
             score += 1;
-            owners.add(truck.getOwner().getId());
         }
 
         return score;
