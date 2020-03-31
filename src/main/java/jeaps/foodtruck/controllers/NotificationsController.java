@@ -5,6 +5,7 @@ import jeaps.foodtruck.common.user.user.notification.Notifications;
 import jeaps.foodtruck.common.user.user.notification.NotificationsDAO;
 import jeaps.foodtruck.common.user.user.notification.NotificationsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,6 +64,7 @@ public class NotificationsController {
     @PostMapping(path="/clearAllUser")
     public Object removeNotification(@RequestParam String username) {
         this.notificationsDAO.removeUserNotifications(username);
+
         return "Successfully removed all users notifications";
     }
 

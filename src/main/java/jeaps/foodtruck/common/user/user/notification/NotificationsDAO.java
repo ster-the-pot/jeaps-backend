@@ -8,8 +8,9 @@ import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
-import jeaps.foodtruck.common.user.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -29,6 +30,12 @@ public class NotificationsDAO {
     private TruckDAO truckDAO;
     @Autowired
     private NotificationsRepository notificationsRepo;
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private SimpleMailMessage preConfiguredMessage;
+
+
     private final String SYSTEM_SENDER = "SYSTEM";
 
     public void save(Notifications n) { this.notificationsRepo.save(n); }
@@ -148,6 +155,7 @@ public class NotificationsDAO {
 
 
     public List<Object> getNotifications(String username) {
+        //this.sendMail();
         User user = this.userDAO.findByUsername(username);
         List<Object> returns = new ArrayList<>();
 
@@ -170,5 +178,15 @@ public class NotificationsDAO {
         user.setNotifications(notify);
         this.userDAO.save(user);
 
+    }
+
+
+    public void sendMail(/*String to, String subject, String body*/)
+    {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo("lillybrighton@gmail.com");
+        message.setSubject("THIS IS A TEST - I HOPE TO SEE THIS");
+        message.setText("HI");
+        mailSender.send(message);
     }
 }

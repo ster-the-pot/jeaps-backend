@@ -73,7 +73,13 @@ public class CustomerDAO {
             userInfo.add(user.getUsername());
             returns.add(userInfo);
 
-            returns.addAll(customer.get().getTrucks());
+            for(Truck t: customer.get().getTrucks()) {
+                if(!returns.contains(t)) {
+                    returns.add(t);
+                }
+            }
+
+            //returns.addAll(customer.get().getTrucks());
 
             return returns;
         }
