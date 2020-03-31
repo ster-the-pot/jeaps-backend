@@ -23,6 +23,8 @@ public class Notifications {
     @CreationTimestamp
     private Date createDateTime;
 
+    private String sender;
+
     @JsonBackReference
     @ManyToOne
     private User user;
@@ -73,5 +75,13 @@ public class Notifications {
 
     public void setCreateDateTime(Date createDateTime) {
         this.createDateTime = createDateTime;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 }

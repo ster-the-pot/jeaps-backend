@@ -140,6 +140,12 @@ public class TruckDAO {
     }
 
     public List<Truck> getNearbyTrucks(Location loc, Integer distance) {
+
+        //WHAT SHOULD OUR DEFAULT BE? IS THIS MILES, what???
+        if(distance == null) {
+            distance = 500;
+        }
+
         List<Truck> allTrucks = (List<Truck>) this.truckRepo.findAll();
         List<Truck> inRange = new ArrayList<>();
         for(Truck t: allTrucks) {

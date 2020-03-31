@@ -29,7 +29,7 @@ public class NotificationsDAO {
     private TruckDAO truckDAO;
     @Autowired
     private NotificationsRepository notificationsRepo;
-
+    private final String SYSTEM_SENDER = "SYSTEM";
 
     public void save(Notifications n) { this.notificationsRepo.save(n); }
 
@@ -41,10 +41,15 @@ public class NotificationsDAO {
         }
         n.setSubject(nDTO.getSubject());
         n.setType(nDTO.getType());
+        n.setSender(n.getSender());
+
         this.notificationsRepo.save(n);
     }
 
     public void sendAll(Notifications n) {
+        if(n.getSender() == null ){
+            n.setSender(SYSTEM_SENDER);
+        }
         Iterable<User> user = this.userDAO.findAll();
         for(User u: user) {
             List<Notifications> notify = u.getNotifications();
@@ -55,6 +60,9 @@ public class NotificationsDAO {
 
     }
     public void sendAllOwner(Notifications n) {
+        if(n.getSender() == null ){
+            n.setSender(SYSTEM_SENDER);
+        }
         Iterable<Owner> owners = this.ownerDAO.findAll();
         for(Owner o: owners) {
             Optional<User> u = this.userDAO.findById(o.getId());
@@ -67,6 +75,9 @@ public class NotificationsDAO {
     }
 
     public void sendAllCustomer(Notifications n) {
+        if(n.getSender() == null ){
+            n.setSender(SYSTEM_SENDER);
+        }
         Iterable<Customer> customers = this.customerDAO.findAll();
         for(Customer c: customers) {
             Optional<User> u = this.userDAO.findById(c.getId());
@@ -78,24 +89,31 @@ public class NotificationsDAO {
     }
 
     public void sendAllSubscribers(Notifications n, String username) {
+        n.setSender(username);
         User user = this.userDAO.findByUsername(username);
         Optional<Owner> o = this.ownerDAO.findById(user.getId());
         if(o.isPresent()) {
             List<Truck> trucks = o.get().getTrucks();
+            List<Customer> sent = new ArrayList<>();
+
             for(Truck t: trucks) {
                 List<Customer> customers = t.getCustomers();
                 for(Customer c: customers) {
-                    Optional<User> u = this.userDAO.findById(c.getId());
-                    List<Notifications> notify = u.get().getNotifications();
-                    notify.add(n);
-                    u.get().setNotifications(notify);
-                    this.userDAO.save(u.get());
+                    if(!sent.contains(c)) {
+                        Optional<User> u = this.userDAO.findById(c.getId());
+                        List<Notifications> notify = u.get().getNotifications();
+                        notify.add(n);
+                        u.get().setNotifications(notify);
+                        this.userDAO.save(u.get());
+                        sent.add(c);
+                    }
                 }
             }
         }
     }
 
     public void sendAllTruckSubscribers(Notifications n, String username, Integer truckID) {
+       n.setSender(username);
        User user = this.userDAO.findByUsername(username);
        Optional<Owner> o = this.ownerDAO.findById(user.getId());
        if(o.isPresent()) {
@@ -118,6 +136,9 @@ public class NotificationsDAO {
     }
 
     public void sendToUser(Notifications n, String username) {
+        if(n.getSender() == null ){
+            n.setSender(SYSTEM_SENDER);
+        }
         User user = this.userDAO.findByUsername(username);
         List<Notifications> notify = user.getNotifications();
         notify.add(n);

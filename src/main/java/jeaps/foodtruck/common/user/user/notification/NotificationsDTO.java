@@ -9,6 +9,8 @@ public class NotificationsDTO {
     private String subject;
     private String body;
     private Date createDateTime;
+    private String sender;
+
 
     public Integer getId() {
         return id;
@@ -48,5 +50,13 @@ public class NotificationsDTO {
 
     public void setCreateDateTime(Date createDateTime) {
         this.createDateTime = createDateTime;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 }
