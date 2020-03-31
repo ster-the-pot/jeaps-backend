@@ -73,13 +73,13 @@ public class CustomerDAO {
             userInfo.add(user.getUsername());
             returns.add(userInfo);
 
-            for(Truck t: customer.get().getTrucks()) {
+            /*for(Truck t: customer.get().getTrucks()) {
                 if(!returns.contains(t)) {
                     returns.add(t);
                 }
-            }
+            }*/
 
-            //returns.addAll(customer.get().getTrucks());
+            returns.addAll(customer.get().getTrucks());
 
             return returns;
         }
@@ -131,14 +131,14 @@ public class CustomerDAO {
 
         if(customer.isPresent() && truck.isPresent()) {
 
-
-
-            List<Customer> customers = truck.get().getCustomers();
-            customers.add(customer.get());
-            truck.get().setCustomers(customers);
+            //List<Customer> customers = truck.get().getCustomers();
+            //customers.add(customer.get());
+            //truck.get().setCustomers(customers);
 
             List<Truck> trucks = customer.get().getTrucks();
-            trucks.add(truck.get());
+            if(!trucks.contains(truck.get())) {
+                trucks.add(truck.get());
+            }
             customer.get().setTrucks(trucks);
 
 
@@ -157,12 +157,14 @@ public class CustomerDAO {
         if(customer.isPresent() && truck.isPresent()) {
 
 
-            List<Customer> customers = truck.get().getCustomers();
-            customers.remove(customer.get());
-            truck.get().setCustomers(customers);
+            //List<Customer> customers = truck.get().getCustomers();
+            //customers.remove(customer.get());
+            //truck.get().setCustomers(customers);
 
             List<Truck> trucks = customer.get().getTrucks();
-            trucks.remove(truck.get());
+            if(trucks.contains(truck.get())) {
+                trucks.remove(truck.get());
+            }
             customer.get().setTrucks(trucks);
 
 
