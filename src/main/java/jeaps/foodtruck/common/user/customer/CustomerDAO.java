@@ -201,7 +201,7 @@ public class CustomerDAO {
             truckScores.get(score).add(t);
         }
 
-        suggestions = null;
+        suggestions = new ArrayList<Truck>();
 
         while(highscore >= 0 && suggestions.size() < NUM_RECS){
             for(Truck t : truckScores.get(highscore)){
@@ -218,10 +218,10 @@ public class CustomerDAO {
     public Integer getScore(Truck truck, Preferences prefs){
         int score = 0;
 
-        if(truck.getType() == prefs.getFoodPref()){
+        if(truck.getType() != null && prefs.getFoodPref() != null && truck.getType() == prefs.getFoodPref()){
             score += 1;
         }
-        if(truck.getPrice().getFloor() <= prefs.getMaxPricePref().getFloor()){
+        if(truck.getPrice() != null && prefs.getMaxPricePref().getFloor() != null && truck.getPrice().getFloor() <= prefs.getMaxPricePref().getFloor()){
             score += 2;
         }
 
