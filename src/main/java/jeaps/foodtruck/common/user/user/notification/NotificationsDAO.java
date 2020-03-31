@@ -138,4 +138,16 @@ public class NotificationsDAO {
         return returns;
     }
 
+    public void removeNotification(Integer notifyID) {
+        this.notificationsRepo.deleteById(notifyID);
+    }
+
+    public void removeUserNotifications(String username) {
+        User user = this.userDAO.findByUsername(username);
+
+        List<Notifications> notify = new ArrayList<>();
+        user.setNotifications(notify);
+        this.userDAO.save(user);
+
+    }
 }

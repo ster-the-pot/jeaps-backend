@@ -54,6 +54,19 @@ public class NotificationsController {
         return "Successfully sent message to single User";
     }
 
+    @PostMapping(path="/clearNotification")
+    public Object removeNotification(@RequestParam Integer notifyID) {
+        this.notificationsDAO.removeNotification(notifyID);
+        return "Successfully removed notification";
+    }
+
+    @PostMapping(path="/clearAllUser")
+    public Object removeNotification(@RequestParam String username) {
+        this.notificationsDAO.removeUserNotifications(username);
+        return "Successfully removed all users notifications";
+    }
+
+
     @RequestMapping(path="/getNotifications")
     public List<Object> getNotifications(@RequestParam String username){
         return this.notificationsDAO.getNotifications(username);
