@@ -243,7 +243,7 @@ public class CustomerDAO {
         Customer c = new Customer();
         c.setId(id);
         if(c.getTrucks() != null && c.getTrucks().contains(truck)){
-            score += 1;
+            score -= 3;
         }
 
         return score;
