@@ -1,6 +1,8 @@
 package jeaps.foodtruck.Token;
 
 // token verify
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -9,6 +11,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +23,7 @@ import java.lang.reflect.Method;
 public class AuthenticationInterceptor implements HandlerInterceptor {
     @Autowired
     UserRepository userService;
+
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
         String token = httpServletRequest.getHeader("token");// get token from http request
@@ -36,6 +40,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             }
         }
         //check for UserLoginToken annotation
+
         if (method.isAnnotationPresent(UserLoginToken.class)) {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.required()) {
