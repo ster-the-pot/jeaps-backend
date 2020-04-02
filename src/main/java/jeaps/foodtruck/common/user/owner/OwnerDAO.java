@@ -133,7 +133,7 @@ public class OwnerDAO {
 
         Route route = new Route();
         route.setDate(routeDTO.getDate());
-        //route.setLocation(routeDTO.getLocation());
+        route.setLocation(routeDTO.getLocation());
         //SET STUFF HERE
 
         List<Route> r = t.get().getRoute();

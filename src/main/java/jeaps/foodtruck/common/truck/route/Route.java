@@ -12,11 +12,11 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Embedded
-    private Location location;
+
     private Date date;
 
-
+    @Embedded
+    private Location location;
 
     //@ManyToOne(fetch = FetchType.LAZY, optional = false)
     //@JoinColumn(name = "truck_id", nullable = false)
