@@ -16,10 +16,20 @@ import java.util.stream.StreamSupport;
 
 @Repository
 public class TruckDAO {
-    @Autowired
+
     private TruckRepository truckRepo;
+
     @Autowired
+    public void setTruckRepo(TruckRepository truckRepo) {
+        this.truckRepo = truckRepo;
+    }
+
     private UserDAO userDAO;
+
+    @Autowired
+    public void setUserDAO(UserDAO userDAO){
+        this.userDAO = userDAO;
+    }
 
 
     public void save(Truck t){
@@ -135,9 +145,10 @@ public class TruckDAO {
     }
 
 
-    public void setTruckRepo(TruckRepository truckRepo) {
+
+    /*public void setTruckRepo(TruckRepository truckRepo) {
         this.truckRepo = truckRepo;
-    }
+    }*/
 
     public List<Truck> getNearbyTrucks(Location loc, Integer distance) {
 
