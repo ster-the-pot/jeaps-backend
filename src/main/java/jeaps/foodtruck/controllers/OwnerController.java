@@ -1,10 +1,8 @@
 package jeaps.foodtruck.controllers;
 
-import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.TruckDTO;
-import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.truck.route.RouteDAO;
 import jeaps.foodtruck.common.truck.route.RouteDTO;
 import jeaps.foodtruck.common.user.user.User;

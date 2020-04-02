@@ -3,12 +3,9 @@ package jeaps.foodtruck.common.user.customer;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
-import jeaps.foodtruck.common.user.customer.preferences.Preferences;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Customer class holds an ID of a user that is a customer.

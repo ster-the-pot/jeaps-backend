@@ -5,7 +5,6 @@ import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 import jeaps.foodtruck.common.user.customer.preferences.PreferencesDAO;
-import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;

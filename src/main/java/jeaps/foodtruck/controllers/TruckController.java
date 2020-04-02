@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="/truck")
 public class TruckController {
 
+    Map<String, Object> map = new HashMap<String, Object>();
 
     @Autowired
     TruckDAO truckDAO;
@@ -60,10 +63,14 @@ We should make a POST endpoint that recieves coordinates
             loc.setLatitude(100000.0);
             System.out.println("Latitude was null");
         }
+        //Some of the current routes are null -> issues
         //List<Truck> trucks = this.truckDAO.getNearbyTrucks(loc, distance);
         List<Truck> trucks = (List<Truck>) this.truckDAO.getAllTrucks();
 
-        return ResponseEntity.created(URI.create("/getNearbyTrucks/done")).body(trucks);
+
+        map.clear();
+        map.put("TruckList", trucks);
+        return ResponseEntity.created(URI.create("/getNearbyTrucks/done")).body(map);
     }
 
 }

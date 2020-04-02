@@ -1,12 +1,10 @@
 package jeaps.foodtruck.common.user.user.notification;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity

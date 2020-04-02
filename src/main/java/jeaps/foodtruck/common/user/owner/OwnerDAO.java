@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * A class to interact with the Owner table in the database

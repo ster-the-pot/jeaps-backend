@@ -118,4 +118,8 @@ public class Truck {
     public void setRoute(List<Route> route) {
         this.route = route;
     }
+
+
+
+
 }
