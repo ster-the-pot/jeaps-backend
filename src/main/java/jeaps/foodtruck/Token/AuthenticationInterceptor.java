@@ -50,12 +50,20 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 }
                 // get userID from token and and find user in the database
                 String userId;
+                String type;
                 try {
                     userId = JWT.decode(token).getAudience().get(0);
+                    type = JWT.decode(token).getAudience().get(1);
                 } catch (JWTDecodeException j) {
                     throw new RuntimeException("Token with wrong user id, re-login");
                 }
                 User user = userService.findByUsername(userId);
+
+                if(!httpServletRequest.getRequestURL().toString().contains(type)) {
+                    System.out.println("FALSE: " + type);
+                    throw new RuntimeException("User does not have access to this page");
+                }
+
 
                 if(user == null) {
                     throw new RuntimeException("User not exist");
