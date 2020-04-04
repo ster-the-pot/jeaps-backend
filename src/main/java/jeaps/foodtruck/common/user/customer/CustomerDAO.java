@@ -5,10 +5,10 @@ import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 import jeaps.foodtruck.common.user.customer.preferences.PreferencesDAO;
-import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -59,6 +59,8 @@ public class CustomerDAO {
 
     }
     public Iterable<Customer> findAll() { return this.customerRepo.findAll(); }
+
+    public Optional<Customer> findByID(Integer id) { return this.customerRepo.findById(id); }
 
     public List<Object> getSubscribedTrucks(String username) {
         List<Object> returns = new ArrayList<>();
@@ -186,6 +188,8 @@ public class CustomerDAO {
         Optional<Preferences> userPrefs = preferencesDAO.findById(user.getId());
 
         //Get all trucks within a set distance                  *********right now there is no distance calculation***********
+
+
         suggestions = truckDAO.findALL();
 
         //If there are no preferences, return a random set of trucks

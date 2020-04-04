@@ -1,40 +1,22 @@
-package jeaps.foodtruck.common.user.user.notification;
+package jeaps.foodtruck.common.truck.rate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jeaps.foodtruck.common.user.owner.Owner;
-import jeaps.foodtruck.common.user.user.User;
+import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.user.customer.Customer;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
-@Entity
-public class Notifications {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class RateDTO {
     private Integer id;
 
-    private String type;
+    private Integer rate;
     private String subject;
     private String body;
-    @CreationTimestamp
     private Date createDateTime;
 
-    private String sender;
 
-    @JsonBackReference
-    @ManyToOne
-    private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public Integer getId() {
         return id;
@@ -44,12 +26,13 @@ public class Notifications {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+
+    public Integer getRate() {
+        return rate;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRate(Integer rate) {
+        this.rate = rate;
     }
 
     public String getSubject() {
@@ -74,13 +57,5 @@ public class Notifications {
 
     public void setCreateDateTime(Date createDateTime) {
         this.createDateTime = createDateTime;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
     }
 }

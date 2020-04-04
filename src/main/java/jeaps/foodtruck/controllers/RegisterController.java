@@ -45,6 +45,7 @@ public class RegisterController {
         return "Successfully saved Owner";
     }
 
+
     @PostMapping(path="/login")
     public ResponseEntity<?> LoginUser(@RequestBody UserDTO user) {
 
@@ -61,9 +62,7 @@ public class RegisterController {
             type = "owner";
         }
 
-
         String token = tokenService.getToken(login, type);
-
 
         HashMap<String,String> str = new HashMap<>();
         //str.put("token",JWT.create().withAudience(user.getUsername()).sign(Algorithm.HMAC256(user.getPassword())));
@@ -71,25 +70,5 @@ public class RegisterController {
         str.put("type",type);
         return ResponseEntity.created(URI.create("/login/done")).body(str);
     }
-/*    @PostMapping("/login")
-    public Object login( @RequestBody UserDTO user){
-        JSONObject jsonObject = new JSONObject();
-        User userForBase = userDAO.findByUsername(user.getUsername());
-        if(userForBase == null){
-            jsonObject.put("message","user is not exist");
-            return jsonObject;
-        }
-        else {
-            if (!userForBase.getPassword().equals(user.getPassword())){
-                jsonObject.put("message","password fail");
-                return jsonObject;
-            }
-            else {
-                String token = tokenService.getToken(userForBase, "customer");
-                jsonObject.put("token", token);
-                jsonObject.put("user", userForBase);
-                return jsonObject;
-            }
-        }
-    }*/
+
 }

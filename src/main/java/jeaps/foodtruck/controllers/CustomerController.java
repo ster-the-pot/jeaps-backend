@@ -1,16 +1,23 @@
 package jeaps.foodtruck.controllers;
 
+import jeaps.foodtruck.Token.TokenService;
+import jeaps.foodtruck.Token.UserLoginToken;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
-import jeaps.foodtruck.common.truck.route.Location;
+import jeaps.foodtruck.common.truck.rate.Rate;
+import jeaps.foodtruck.common.truck.rate.RateDTO;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -19,15 +26,23 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     UserDAO userDAO;
+
     @Autowired
     TruckDAO truckDAO;
+
     @Autowired
     CustomerDAO customerDAO;
+
+    HashMap<String, Object> map = new HashMap<>();
+
+    @Autowired
+    TokenService tokenService;
 
     @RequestMapping(path="/preferences", method = RequestMethod.GET)
     public List<Object> getPreferences(@RequestParam String username){
         return customerDAO.getPreferences(username);
     }
+
 
     @PostMapping(path="/editPreferences")
     public Object editPreferences(@RequestBody Preferences pref, @RequestParam String username) {
@@ -49,12 +64,21 @@ public class CustomerController {
         return "Successfully updated Customer info";
     }
 
+
     @RequestMapping(path="/allTruck")
     public List<Truck> allTruck(){
         return this.truckDAO.findALL();
     }
 
 
+/*****************************************************************
+ * Start Ratings
+ *****************************************************************/
+
+    /*****************************************************************
+     * End Ratings
+     * Start Subscribed
+     *****************************************************************/
     @RequestMapping(path="/getSubscribedTrucks")
     public List<Object> getSubscribedTrucks(@RequestParam String username){
         return this.customerDAO.getSubscribedTrucks(username);
@@ -71,10 +95,9 @@ public class CustomerController {
         this.customerDAO.unsubscribeToTruck(username, truckID);
         return "Successfully unsubscribed to truck";
     }
-
-
-
-
+    /*****************************************************************
+     * End Subscribe
+     *****************************************************************/
 /*@RequestMapping(path="/searchTruck")
     public @ResponseBody
     List<Truck> searchTruck(@RequestParam String username){

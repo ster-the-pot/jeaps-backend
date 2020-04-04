@@ -2,11 +2,13 @@ package jeaps.foodtruck.common.truck;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jeaps.foodtruck.common.truck.rate.Rate;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class Truck {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
     private String name;
     //SHOULD BE AN IMAGE??
@@ -23,6 +26,8 @@ public class Truck {
     private Prices price;
     @Enumerated(EnumType.ORDINAL)
     private FoodTypes type;
+    private Double avgRating;
+
 
     @JsonBackReference
     @ManyToOne
@@ -41,10 +46,14 @@ public class Truck {
 
 
     @JsonManagedReference
-    //@OneToMany(mappedBy = "truck", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "truck_id", referencedColumnName = "id")
     private List<Route> route = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "truck_id", referencedColumnName = "id")
+    private List<Rate> rate = new ArrayList<>();
 
 
     public Truck(){};
@@ -117,5 +126,21 @@ public class Truck {
 
     public void setRoute(List<Route> route) {
         this.route = route;
+    }
+
+    public List<Rate> getRate() {
+        return rate;
+    }
+
+    public void setRate(List<Rate> rate) {
+        this.rate = rate;
+    }
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
     }
 }

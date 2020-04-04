@@ -1,40 +1,34 @@
-package jeaps.foodtruck.common.user.user.notification;
+package jeaps.foodtruck.common.truck.rate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jeaps.foodtruck.common.user.owner.Owner;
-import jeaps.foodtruck.common.user.user.User;
+import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.user.customer.Customer;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class Notifications {
-
+public class Rate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String type;
+    private Integer rate;
     private String subject;
     private String body;
     @CreationTimestamp
     private Date createDateTime;
 
-    private String sender;
+
+    @JsonBackReference
+    @ManyToOne()
+    private Truck truck;
 
     @JsonBackReference
     @ManyToOne
-    private User user;
+    private Customer customer;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public Integer getId() {
         return id;
@@ -44,12 +38,29 @@ public class Notifications {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+
+    public Truck getTruck() {
+        return truck;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTruck(Truck truck) {
+        this.truck = truck;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
     }
 
     public String getSubject() {
@@ -74,13 +85,5 @@ public class Notifications {
 
     public void setCreateDateTime(Date createDateTime) {
         this.createDateTime = createDateTime;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
     }
 }

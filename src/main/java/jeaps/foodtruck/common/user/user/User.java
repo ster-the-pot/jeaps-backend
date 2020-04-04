@@ -3,7 +3,6 @@ package jeaps.foodtruck.common.user.user;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.user.user.notification.Notifications;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.util.ArrayList;
