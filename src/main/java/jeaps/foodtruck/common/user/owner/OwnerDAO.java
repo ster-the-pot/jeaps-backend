@@ -128,8 +128,7 @@ public class OwnerDAO {
         Owner owner = truck.get().getOwner();
 
         List<Truck> trucks = owner.getTrucks();
-        trucks.remove(truck);
-
+        trucks.remove(truck.get());
 
         owner.setTrucks(trucks);
         this.save(owner);
