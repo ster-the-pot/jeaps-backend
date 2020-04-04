@@ -4,14 +4,15 @@ package jeaps.foodtruck.common.truck;
 import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.user.customer.Customer;
+import jeaps.foodtruck.common.user.customer.preferences.Preferences;
+import jeaps.foodtruck.common.user.owner.Owner;
+import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -29,6 +30,7 @@ public class TruckDAO {
     @Autowired
     private UserDAO userDAO;
 
+
     @Autowired
     public void setUserDAO(UserDAO userDAO){
         this.userDAO = userDAO;
@@ -44,29 +46,9 @@ public class TruckDAO {
         this.truckRepo.save(t);
     }
 
-    public void update(TruckDTO truckDTO, Integer truckID) {
 
-        Optional<Truck> t = this.truckRepo.findById(truckID);
-        //WE SHOULD BE ABLE TO CHANGE THE TRUCK NAME.....
-        t.get().setName(truckDTO.getName());
-        /*if(truckDTO.getRoute() != null) {
-            t.get().setRoute(truckDTO.getRoute());
-        }*/
-        if(truckDTO.getMenu() != null) {
-            t.get().setMenu(truckDTO.getMenu());
-        }
-        if(truckDTO.getFood() != null) {
-            t.get().setFood(truckDTO.getFood());
-        }
-        if(truckDTO.getName() != null) {
-            t.get().setName(truckDTO.getName());
-        }
 
-        this.truckRepo.save(t.get());
-
-    }
-
-    public void delete(Integer truckID) {
+    public void deleteById(Integer truckID) {
         this.truckRepo.deleteById(truckID);
     }
 
@@ -80,26 +62,64 @@ public class TruckDAO {
     }
 
     public List<Truck> searchAdvanced(TruckDTO truck) {
-        /*private Integer id;
-        private String name;
-        private String menu;
-        private Prices price;
-        private Food food;*/
-        List<Truck> returns = new ArrayList<>();
+        int NUM_RECS = 50;
 
         if(truck == null) {
             throw new RuntimeException("Invalid object given");
         }
 
-        //Truck realTruck
-        if(truck.getFood() != null && truck.getName() != null && truck.getPrice() != null && truck.getId() != null) {
-            //returns.addAll(truckRepo.findByNameIgnoreCaseContainingANDFoodANDPriceANDId(truck.getName(), truck.getFood(), truck.getPrice(), truck.getId()));
+        Iterable<Truck> suggestions = truckRepo.findAll();
+
+        //Create a map to sort trucks based on scores
+        Map<Integer, List<Truck>> truckScores = new HashMap<Integer, List<Truck>>();
+
+        for(Truck t : suggestions){
+            int score = getScore(t, truck);
+
+            //If the truck does not contain the score, add it
+            if(!truckScores.containsKey(score)){
+                truckScores.put(score, new ArrayList<Truck>());
+            }
+            //Add the truck to the right score bracket
+            truckScores.get(score).add(t);
         }
+        List<Truck> result = new ArrayList<>();
 
-
-
-        return returns;
+        int highscore = 4;
+        while(highscore >= 0 && result.size() < NUM_RECS){
+            if(truckScores.get(highscore) != null){
+                for(Truck t : truckScores.get(highscore)){
+                    if(result.size() < NUM_RECS){
+                        result.add(t);
+                    }
+                }
+            }
+            highscore--;
+        }
+        return result;
     }
+
+
+
+    public Integer getScore(Truck t, TruckDTO truck){
+        int score = 0;
+        if(truck.getId() != null && truck.getId().equals(t.getId())) {
+            score = score + 1;
+        }
+        if(truck.getPrice() != null && truck.getPrice() == t.getPrice()) {
+            score = score + 1;
+        }
+        if(truck.getName() != null && t.getName().contains(truck.getName())) {
+            score = score + 1;
+        }
+        if(truck.getFood() != null && truck.getFood() == t.getFood()) {
+            score = score + 1;
+        }
+        return score;
+    }
+
+
+
 
     public List<Truck> findByOwner(String username) {
         Integer id = this.userDAO.findByUsername(username).getId();

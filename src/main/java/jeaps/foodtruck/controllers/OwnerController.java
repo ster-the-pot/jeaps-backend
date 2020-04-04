@@ -53,7 +53,7 @@ public class OwnerController {
     }
     @PostMapping(path="/deleteTruck")
     public Object deleteTruck(@RequestParam Integer truckID) {
-        this.truckDAO.delete(truckID);
+        this.ownerDAO.deleteTruck(truckID);
         return "Successfully deleted truck";
     }
 
@@ -65,7 +65,7 @@ public class OwnerController {
 
     @PostMapping(path="/editTruck")
     public Object editTruck(@RequestBody TruckDTO truck, @RequestParam Integer truckID) {
-        this.truckDAO.update(truck, truckID);
+        this.ownerDAO.editTruck(truck, truckID);
         return "Successfully updated truck";
     }
 
