@@ -4,9 +4,11 @@ import jeaps.foodtruck.Token.TokenService;
 import jeaps.foodtruck.Token.UserLoginToken;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.rate.Rate;
+import jeaps.foodtruck.common.truck.rate.RateDAO;
 import jeaps.foodtruck.common.truck.rate.RateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +22,7 @@ import java.util.Map;
 @ResponseBody
 public class RatingsController {
     @Autowired
-    TruckDAO truckDAO;
+    RateDAO rateDAO;
     @Autowired
     TokenService tokenService;
 
@@ -29,33 +31,38 @@ public class RatingsController {
 
     @UserLoginToken
     @PostMapping(path="/customer/addRating")
-    public ResponseEntity<?> addRating(@RequestBody RateDTO rate, @RequestParam Integer truck_id, HttpServletRequest req) {
-        truckDAO.addRate(rate, truck_id, tokenService.getUsername(req));
+    public ResponseEntity<?> addRating(@RequestBody RateDTO rate, @RequestParam Integer truckid, HttpServletRequest req) {
+        rateDAO.addRate(rate, truckid, tokenService.getUsername(req));
         return ResponseEntity.ok("Rating successfully added");
     }
 
     @UserLoginToken
     @PostMapping(path="/customer/editRating")
-    public ResponseEntity<?> editRating(@RequestBody RateDTO rate, @RequestParam Integer truck_id, HttpServletRequest req) {
-        truckDAO.editRate(rate, truck_id, tokenService.getUsername(req));
+    public ResponseEntity<?> editRating(@RequestBody RateDTO rate, @RequestParam Integer truckid, HttpServletRequest req) {
+        rateDAO.editRate(rate, truckid, tokenService.getUsername(req));
         return ResponseEntity.ok("Rating successfully edited");
     }
 
     @UserLoginToken
     @PostMapping(path="/customer/deleteRating")
-    public ResponseEntity<?> editRating(@RequestBody Integer truck_id, HttpServletRequest req) {
-        truckDAO.removeRate(truck_id, tokenService.getUsername(req));
+    public ResponseEntity<?> editRating(@RequestParam Integer truckid, HttpServletRequest req) {
+        rateDAO.removeRate(truckid, tokenService.getUsername(req));
         return ResponseEntity.ok("Rating successfully deleted");
     }
 
     @RequestMapping(path="/getAverageRating", method = RequestMethod.GET)
-    public ResponseEntity<?> getAverageRating(@RequestParam Integer truck_id){
-        return ResponseEntity.ok(truckDAO.getAvgRating(truck_id));
+    public ResponseEntity<?> getAverageRating(@RequestParam Integer truckid){
+        map.clear();
+        Double avg = rateDAO.getAvgRating(truckid);
+
+        map.put("Ratings", avg );
+
+        return ResponseEntity.created(URI.create("/getAverageRating/done")).body(map);
     }
 
     @RequestMapping(path="/getFullTruckRatings", method = RequestMethod.GET)
-    public ResponseEntity<?> getFullTruckRatings(@RequestParam Integer truck_id) {
-        List<Rate> rate = truckDAO.getRatingsObject(truck_id);
+    public ResponseEntity<?> getFullTruckRatings(@RequestParam Integer truckid) {
+        List<Rate> rate = rateDAO.getRatingsObject(truckid);
 
         map.clear();
         map.put("Ratings", rate);
@@ -63,9 +70,9 @@ public class RatingsController {
     }
 
     @RequestMapping(path="/getTruckRatings", method = RequestMethod.GET)
-    public ResponseEntity<?> getTruckRatings(@RequestParam Integer truck_id){
+    public ResponseEntity<?> getTruckRatings(@RequestParam Integer truckid){
 
-        List<Integer> rate = truckDAO.getRatings(truck_id);
+        List<Integer> rate = rateDAO.getRatings(truckid);
         map.clear();
         map.put("Ratings", rate);
         return ResponseEntity.created(URI.create("/getTruckRatings/done")).body(map);

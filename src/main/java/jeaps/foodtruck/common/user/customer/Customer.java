@@ -38,11 +38,6 @@ public class Customer {
     private List<Truck> trucks = new ArrayList<>();
 
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private List<Rate> rate = new ArrayList<>();
-
 
     /**
      * Returns the customer's ID
@@ -64,11 +59,5 @@ public class Customer {
         this.id = id;
     }
 
-    public List<Rate> getRate() {
-        return rate;
-    }
 
-    public void setRate(List<Rate> rate) {
-        this.rate = rate;
-    }
 }

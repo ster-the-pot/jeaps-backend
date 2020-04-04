@@ -15,7 +15,7 @@ public class TokenService {
     public String getToken(User user, String type) {
         // the token will expire after 5 mins (we can make it longer).
         // request re-login to refresh token.
-        long EXPIRE_TIME = 10 * 60 * 1000;
+        long EXPIRE_TIME = 100 * 60 * 1000;
         Date expireDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
 
         String token= JWT.create().withAudience(user.getUsername(), type)// store username into token

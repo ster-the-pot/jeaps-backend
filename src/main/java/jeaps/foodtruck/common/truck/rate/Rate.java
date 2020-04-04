@@ -25,9 +25,7 @@ public class Rate {
     @ManyToOne()
     private Truck truck;
 
-    @JsonBackReference
-    @ManyToOne
-    private Customer customer;
+    private String sender;
 
 
     public Integer getId() {
@@ -47,12 +45,12 @@ public class Rate {
         this.truck = truck;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getSender() {
+        return sender;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
     public Integer getRate() {
