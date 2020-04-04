@@ -1,6 +1,5 @@
 package DAOTest;
 
-import jeaps.foodtruck.common.truck.FoodTypes;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.TruckRepository;
@@ -47,11 +46,11 @@ public class TruckDAOTest {
 
         ownerTest.get().setId(userTest.getId());
 
-        truckTest.get().setType(FoodTypes.KEBAB);
+
         truckTest.get().setMenu("Menu");
         truckTest.get().setName("Name");
 
-        truckTest2.setType(FoodTypes.KEBAB);
+
         truckTest2.setMenu("Menu");
         truckTest2.setName("Name");
     }
@@ -62,8 +61,7 @@ public class TruckDAOTest {
         when(truckRepo.findById(truckTest.get().getId())).thenReturn(truckTest);
         Optional<Truck> truck = truckDAO.findById(truckTest.get().getId());
 
-        assertAll(() -> assertEquals(truckTest.get().getType(), truck.get().getType()),
-                () -> assertEquals(truckTest.get().getRoute(), truck.get().getRoute()),
+        assertAll(() -> assertEquals(truckTest.get().getRoute(), truck.get().getRoute()),
                 () -> assertEquals(truckTest.get().getMenu(), truck.get().getMenu()),
                 () -> assertEquals(truckTest.get().getName(), truck.get().getName()),
                 () -> assertEquals(truckTest.get().getId(), truck.get().getId()));
@@ -76,8 +74,7 @@ public class TruckDAOTest {
         when(truckRepo.findByName(truckTest2.getName())).thenReturn(truckTest2);
         Truck truck = truckDAO.findByName(truckTest2.getName());
 
-        assertAll(() -> assertEquals(truckTest2.getType(), truck.getType()),
-                () -> assertEquals(truckTest2.getRoute(), truck.getRoute()),
+        assertAll(() -> assertEquals(truckTest2.getRoute(), truck.getRoute()),
                 () -> assertEquals(truckTest2.getMenu(), truck.getMenu()),
                 () -> assertEquals(truckTest2.getName(), truck.getName()),
                 () -> assertEquals(truckTest2.getId(), truck.getId()));
@@ -91,8 +88,7 @@ public class TruckDAOTest {
         List<Truck> truck = truckDAO.findALL();
 
         for(Truck t: truck) {
-            assertAll(() -> assertEquals(truckTest2.getType(), t.getType()),
-                    () -> assertEquals(truckTest2.getRoute(), t.getRoute()),
+            assertAll(() -> assertEquals(truckTest2.getRoute(), t.getRoute()),
                     () -> assertEquals(truckTest2.getMenu(), t.getMenu()),
                     () -> assertEquals(truckTest2.getName(), t.getName()),
                     () -> assertEquals(truckTest2.getId(), t.getId()));

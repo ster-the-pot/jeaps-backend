@@ -1,15 +1,15 @@
 package jeaps.foodtruck.common.truck;
 
 
+import jeaps.foodtruck.common.truck.food.Food;
 
 public class TruckDTO {
     private Integer id;
     private String name;
     private String menu;
     private Prices price;
-    private FoodTypes type;
 
-
+    private Food food;
 
     public Integer getId() {
         return id;
@@ -43,11 +43,11 @@ public class TruckDTO {
         this.price = price;
     }
 
-    public FoodTypes getType() {
-        return type;
+    public Food getFood() {
+        return food;
     }
 
-    public void setType(FoodTypes type) {
-        this.type = type;
+    public void setFood(Food food) {
+        this.food = food;
     }
 }

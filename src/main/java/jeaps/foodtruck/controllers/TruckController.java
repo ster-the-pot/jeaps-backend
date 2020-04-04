@@ -14,6 +14,8 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping(path="/truck")
@@ -32,8 +34,8 @@ public class TruckController {
 */
     @RequestMapping(path="/details")
     public @ResponseBody
-    Truck getUserDetails(@RequestParam String name){
-        return this.truckDAO.findByName(name);
+    Optional<Truck> getUserDetails(@RequestParam Integer truckID){
+        return this.truckDAO.findById(truckID);
     }
 
 

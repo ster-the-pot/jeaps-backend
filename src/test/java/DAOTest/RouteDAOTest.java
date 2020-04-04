@@ -1,6 +1,5 @@
 package DAOTest;
 
-import jeaps.foodtruck.common.truck.FoodTypes;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.truck.route.RouteDAO;
@@ -46,7 +45,7 @@ public class RouteDAOTest {
 
         routeTest.setDate(new Date("2020-12-12"));
 
-        truckTest2.setType(FoodTypes.KEBAB);
+
         truckTest2.setMenu("Menu");
         truckTest2.setName("Name");
 

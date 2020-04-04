@@ -77,7 +77,8 @@ public class OwnerDAO {
         Truck t = new Truck();
         t.setMenu(truckDTO.getMenu());
         t.setName(truckDTO.getName());
-        //CONT>>>>>>>>>> FIX ALL
+        t.setFood(truckDTO.getFood());
+        t.setPrice(truckDTO.getPrice());
 
 
         List<Truck> list = owner.get().getTrucks();
@@ -100,56 +101,8 @@ public class OwnerDAO {
 
 
     public Iterable<Owner> findAll() { return this.ownerRepo.findAll(); }
-    /**
-     *
-     * @param routeDTO
-     * @param truckID
-     * @param username
-     * @return
-     */
-    public Boolean saveRoute(RouteDTO routeDTO, Integer truckID, String username){
-
-        User user = this.userDAO.findByUsername(username);
-
-        Optional<Owner> owner = this.ownerRepo.findById(user.getId());
-
-        if(!owner.isPresent()) {
-            return false;
-        }
-
-        Optional<Truck> t =  this.truckDAO.findById(truckID);
-        if(!t.isPresent()) {
-            return false;
-        }
-
-        List<Truck> trucks = owner.get().getTrucks();
-
-        if(!trucks.contains(t.get())) {
-            return false;
-        } else {
-            trucks.remove(t.get());
-        }
-
-        Route route = new Route();
-        route.setDate(routeDTO.getDate());
-        route.setLocation(routeDTO.getLocation());
-        //SET STUFF HERE
-
-        List<Route> r = t.get().getRoute();
-        r.add(route);
-        t.get().setRoute(r);
-
-        trucks.add(t.get());
 
 
-        owner.get().setTrucks(trucks);
-
-        //this.truckDAO.update(t.get());
-
-        this.save(owner.get());
-
-        return true;
-    }
 
 
     public void setOwnerRepo(OwnerRepository ownerRepo) {

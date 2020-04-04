@@ -1,8 +1,12 @@
 package jeaps.foodtruck.common.truck;
 
+import jeaps.foodtruck.common.truck.rate.Rate;
+import jeaps.foodtruck.common.truck.rate.RateDAO;
+import jeaps.foodtruck.common.truck.rate.RateDTO;
 import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.user.customer.Customer;
+import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +18,25 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+
 @Repository
 public class TruckDAO {
     @Autowired
     private TruckRepository truckRepo;
+
+
+    @Autowired
+    public void setTruckRepo(TruckRepository truckRepo) {
+        this.truckRepo = truckRepo;
+    }
+
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    public void setUserDAO(UserDAO userDAO){
+        this.userDAO = userDAO;
+    }
 
 
     public void save(Truck t){
@@ -41,8 +58,8 @@ public class TruckDAO {
         if(truckDTO.getMenu() != null) {
             t.get().setMenu(truckDTO.getMenu());
         }
-        if(truckDTO.getType() != null) {
-            t.get().setType(truckDTO.getType());
+        if(truckDTO.getFood() != null) {
+            t.get().setFood(truckDTO.getFood());
         }
         if(truckDTO.getName() != null) {
             t.get().setName(truckDTO.getName());
@@ -67,9 +84,9 @@ public class TruckDAO {
         return this.truckRepo.findByName(name);
     }
 
-    public Truck findByType(String type){
+    /*public Truck findByType(String type){
         return this.truckRepo.findByType(type);
-    }
+    }*/
 
     public List<Truck> findByOwner(String username) {
         Integer id = this.userDAO.findByUsername(username).getId();
@@ -134,10 +151,18 @@ public class TruckDAO {
         return null;
     }
 
+    /*************************************************************************
+     * Begin Rating Section
+     *************************************************************************/
 
-    public void setTruckRepo(TruckRepository truckRepo) {
+    /*************************************************************************
+     * End Rating Section
+     *************************************************************************/
+
+
+    /*public void setTruckRepo(TruckRepository truckRepo) {
         this.truckRepo = truckRepo;
-    }
+    }*/
 
     public List<Truck> getNearbyTrucks(Location loc, Integer distance) {
 

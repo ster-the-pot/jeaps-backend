@@ -2,11 +2,14 @@ package jeaps.foodtruck.common.truck;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jeaps.foodtruck.common.truck.food.Food;
+import jeaps.foodtruck.common.truck.rate.Rate;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +18,19 @@ public class Truck {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
     private String name;
     //SHOULD BE AN IMAGE??
     private String menu;
     @Enumerated(EnumType.ORDINAL)
     private Prices price;
-    @Enumerated(EnumType.ORDINAL)
-    private FoodTypes type;
+
+    @ManyToOne
+    private Food food;
+
+    private Double avgRating;
+
 
     @JsonBackReference
     @ManyToOne
@@ -41,17 +49,20 @@ public class Truck {
 
 
     @JsonManagedReference
-    //@OneToMany(mappedBy = "truck", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "truck_id", referencedColumnName = "id")
     private List<Route> route = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "truck_id", referencedColumnName = "id")
+    private List<Rate> rate = new ArrayList<>();
 
 
     public Truck(){};
 
     public Truck(String name, String type, String menu){
         this.setName(name);
-        this.setType(FoodTypes.valueOf(type));
         this.setMenu(menu);
     }
 
@@ -87,12 +98,12 @@ public class Truck {
         this.price = price;
     }
 
-    public FoodTypes getType() {
-        return type;
+    public Food getFood() {
+        return food;
     }
 
-    public void setType(FoodTypes type) {
-        this.type = type;
+    public void setFood(Food food) {
+        this.food = food;
     }
 
     public Owner getOwner() {
@@ -120,6 +131,20 @@ public class Truck {
     }
 
 
+    public List<Rate> getRate() {
+        return rate;
+    }
 
+    public void setRate(List<Rate> rate) {
+        this.rate = rate;
+    }
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
+    }
 
 }

@@ -1,8 +1,8 @@
 package jeaps.foodtruck.common.user.customer.preferences;
 
 
-import jeaps.foodtruck.common.truck.FoodTypes;
 import jeaps.foodtruck.common.truck.Prices;
+import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.truck.route.Location;
 
 public class PreferencesDTO {
@@ -11,7 +11,7 @@ public class PreferencesDTO {
     private Integer id;
 
 
-    private FoodTypes foodPref;
+    private Food food;
 
     private String proxPref;
 
@@ -28,12 +28,13 @@ public class PreferencesDTO {
         this.id = id;
     }
 
-    public FoodTypes getFoodPref() {
-        return foodPref;
+
+    public Food getFood() {
+        return food;
     }
 
-    public void setFoodPref(FoodTypes foodPref) {
-        this.foodPref = foodPref;
+    public void setFood(Food food) {
+        this.food = food;
     }
 
     public String getProxPref() {

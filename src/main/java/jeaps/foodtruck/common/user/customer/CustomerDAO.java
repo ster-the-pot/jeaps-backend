@@ -8,6 +8,7 @@ import jeaps.foodtruck.common.user.customer.preferences.PreferencesDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -58,6 +59,8 @@ public class CustomerDAO {
 
     }
     public Iterable<Customer> findAll() { return this.customerRepo.findAll(); }
+
+    public Optional<Customer> findByID(Integer id) { return this.customerRepo.findById(id); }
 
     public List<Object> getSubscribedTrucks(String username) {
         List<Object> returns = new ArrayList<>();
@@ -178,15 +181,13 @@ public class CustomerDAO {
     public List<Truck> getRecommendations(String username) {
         //Initialise the list of trucks to return
         List<Truck> suggestions = new ArrayList<Truck>();
-
         //Get the user who we are providing recommendations for
         User user = userDAO.findByUsername(username);
         //Get the preferences of the user
         Optional<Preferences> userPrefs = preferencesDAO.findById(user.getId());
-
         //Get all trucks within a set distance                  *********right now there is no distance calculation***********
-        suggestions = truckDAO.findALL();
 
+        suggestions = truckDAO.findALL();
         //If there are no preferences, return a random set of trucks
         if(!userPrefs.isPresent()){
             if(suggestions.size() > NUM_RECS){
@@ -196,10 +197,8 @@ public class CustomerDAO {
                 return suggestions;
             }
         }
-
         //Create a map to sort trucks based on scores
         Map<Integer, List<Truck>> truckScores = new HashMap<Integer, List<Truck>>();
-
         int highscore = 0;
         for(Truck t : suggestions){
             int score = getScore(t, userPrefs.get(), user.getId());
@@ -212,26 +211,25 @@ public class CustomerDAO {
             //Add the truck to the right score bracket
             truckScores.get(score).add(t);
         }
-
         suggestions = new ArrayList<Truck>();
 
         while(highscore >= 0 && suggestions.size() < NUM_RECS){
-            for(Truck t : truckScores.get(highscore)){
-                if(suggestions.size() < NUM_RECS){
-                    suggestions.add(t);
+            if(truckScores.get(highscore) != null){
+                for(Truck t : truckScores.get(highscore)){
+                    if(suggestions.size() < NUM_RECS){
+                        suggestions.add(t);
+                    }
                 }
             }
             highscore--;
         }
-
         return suggestions;
     }
 
     public Integer getScore(Truck truck, Preferences prefs, Integer id){
         int score = 0;
-
         //increase truck score if the food is preferred
-        if(truck.getType() != null && truck.getType() == prefs.getFoodPref()){
+        if(truck.getFood() != null && truck.getFood() == prefs.getFood()){
             score += 1;
         }
         //increase truck score if the price is within budget
@@ -244,7 +242,6 @@ public class CustomerDAO {
         if(c.getTrucks() != null && c.getTrucks().contains(truck)){
             score -= 3;
         }
-
         return score;
     }
 
