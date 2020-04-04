@@ -49,14 +49,10 @@ public class TruckController {
     /*One of the requirements is get nearby trucks.
 We should make a POST endpoint that recieves coordinates
 (lat + long) and an optional distance parameter that returns all trucks in an area*/
-    //FIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
     @RequestMapping(path="/getNearbyTrucks")
     public ResponseEntity<?> getNearbyTrucks(@RequestBody Location loc, @RequestParam Integer distance) throws URISyntaxException {
-        //return this.truckDAO.getNearbyTrucks(loc, distance);
-        if(distance == null) {
-            distance = 100000;
-            System.out.println("Distance was null");
-        }
+
         if(loc.getLongitude() == null) {
             loc.setLongitude(100000.0);
             System.out.println("Longitude was null");
@@ -65,9 +61,8 @@ We should make a POST endpoint that recieves coordinates
             loc.setLatitude(100000.0);
             System.out.println("Latitude was null");
         }
-        //Some of the current routes are null -> issues
-        //List<Truck> trucks = this.truckDAO.getNearbyTrucks(loc, distance);
-        List<Truck> trucks = (List<Truck>) this.truckDAO.getAllTrucks();
+
+        List<Truck> trucks = this.truckDAO.getNearbyTrucks(loc, distance);
 
 
         map.clear();

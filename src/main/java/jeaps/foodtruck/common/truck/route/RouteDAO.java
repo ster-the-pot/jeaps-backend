@@ -163,21 +163,24 @@ public class RouteDAO {
                 Optional<Time> newTime = timeDAO.findByID(oldTime.getId());
                 if(newTime.isPresent()) {
 
-                    newTime.get().setTimes(oldTime.getTimes());
+                    newTime.get().setEndTime(oldTime.getEndTime());
+                    newTime.get().setStartTime(oldTime.getStartTime());
                     newTime.get().setDay(oldTime.getDay());
 
                     timeDAO.save(newTime.get());
                     time.add(newTime.get());
                 } else {
                     Time newTime2 = new Time();
-                    newTime2.setTimes(oldTime.getTimes());
+                    newTime2.setEndTime(oldTime.getEndTime());
+                    newTime2.setStartTime(oldTime.getStartTime());
                     newTime2.setDay(oldTime.getDay());
                     time.add(newTime2);
                 }
             }
             else {
                 Time newTime = new Time();
-                newTime.setTimes(oldTime.getTimes());
+                newTime.setEndTime(oldTime.getEndTime());
+                newTime.setStartTime(oldTime.getStartTime());
                 newTime.setDay(oldTime.getDay());
                 time.add(newTime);
             }

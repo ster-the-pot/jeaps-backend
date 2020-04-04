@@ -6,6 +6,7 @@ import jeaps.foodtruck.common.truck.route.Day;
 import jeaps.foodtruck.common.truck.route.Route;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Time {
@@ -16,7 +17,8 @@ public class Time {
 
     @Enumerated(EnumType.ORDINAL)
     Day day;
-    String times;
+    Date startTime;
+    Date endTime;
 
     @JsonBackReference
     @ManyToOne
@@ -39,11 +41,27 @@ public class Time {
         this.day = day;
     }
 
-    public String getTimes() {
-        return times;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setTimes(String times) {
-        this.times = times;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

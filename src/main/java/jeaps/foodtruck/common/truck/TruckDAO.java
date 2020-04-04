@@ -170,9 +170,9 @@ public class TruckDAO {
 
     public List<Truck> getNearbyTrucks(Location loc, Integer distance) {
 
-        //WHAT SHOULD OUR DEFAULT BE? IS THIS MILES, what???
+        //If no distance is given we will default to a 20 mile radius
         if(distance == null) {
-            distance = 500;
+            distance = 20;
         }
 
         List<Truck> allTrucks = (List<Truck>) this.truckRepo.findAll();
@@ -187,16 +187,35 @@ public class TruckDAO {
             }
         }
 
-
         return inRange;
     }
 
 
     private Boolean checkDistance(Location locGiven, Location locTest, Integer distance) {
 
-        Double calculation = Math.pow((locTest.getLatitude()-locGiven.getLatitude()), 2.0)
-                + Math.pow((locTest.getLongitude()-locGiven.getLongitude()), 2.0);
-        if(calculation <= (double)distance) {
+        // The math module contains a function
+        // named toRadians which converts from
+        // degrees to radians.
+        double lon1 = Math.toRadians(locGiven.getLongitude());
+        double lon2 = Math.toRadians(locTest.getLongitude());
+        double lat1 = Math.toRadians(locGiven.getLatitude());
+        double lat2 = Math.toRadians(locTest.getLatitude());
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 3956;
+
+
+        if(( c * r ) <= (double)distance) {
             return true;
         }
         return false;
