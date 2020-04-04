@@ -58,8 +58,8 @@ public class TruckDAO {
         if(truckDTO.getMenu() != null) {
             t.get().setMenu(truckDTO.getMenu());
         }
-        if(truckDTO.getType() != null) {
-            t.get().setType(truckDTO.getType());
+        if(truckDTO.getFood() != null) {
+            t.get().setFood(truckDTO.getFood());
         }
         if(truckDTO.getName() != null) {
             t.get().setName(truckDTO.getName());
@@ -84,9 +84,9 @@ public class TruckDAO {
         return this.truckRepo.findByName(name);
     }
 
-    public Truck findByType(String type){
+    /*public Truck findByType(String type){
         return this.truckRepo.findByType(type);
-    }
+    }*/
 
     public List<Truck> findByOwner(String username) {
         Integer id = this.userDAO.findByUsername(username).getId();

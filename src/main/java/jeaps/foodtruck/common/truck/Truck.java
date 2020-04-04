@@ -2,6 +2,7 @@ package jeaps.foodtruck.common.truck;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.truck.rate.Rate;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
@@ -24,8 +25,10 @@ public class Truck {
     private String menu;
     @Enumerated(EnumType.ORDINAL)
     private Prices price;
-    @Enumerated(EnumType.ORDINAL)
-    private FoodTypes type;
+
+    @ManyToOne
+    private Food food;
+
     private Double avgRating;
 
 
@@ -60,7 +63,6 @@ public class Truck {
 
     public Truck(String name, String type, String menu){
         this.setName(name);
-        this.setType(FoodTypes.valueOf(type));
         this.setMenu(menu);
     }
 
@@ -96,12 +98,12 @@ public class Truck {
         this.price = price;
     }
 
-    public FoodTypes getType() {
-        return type;
+    public Food getFood() {
+        return food;
     }
 
-    public void setType(FoodTypes type) {
-        this.type = type;
+    public void setFood(Food food) {
+        this.food = food;
     }
 
     public Owner getOwner() {

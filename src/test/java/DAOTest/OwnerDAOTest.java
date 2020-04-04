@@ -1,7 +1,7 @@
 package DAOTest;
 
-import jeaps.foodtruck.common.truck.FoodTypes;
 import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.owner.OwnerRepository;
@@ -38,7 +38,7 @@ public class OwnerDAOTest {
 
         ownerTest.get().setId(userTest.getId());
 
-        truckTest.setType(FoodTypes.KEBAB);
+
         truckTest.setMenu("Menu");
         truckTest.setName("Name");
     }

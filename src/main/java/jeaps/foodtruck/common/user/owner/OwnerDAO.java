@@ -78,7 +78,8 @@ public class OwnerDAO {
         Truck t = new Truck();
         t.setMenu(truckDTO.getMenu());
         t.setName(truckDTO.getName());
-        //CONT>>>>>>>>>> FIX ALL
+        t.setFood(truckDTO.getFood());
+        t.setPrice(truckDTO.getPrice());
 
 
         List<Truck> list = owner.get().getTrucks();
