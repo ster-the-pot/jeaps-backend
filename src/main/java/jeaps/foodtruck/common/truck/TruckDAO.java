@@ -1,12 +1,9 @@
 package jeaps.foodtruck.common.truck;
 
-import jeaps.foodtruck.common.truck.rate.Rate;
-import jeaps.foodtruck.common.truck.rate.RateDAO;
-import jeaps.foodtruck.common.truck.rate.RateDTO;
+
 import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.user.customer.Customer;
-import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +21,6 @@ public class TruckDAO {
     @Autowired
     private TruckRepository truckRepo;
 
-
     @Autowired
     public void setTruckRepo(TruckRepository truckRepo) {
         this.truckRepo = truckRepo;
@@ -37,6 +33,7 @@ public class TruckDAO {
     public void setUserDAO(UserDAO userDAO){
         this.userDAO = userDAO;
     }
+
 
 
     public void save(Truck t){
@@ -73,20 +70,36 @@ public class TruckDAO {
         this.truckRepo.deleteById(truckID);
     }
 
-
-
     public Iterable<Truck> getAllTrucks() {
         return this.truckRepo.findAll();
     }
 
+    public List<Truck> findByName(String name){
 
-    public Truck findByName(String name){
-        return this.truckRepo.findByName(name);
+        return this.truckRepo.findByNameIgnoreCaseContaining(name);
     }
 
-    /*public Truck findByType(String type){
-        return this.truckRepo.findByType(type);
-    }*/
+    public List<Truck> searchAdvanced(TruckDTO truck) {
+        /*private Integer id;
+        private String name;
+        private String menu;
+        private Prices price;
+        private Food food;*/
+        List<Truck> returns = new ArrayList<>();
+
+        if(truck == null) {
+            throw new RuntimeException("Invalid object given");
+        }
+
+        //Truck realTruck
+        if(truck.getFood() != null && truck.getName() != null && truck.getPrice() != null && truck.getId() != null) {
+            //returns.addAll(truckRepo.findByNameIgnoreCaseContainingANDFoodANDPriceANDId(truck.getName(), truck.getFood(), truck.getPrice(), truck.getId()));
+        }
+
+
+
+        return returns;
+    }
 
     public List<Truck> findByOwner(String username) {
         Integer id = this.userDAO.findByUsername(username).getId();
@@ -119,23 +132,6 @@ public class TruckDAO {
        return null;
     }
 
-    //not rly needed
-    public List<Object> findByOwnerPlus(String username) {
-        List<Object> returns = new ArrayList<>();
-
-        Integer id = this.userDAO.findByUsername(username).getId();
-        List<Truck> trucks = this.truckRepo.findByOwner_id(id);
-
-
-        List<Object> userInfo = new ArrayList<>();
-        userInfo.add(id);
-        userInfo.add(username);
-        returns.add(userInfo);
-
-        returns.add(trucks);
-
-        return returns;
-    }
 
     public Optional<Truck> findById(Integer id) { return this.truckRepo.findById(id); }
 
@@ -151,18 +147,6 @@ public class TruckDAO {
         return null;
     }
 
-    /*************************************************************************
-     * Begin Rating Section
-     *************************************************************************/
-
-    /*************************************************************************
-     * End Rating Section
-     *************************************************************************/
-
-
-    /*public void setTruckRepo(TruckRepository truckRepo) {
-        this.truckRepo = truckRepo;
-    }*/
 
     public List<Truck> getNearbyTrucks(Location loc, Integer distance) {
 

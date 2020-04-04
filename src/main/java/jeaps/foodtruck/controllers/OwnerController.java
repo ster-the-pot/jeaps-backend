@@ -34,12 +34,16 @@ public class OwnerController {
 
     @PostMapping(path="/manage")
     public Object manageUserDetails(@RequestBody UserDTO user) {
-
         this.userDAO.update(user);
         return "Successfully updated Owner info";
     }
-
-
+    @RequestMapping(path="/getSubscribers")
+    public List<Object> getSubscribers(@RequestParam Integer truckID){
+        return this.truckDAO.getSubscribers(truckID);
+    }
+    /*********************************************************
+     * Trucks
+     *********************************************************/
     @PostMapping(path="/createTruck")
     public Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
         if(this.ownerDAO.saveTruck(truck, username)) {
@@ -47,35 +51,6 @@ public class OwnerController {
         }
         return "Issue adding truck";
     }
-
-    @PostMapping(path="/createRoute")
-    public Object createRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID,
-                              @RequestParam String username) {
-
-        if(this.routeDAO.saveRoute(route, truckID, username)) {
-            return "Successfully added Route";
-        }
-        return "Issue adding Route";
-    }
-
-    @RequestMapping(path="/getRoutes")
-    public List<RouteDTO> getRoutes(@RequestParam Integer truckID){
-        return this.routeDAO.findByTruck(truckID);
-    }
-
-
-
-    @RequestMapping(path="/getSubscribers")
-    public List<Object> getSubscribers(@RequestParam Integer truckID){
-        return this.truckDAO.getSubscribers(truckID);
-    }
-
-    @PostMapping(path="/deleteRoute")
-    public Object deleteRoute(@RequestParam Integer routeID) {
-        this.routeDAO.deleteRoute(routeID);
-        return "Successfully deleted route";
-    }
-
     @PostMapping(path="/deleteTruck")
     public Object deleteTruck(@RequestParam Integer truckID) {
         this.truckDAO.delete(truckID);
@@ -94,10 +69,35 @@ public class OwnerController {
         return "Successfully updated truck";
     }
 
-   /* @PostMapping(path="/manageRoute")
-    public @ResponseBody Object manageRoute(@RequestBody TruckDTO truck) {
-        this.truckDAO.update(truck);
-        return "Successfully updated Route";
-    }*/
+    /*********************************************************
+     * Routes
+     *********************************************************/
+
+    @PostMapping(path="/createRoute")
+    public Object createRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID,
+                              @RequestParam String username) {
+
+        if(this.routeDAO.saveRoute(route, truckID, username)) {
+            return "Successfully added Route";
+        }
+        return "Issue adding Route";
+    }
+
+    @RequestMapping(path="/getRoutes")
+    public List<RouteDTO> getRoutes(@RequestParam Integer truckID){
+        return this.routeDAO.findByTruck(truckID);
+    }
+
+    @PostMapping(path="/deleteRoute")
+    public Object deleteRoute(@RequestParam Integer routeID) {
+        this.routeDAO.deleteRoute(routeID);
+        return "Successfully deleted route";
+    }
+    @PostMapping(path="/editRoute")
+    public Object editRoute(@RequestBody RouteDTO route) {
+        this.routeDAO.editRoute(route);
+        return "Successfully updated truck";
+    }
+
 
 }
