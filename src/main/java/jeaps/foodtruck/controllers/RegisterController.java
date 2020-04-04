@@ -16,6 +16,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path="/account")
 @ResponseBody
