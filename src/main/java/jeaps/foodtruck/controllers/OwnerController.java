@@ -52,7 +52,7 @@ public class OwnerController {
     @PostMapping(path="/createRoute")
     public Object createRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID,
                               @RequestParam String username) {
-        if(this.ownerDAO.saveRoute(route, truckID, username)) {
+        if(this.routeDAO.saveRoute(route, truckID, username)) {
             return "Successfully added Route";
         }
         return "Issue adding Route";
@@ -73,7 +73,7 @@ public class OwnerController {
     @PostMapping(path="/deleteRoute")
     public Object deleteRoute(@RequestParam Integer routeID) {
         this.routeDAO.deleteRoute(routeID);
-        return "Successfully deleted truck";
+        return "Successfully deleted route";
     }
 
     @PostMapping(path="/deleteTruck")

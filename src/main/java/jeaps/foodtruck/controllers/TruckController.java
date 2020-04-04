@@ -3,13 +3,11 @@ package jeaps.foodtruck.controllers;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.route.Location;
-import jeaps.foodtruck.common.truck.route.RouteDAO;
-import jeaps.foodtruck.common.user.user.User;
-import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/truck")
@@ -26,8 +24,8 @@ public class TruckController {
 */
     @RequestMapping(path="/details")
     public @ResponseBody
-    Truck getUserDetails(@RequestParam String name){
-        return this.truckDAO.findByName(name);
+    Optional<Truck> getUserDetails(@RequestParam Integer truckID){
+        return this.truckDAO.findById(truckID);
     }
 
 
