@@ -67,7 +67,7 @@ public class NotificationsController {
 
 
     @RequestMapping(path="/getNotifications")
-    public List<Object> getNotifications(@RequestParam String username){
+    public List<Notifications> getNotifications(@RequestParam String username){
         return this.notificationsDAO.getNotifications(username);
     }
 }

@@ -62,30 +62,13 @@ public class CustomerDAO {
 
     public Optional<Customer> findByID(Integer id) { return this.customerRepo.findById(id); }
 
-    public List<Object> getSubscribedTrucks(String username) {
+    public List<Truck> getSubscribedTrucks(String username) {
         List<Object> returns = new ArrayList<>();
         User user = userDAO.findByUsername(username);
         Optional<Customer> customer = customerRepo.findById(user.getId());
 
 
-        if(customer.isPresent()) {
-
-            List<Object> userInfo = new ArrayList<>();
-            userInfo.add(user.getId());
-            userInfo.add(user.getUsername());
-            returns.add(userInfo);
-
-            /*for(Truck t: customer.get().getTrucks()) {
-                if(!returns.contains(t)) {
-                    returns.add(t);
-                }
-            }*/
-
-            returns.addAll(customer.get().getTrucks());
-
-            return returns;
-        }
-        return null;
+            return customer.get().getTrucks();
 
     }
 

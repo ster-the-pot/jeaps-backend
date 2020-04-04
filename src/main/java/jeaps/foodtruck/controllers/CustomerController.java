@@ -75,7 +75,7 @@ public class CustomerController {
      * Start Subscribed
      *****************************************************************/
     @RequestMapping(path="/getSubscribedTrucks")
-    public List<Object> getSubscribedTrucks(@RequestParam String username){
+    public List<Truck> getSubscribedTrucks(@RequestParam String username){
         return this.customerDAO.getSubscribedTrucks(username);
     }
 

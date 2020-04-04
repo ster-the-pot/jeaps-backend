@@ -38,12 +38,14 @@ public class NotificationsDAO {
 
     private final String SYSTEM_SENDER = "SYSTEM";
 
-    public void save(Notifications n) { this.notificationsRepo.save(n); }
+    public void save(Notifications n) {
+        this.notificationsRepo.save(n);
+    }
 
     public void save(NotificationsDTO nDTO) {
         Notifications n = new Notifications();
         n.setBody(nDTO.getBody());
-        if(nDTO.getId() != null) {
+        if (nDTO.getId() != null) {
             n.setId(nDTO.getId());
         }
         n.setSubject(nDTO.getSubject());
@@ -54,11 +56,11 @@ public class NotificationsDAO {
     }
 
     public void sendAll(Notifications n) {
-        if(n.getSender() == null ){
+        if (n.getSender() == null) {
             n.setSender(SYSTEM_SENDER);
         }
         Iterable<User> user = this.userDAO.findAll();
-        for(User u: user) {
+        for (User u : user) {
             List<Notifications> notify = u.getNotifications();
             notify.add(n);
             u.setNotifications(notify);
@@ -66,12 +68,13 @@ public class NotificationsDAO {
         }
 
     }
+
     public void sendAllOwner(Notifications n) {
-        if(n.getSender() == null ){
+        if (n.getSender() == null) {
             n.setSender(SYSTEM_SENDER);
         }
         Iterable<Owner> owners = this.ownerDAO.findAll();
-        for(Owner o: owners) {
+        for (Owner o : owners) {
             Optional<User> u = this.userDAO.findById(o.getId());
             List<Notifications> notify = u.get().getNotifications();
             notify.add(n);
@@ -82,11 +85,11 @@ public class NotificationsDAO {
     }
 
     public void sendAllCustomer(Notifications n) {
-        if(n.getSender() == null ){
+        if (n.getSender() == null) {
             n.setSender(SYSTEM_SENDER);
         }
         Iterable<Customer> customers = this.customerDAO.findAll();
-        for(Customer c: customers) {
+        for (Customer c : customers) {
             Optional<User> u = this.userDAO.findById(c.getId());
             List<Notifications> notify = u.get().getNotifications();
             notify.add(n);
@@ -99,14 +102,14 @@ public class NotificationsDAO {
         n.setSender(username);
         User user = this.userDAO.findByUsername(username);
         Optional<Owner> o = this.ownerDAO.findById(user.getId());
-        if(o.isPresent()) {
+        if (o.isPresent()) {
             List<Truck> trucks = o.get().getTrucks();
             List<Customer> sent = new ArrayList<>();
 
-            for(Truck t: trucks) {
+            for (Truck t : trucks) {
                 List<Customer> customers = t.getCustomers();
-                for(Customer c: customers) {
-                    if(!sent.contains(c)) {
+                for (Customer c : customers) {
+                    if (!sent.contains(c)) {
                         Optional<User> u = this.userDAO.findById(c.getId());
                         List<Notifications> notify = u.get().getNotifications();
                         notify.add(n);
@@ -120,30 +123,30 @@ public class NotificationsDAO {
     }
 
     public void sendAllTruckSubscribers(Notifications n, String username, Integer truckID) {
-       n.setSender(username);
-       User user = this.userDAO.findByUsername(username);
-       Optional<Owner> o = this.ownerDAO.findById(user.getId());
-       if(o.isPresent()) {
-           Optional<Truck> t = this.truckDAO.findById(truckID);
-           //List<Truck> check = o.get().getTrucks();
+        n.setSender(username);
+        User user = this.userDAO.findByUsername(username);
+        Optional<Owner> o = this.ownerDAO.findById(user.getId());
+        if (o.isPresent()) {
+            Optional<Truck> t = this.truckDAO.findById(truckID);
+            //List<Truck> check = o.get().getTrucks();
 
 
-           if(t.isPresent() && t.get().getOwner().getId().equals(o.get().getId())) {
-               List<Customer> customers = t.get().getCustomers();
-               for(Customer c: customers) {
-                   Optional<User> u = this.userDAO.findById(c.getId());
-                   List<Notifications> notify = u.get().getNotifications();
-                   notify.add(n);
-                   u.get().setNotifications(notify);
-                   this.userDAO.save(u.get());
-               }
-           }
-       }
+            if (t.isPresent() && t.get().getOwner().getId().equals(o.get().getId())) {
+                List<Customer> customers = t.get().getCustomers();
+                for (Customer c : customers) {
+                    Optional<User> u = this.userDAO.findById(c.getId());
+                    List<Notifications> notify = u.get().getNotifications();
+                    notify.add(n);
+                    u.get().setNotifications(notify);
+                    this.userDAO.save(u.get());
+                }
+            }
+        }
 
     }
 
     public void sendToUser(Notifications n, String username) {
-        if(n.getSender() == null ){
+        if (n.getSender() == null) {
             n.setSender(SYSTEM_SENDER);
         }
         User user = this.userDAO.findByUsername(username);
@@ -154,17 +157,10 @@ public class NotificationsDAO {
     }
 
 
-    public List<Object> getNotifications(String username) {
-        //this.sendMail();
+    public List<Notifications> getNotifications(String username) {
         User user = this.userDAO.findByUsername(username);
-        List<Object> returns = new ArrayList<>();
+        return user.getNotifications();
 
-        returns.add(user.getId());
-        returns.add(user.getUsername());
-        returns.add(user.getEmail());
-        returns.addAll(user.getNotifications());
-
-        return returns;
     }
 
     public void removeNotification(Integer notifyID) {
@@ -181,8 +177,7 @@ public class NotificationsDAO {
     }
 
 
-    public void sendMail(/*String to, String subject, String body*/)
-    {
+    public void sendMail(/*String to, String subject, String body*/) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo("lillybrighton@gmail.com");
         message.setSubject("THIS IS A TEST - I HOPE TO SEE THIS");
