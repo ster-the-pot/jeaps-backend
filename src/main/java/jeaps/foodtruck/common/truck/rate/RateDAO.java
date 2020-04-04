@@ -133,6 +133,8 @@ public class RateDAO {
             trucks.add(truck.get());
             owner.setTrucks(trucks);
             ownerDAO.save(owner);
+
+            this.rateRepository.delete(rate);
         }
     }
 

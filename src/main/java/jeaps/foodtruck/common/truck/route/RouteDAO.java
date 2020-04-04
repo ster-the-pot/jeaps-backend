@@ -2,8 +2,9 @@ package jeaps.foodtruck.common.truck.route;
 
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
-import jeaps.foodtruck.common.truck.rate.Rate;
-import jeaps.foodtruck.common.user.customer.Customer;
+import jeaps.foodtruck.common.truck.route.times.Time;
+import jeaps.foodtruck.common.truck.route.times.TimeDAO;
+import jeaps.foodtruck.common.truck.route.times.TimeDTO;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.user.User;
@@ -25,7 +26,8 @@ public class RouteDAO {
     private UserDAO userDAO;
     @Autowired
     private OwnerDAO ownerDAO;
-
+    @Autowired
+    private TimeDAO timeDAO;
 
 
 
@@ -35,16 +37,8 @@ public class RouteDAO {
 
     public void save(Route r){ this.routeRepo.save(r); }
 
-    public void save(RouteDTO routeDTO){
-        Route r = new Route();
-        if(routeDTO.getId() != null) {
-            r.setId(routeDTO.getId());
-        }
-        r.setDate(routeDTO.getDate());
-        r.setLocation(routeDTO.getLocation());
+    public Optional<Route> findByID(Integer id) {  return this.routeRepo.findById(id); }
 
-        this.routeRepo.save(r);
-    }
 
 
 
@@ -61,7 +55,12 @@ public class RouteDAO {
         trucks.remove(t.get());
 
         Route route = new Route();
-        route.setDate(routeDTO.getDate());
+        if(routeDTO.getDays() != null) {
+            route.setDays(TimeFromTimeDTO(routeDTO.getDays()));
+        }
+
+
+        route.setMessage(routeDTO.getMessage());
         route.setLocation(routeDTO.getLocation());
 
         List<Route> r = t.get().getRoute();
@@ -76,39 +75,47 @@ public class RouteDAO {
         return true;
     }
 
-    public Boolean editRoute(RouteDTO routeDTO, Integer truckID, String username){
+    public Boolean editRoute(RouteDTO routeDTO){
+        Optional<Route> old = this.findByID(routeDTO.getId());
+        if(old.isPresent()) {
+            Truck t =  old.get().getTruck();
 
-        User user = this.userDAO.findByUsername(username);
-        Optional<Owner> owner = ownerDAO.findById(user.getId());
-        Optional<Truck> t =  this.truckDAO.findById(truckID);
-        List<Truck> trucks = owner.get().getTrucks();
-        if(!owner.isPresent() || !t.isPresent() || !trucks.contains(t.get())) {
-            throw new RuntimeException("Truck or Owner given is invalid");
+            Owner owner = t.getOwner();
+
+            List<Truck> trucks = owner.getTrucks();
+
+            trucks.remove(t);
+
+            Optional<Route> route = this.routeRepo.findById(routeDTO.getId());
+            if(route.isPresent()) {
+                List<Route> r = t.getRoute();
+                r.remove(route.get());
+
+                if(routeDTO.getDays() != null) {
+                    route.get().setDays(TimeFromTimeDTO(routeDTO.getDays()));
+                }
+
+                route.get().setLocation(routeDTO.getLocation());
+                route.get().setMessage(routeDTO.getMessage());
+
+                r.add(route.get());
+                t.setRoute(r);
+
+                trucks.add(t);
+
+                owner.setTrucks(trucks);
+                ownerDAO.save(owner);
+            }
+        } else {
+            throw new RuntimeException("Route does not exist");
         }
 
-        trucks.remove(t.get());
-
-        Optional<Route> route = this.routeRepo.findById(routeDTO.getId());
-        if(route.isPresent()) {
-            List<Route> r = t.get().getRoute();
-            r.remove(route.get());
-
-            route.get().setDate(routeDTO.getDate());
-            route.get().setLocation(routeDTO.getLocation());
-
-            r.add(route.get());
-            t.get().setRoute(r);
-
-            trucks.add(t.get());
-
-            owner.get().setTrucks(trucks);
-            ownerDAO.save(owner.get());
-        }
-        throw new RuntimeException("Route does not exist");
+        return true;
     }
 
 
     public void deleteRoute(Integer routeID) {
+
         Optional<Route> route = routeRepo.findById(routeID);
 
         if(!route.isPresent()) {
@@ -123,6 +130,9 @@ public class RouteDAO {
         List<Route> r = t.getRoute();
         r.remove(route.get());
 
+
+
+
         t.setRoute(r);
 
         trucks.add(t);
@@ -130,23 +140,57 @@ public class RouteDAO {
         owner.setTrucks(trucks);
         ownerDAO.save(owner);
 
+        deleteTimes(route.get());
+        this.routeRepo.deleteById(routeID);
     }
 
     public List<RouteDTO> findByTruck(Integer truckID) {
         List<Route> routes = this.routeRepo.findByTruck_id(truckID);
         List<RouteDTO> routeDTOList = new ArrayList<>();
-        RouteDTO routeDTO;
+
         for(Route r: routes) {
-            routeDTO = new RouteDTO();
-            if(r.getId() != null) {
-                routeDTO.setId(r.getId());
-            }
-            routeDTO.setDate(r.getDate());
-            //routeDTO.setLocation(r.getLocation());
-            routeDTOList.add(routeDTO);
+            routeDTOList.add(new RouteDTO(r));
         }
-        
         return routeDTOList;
+    }
+
+
+    private List<Time> TimeFromTimeDTO(List<TimeDTO> old) {
+        List<Time> time = new ArrayList<>();
+        for(TimeDTO oldTime: old) {
+            if(oldTime.getId() != null) {
+
+                Optional<Time> newTime = timeDAO.findByID(oldTime.getId());
+                if(newTime.isPresent()) {
+
+                    newTime.get().setTimes(oldTime.getTimes());
+                    newTime.get().setDay(oldTime.getDay());
+
+                    timeDAO.save(newTime.get());
+                    time.add(newTime.get());
+                } else {
+                    Time newTime2 = new Time();
+                    newTime2.setTimes(oldTime.getTimes());
+                    newTime2.setDay(oldTime.getDay());
+                    time.add(newTime2);
+                }
+            }
+            else {
+                Time newTime = new Time();
+                newTime.setTimes(oldTime.getTimes());
+                newTime.setDay(oldTime.getDay());
+                time.add(newTime);
+            }
+        }
+        return time;
+    }
+
+    private void deleteTimes(Route r) {
+        List<Time> times = r.getDays();
+        for(Time t: times) {
+            this.timeDAO.delete(t.getId());
+        }
+
     }
 
 }

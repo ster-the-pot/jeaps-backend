@@ -1,10 +1,14 @@
 package jeaps.foodtruck.common.truck.route;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.truck.route.times.Time;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Route {
@@ -13,13 +17,18 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Date date;
+    private String message;
 
     @Embedded
     private Location location;
 
-    //@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@JoinColumn(name = "truck_id", nullable = false)
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "route_id", referencedColumnName = "id")
+    private List<Time> days = new ArrayList<>();
+
+
     @JsonBackReference
     @ManyToOne
     private Truck truck;
@@ -41,13 +50,14 @@ public class Route {
         this.location = location;
     }
 
-    public Date getDate() {
-        return date;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setMessage(String message) {
+        this.message = message;
     }
+
 
     public Truck getTruck() {
         return truck;
@@ -55,5 +65,13 @@ public class Route {
 
     public void setTruck(Truck truck) {
         this.truck = truck;
+    }
+
+    public List<Time> getDays() {
+        return days;
+    }
+
+    public void setDays(List<Time> days) {
+        this.days = days;
     }
 }

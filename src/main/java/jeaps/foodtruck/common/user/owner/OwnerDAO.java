@@ -91,7 +91,52 @@ public class OwnerDAO {
         //this.truckRepo.save(t);
         return true;
     }
+    public void editTruck(TruckDTO truckDTO, Integer truckID) {
+        Optional<Truck> t =  truckDAO.findById(truckID);
 
+        Owner owner = t.get().getOwner();
+
+        List<Truck> trucks = owner.getTrucks();
+
+        trucks.remove(t);
+
+
+        if(truckDTO.getMenu() != null) {
+            t.get().setMenu(truckDTO.getMenu());
+        }
+        if(truckDTO.getFood() != null) {
+            t.get().setFood(truckDTO.getFood());
+        }
+        if(truckDTO.getName() != null) {
+            t.get().setName(truckDTO.getName());
+        }
+        if(truckDTO.getPrice() != null) {
+            t.get().setPrice(truckDTO.getPrice());
+        }
+
+        trucks.add(t.get());
+
+        owner.setTrucks(trucks);
+        this.save(owner);
+
+    }
+
+    public void deleteTruck(Integer truckID) {
+
+
+        Optional<Truck> truck = truckDAO.findById(truckID);
+        Owner owner = truck.get().getOwner();
+
+        List<Truck> trucks = owner.getTrucks();
+        trucks.remove(truck);
+
+
+        owner.setTrucks(trucks);
+        this.save(owner);
+
+
+        this.truckDAO.deleteById(truckID);
+    }
     /**
      * Finds if an owner exists with the following ID
      * @param id The id of the owner to find

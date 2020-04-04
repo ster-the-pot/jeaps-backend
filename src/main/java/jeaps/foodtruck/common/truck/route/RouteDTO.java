@@ -1,17 +1,21 @@
 package jeaps.foodtruck.common.truck.route;
 
 import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.truck.route.times.Time;
+import jeaps.foodtruck.common.truck.route.times.TimeDTO;
 
 
 import javax.persistence.Embedded;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class RouteDTO {
 
     private Integer id;
     private Location location;
-    private Date date;
-
+    private String message;
+    private List<TimeDTO> days;
 
     public RouteDTO(){ };
 
@@ -19,8 +23,13 @@ public class RouteDTO {
         if(r.getId() != null) {
             this.id = r.getId();
         }
-        this.date = r.getDate();
+        List<TimeDTO> convert = new ArrayList<>();
+        for(Time t: r.getDays()) {
+            convert.add(new TimeDTO(t));
+        }
+        this.days = convert;
         this.location = r.getLocation();
+        this.message = r.getMessage();
     }
 
     public Integer getId() {
@@ -39,11 +48,19 @@ public class RouteDTO {
         this.location = location;
     }
 
-    public Date getDate() {
-        return date;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public List<TimeDTO> getDays() {
+        return days;
+    }
+
+    public void setDays(List<TimeDTO> days) {
+        this.days = days;
     }
 }
