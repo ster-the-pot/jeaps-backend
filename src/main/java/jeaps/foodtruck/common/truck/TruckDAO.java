@@ -102,7 +102,7 @@ public class TruckDAO {
        return null;
     }
 
-
+    //not rly needed
     public List<Object> findByOwnerPlus(String username) {
         List<Object> returns = new ArrayList<>();
 
