@@ -26,8 +26,17 @@ public class Truck {
     @Enumerated(EnumType.ORDINAL)
     private Prices price;
 
-    @ManyToOne
-    private Food food;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name="TruckFood",
+            joinColumns={@JoinColumn(name = "truck_id")})
+    private List<Food> food = new ArrayList<>();
+
+
 
     private Double avgRating;
 
@@ -98,13 +107,14 @@ public class Truck {
         this.price = price;
     }
 
-    public Food getFood() {
+    public List<Food> getFood() {
         return food;
     }
 
-    public void setFood(Food food) {
+    public void setFood(List<Food> food) {
         this.food = food;
     }
+    
 
     public Owner getOwner() {
         return owner;
