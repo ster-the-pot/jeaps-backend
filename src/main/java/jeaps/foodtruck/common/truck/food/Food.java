@@ -12,8 +12,6 @@ public class Food {
     @Id
     private String foodtype;
 
-
-
     public String getFoodtype() { return foodtype; }
 
     public void setFoodtype(String foodtype) { this.foodtype = foodtype; }
