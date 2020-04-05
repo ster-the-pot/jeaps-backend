@@ -1,5 +1,7 @@
 package jeaps.foodtruck.common.truck;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Prices {
     LOW(0),CHEAP(1), MEDIUM(2), HIGH(3), GOLD_ENCRUSTED(4);
 
@@ -7,6 +9,7 @@ public enum Prices {
 
     private Prices(Integer f){this.floor = f;}
 
+    @JsonValue
     public Integer getFloor(){return this.floor;};
 
     public static Prices convert(Integer cost){
