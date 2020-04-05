@@ -3,13 +3,15 @@ package jeaps.foodtruck.common.truck;
 
 import jeaps.foodtruck.common.truck.food.Food;
 
+import java.util.List;
+
 public class TruckDTO {
     private Integer id;
     private String name;
     private String menu;
     private Prices price;
 
-    private Food food;
+    private List<Food> food;
 
     public Integer getId() {
         return id;
@@ -43,11 +45,19 @@ public class TruckDTO {
         this.price = price;
     }
 
-    public Food getFood() {
+    /*public Food getFood() {
         return food;
     }
 
     public void setFood(Food food) {
+        this.food = food;
+    }*/
+
+    public List<Food> getFood() {
+        return food;
+    }
+
+    public void setFood(List<Food> food) {
         this.food = food;
     }
 }

@@ -1,7 +1,9 @@
 package jeaps.foodtruck.common.truck.food;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jeaps.foodtruck.common.truck.route.Route;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jeaps.foodtruck.common.truck.Truck;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
