@@ -11,6 +11,14 @@ import java.util.List;
 
 @Entity
 public class Food {
+
+    public Food(){
+        this.foodtype = null;
+    }
+
+    public Food(String type){
+        this.foodtype = type;
+    }
     @Id
     private String foodtype;
 

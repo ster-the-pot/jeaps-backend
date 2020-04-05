@@ -18,7 +18,7 @@ public class FoodDAO {
         if(temp != null) {
             throw new RuntimeException("Food type is already in database");
         }
-        Food f = new Food();
+        Food f = new Food(food);
         f.setFoodtype(food);
         foodRepo.save(f);
     }
