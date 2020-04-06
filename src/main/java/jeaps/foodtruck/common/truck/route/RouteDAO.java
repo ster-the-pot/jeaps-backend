@@ -50,7 +50,7 @@ public class RouteDAO {
         trucks.remove(t.get());
 
         Route route = new Route();
-
+        route.setName(routeDTO.getName());
         route.setEndTime(routeDTO.getEndTime());
         route.setStartTime(routeDTO.getStartTime());
         route.setMessage(routeDTO.getMessage());
@@ -84,6 +84,7 @@ public class RouteDAO {
             if(route.isPresent()) {
                 List<Route> r = t.getRoute();
                 r.remove(route.get());
+                route.get().setName(routeDTO.getName());
                 route.get().setEndTime(routeDTO.getEndTime());
                 route.get().setStartTime(routeDTO.getStartTime());
                 route.get().setLocation(routeDTO.getLocation());

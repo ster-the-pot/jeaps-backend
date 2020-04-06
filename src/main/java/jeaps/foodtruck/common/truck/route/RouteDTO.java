@@ -13,9 +13,9 @@ public class RouteDTO {
     private Integer id;
     private Location location;
     private String message;
-    //private List<TimeDTO> days;
     Date startTime;
     Date endTime;
+    private String name;
 
     public RouteDTO(){ };
 
@@ -23,7 +23,7 @@ public class RouteDTO {
         if(r.getId() != null) {
             this.id = r.getId();
         }
-
+        this.name = r.getName();
         this.startTime = r.getStartTime();
         this.endTime = r.getEndTime();
         this.location = r.getLocation();
@@ -68,5 +68,13 @@ public class RouteDTO {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

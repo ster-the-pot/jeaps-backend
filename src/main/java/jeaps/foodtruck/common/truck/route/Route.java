@@ -17,7 +17,7 @@ public class Route {
     private Integer id;
 
     private String message;
-
+    private String name;
     @Embedded
     private Location location;
 
@@ -78,5 +78,13 @@ public class Route {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
