@@ -23,9 +23,9 @@ public class Route {
     /*Date startTime;
     Date endTime;*/
 
-    @OneToMany
-    @MapKey(name="day")
-    private Map<Day,Time> days = new HashMap<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @MapKey
+    private Map<Day, Time> days = new HashMap<>();
 
 
     @JsonBackReference
@@ -33,9 +33,9 @@ public class Route {
     private Truck truck;
 
 
-    public Route(){
-        for(Day d : Day.values()){
-            days.put(d,new Time());
+    public Route() {
+        for (Day d : Day.values()) {
+            days.put(d, new Time());
         }
     }
 
@@ -90,11 +90,11 @@ public class Route {
         this.endTime = endTime;
     }*/
 
-    public Map<Day,Time> getDays() {
+    public Map<Day, Time> getDays() {
         return days;
     }
 
-    public void setDays(Map<Day,Time> days) {
+    public void setDays(Map<Day, Time> days) {
         this.days = days;
     }
 
