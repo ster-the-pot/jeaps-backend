@@ -6,9 +6,7 @@ import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.route.times.Time;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Route {
@@ -22,19 +20,24 @@ public class Route {
     @Embedded
     private Location location;
 
-
     /*Date startTime;
     Date endTime;*/
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "route_id", referencedColumnName = "id")
-    private List<Time> days = new ArrayList<>();
+    @OneToMany
+    @MapKey(name="day")
+    private Map<Day,Time> days = new HashMap<>();
 
 
     @JsonBackReference
     @ManyToOne
     private Truck truck;
+
+
+    public Route(){
+        for(Day d : Day.values()){
+            days.put(d,new Time());
+        }
+    }
 
 
     public Integer getId() {
@@ -87,11 +90,11 @@ public class Route {
         this.endTime = endTime;
     }*/
 
-    public List<Time> getDays() {
+    public Map<Day,Time> getDays() {
         return days;
     }
 
-    public void setDays(List<Time> days) {
+    public void setDays(Map<Day,Time> days) {
         this.days = days;
     }
 

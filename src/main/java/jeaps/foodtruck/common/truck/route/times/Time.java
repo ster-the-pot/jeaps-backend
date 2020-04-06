@@ -15,8 +15,6 @@ public class Time {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.ORDINAL)
-    Day day;
     Date startTime;
     Date endTime;
 
@@ -33,13 +31,6 @@ public class Time {
         this.id = id;
     }
 
-    public Day getDay() {
-        return day;
-    }
-
-    public void setDay(Day day) {
-        this.day = day;
-    }
 
     public Date getStartTime() {
         return startTime;

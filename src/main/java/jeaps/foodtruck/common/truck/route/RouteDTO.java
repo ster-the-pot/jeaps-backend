@@ -29,9 +29,7 @@ public class RouteDTO {
         //this.startTime = r.getStartTime();
         //this.endTime = r.getEndTime();
         List<TimeDTO> convert = new ArrayList<>();
-        for(Time t: r.getDays()) {
-            convert.add(new TimeDTO(t));
-        }
+
         this.days = convert;
         this.location = r.getLocation();
         this.message = r.getMessage();

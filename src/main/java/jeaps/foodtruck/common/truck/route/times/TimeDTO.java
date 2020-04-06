@@ -6,15 +6,12 @@ import java.util.Date;
 
 public class TimeDTO {
     private Integer id;
-    Day day;
 
     Date startTime;
     Date endTime;
 
     public TimeDTO(){};
     public TimeDTO(Time t) {
-        id = t.getId();
-        day = t.getDay();
         startTime = t.getStartTime();
         endTime = t.getEndTime();
     }
@@ -27,13 +24,7 @@ public class TimeDTO {
         this.id = id;
     }
 
-    public Day getDay() {
-        return day;
-    }
 
-    public void setDay(Day day) {
-        this.day = day;
-    }
 
     public Date getStartTime() {
         return startTime;
