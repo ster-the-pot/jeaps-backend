@@ -215,17 +215,19 @@ public class CustomerDAO {
         int score = 0;
         //increase truck score if the food is preferred
         if(truck.getFood() != null && truck.getFood() == prefs.getFood()){
-            score += 1;
+            score += 10;
         }
         //increase truck score if the price is within budget
         if(truck.getPrice() != null && prefs.getMaxPricePref() != null && truck.getPrice().getFloor() <= prefs.getMaxPricePref().getFloor()){
-            score += 2;
+            score += 20;
         }
-        //increase truck score if the customer is subscribed to the truck
+        //increase truck score based on rating
+        score += 10*truck.getAvgRating();
+        //reduce truck score if the customer is subscribed to the truck
         Customer c = new Customer();
         c.setId(id);
         if(c.getTrucks() != null && c.getTrucks().contains(truck)){
-            score -= 3;
+            score -= 30;
         }
         return score;
     }
