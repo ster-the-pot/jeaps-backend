@@ -3,15 +3,18 @@ package jeaps.foodtruck.common.user.owner;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.TruckDTO;
+import jeaps.foodtruck.common.truck.food.Food;
+import jeaps.foodtruck.common.truck.rate.Rate;
 import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.truck.route.RouteDTO;
+import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
+import jeaps.foodtruck.common.user.user.notification.Notifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * A class to interact with the Owner table in the database
@@ -49,6 +52,51 @@ public class OwnerDAO {
         //Save the Owner in the database
         this.ownerRepo.save(o);
 
+    }
+    public Map<String, Object> getOwnerStats(Integer truckId) {
+        Optional<Truck> truck = this.truckDAO.findById(truckId);
+        Optional<User> user = this.userDAO.findById(truck.get().getOwner().getId());
+        return getOwnerStats(user.get().getUsername());
+    }
+
+    public Map<String, Object> getOwnerStats(String username) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        User user = this.userDAO.findByUsername(username);
+        Optional<Owner> owner = this.ownerRepo.findById(user.getId());
+        if(owner.isPresent()) {
+            List<Truck> trucks = owner.get().getTrucks();
+
+            Set<Customer> subscribed = new HashSet<>();
+            Set<Food> foodtypes = new HashSet<>();
+
+            Double average = null;
+            Integer num = 0;
+            for (Truck t : trucks) {
+                if(t.getAvgRating() != null){
+                    if(average == null) {
+                        average = t.getAvgRating();
+                    } else {
+                        average = average + t.getAvgRating();
+                    }
+                    num++;
+                }
+
+                foodtypes.addAll(t.getFood());
+                subscribed.addAll(t.getCustomers());
+            }
+            if(average != null) {
+                average = (average / ((double) num));
+            }
+
+            map.put("Trucks", trucks.size());
+            map.put("Subscribers", subscribed.size());
+            map.put("FoodTypes", foodtypes.size());
+            map.put("AvgTruckRating", average);
+        }
+
+        return map;
     }
 
     /**
