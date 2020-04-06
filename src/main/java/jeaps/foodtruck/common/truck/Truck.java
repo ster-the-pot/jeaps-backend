@@ -7,6 +7,7 @@ import jeaps.foodtruck.common.truck.rate.Rate;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
+import org.springframework.content.commons.annotations.ContentId;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -22,9 +23,13 @@ public class Truck {
     private Integer id;
     private String name;
     //SHOULD BE AN IMAGE??
-    private String menu;
+    //@ContentId private String contentId;
+    //@ContentLength private long contentLength;
+    String menu;
+    //private String menu;
     @Enumerated(EnumType.ORDINAL)
     private Prices price;
+
 
 
     @ManyToMany(fetch = FetchType.LAZY,

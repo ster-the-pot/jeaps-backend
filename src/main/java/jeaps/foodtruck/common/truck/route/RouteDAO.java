@@ -2,9 +2,6 @@ package jeaps.foodtruck.common.truck.route;
 
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
-import jeaps.foodtruck.common.truck.route.times.Time;
-import jeaps.foodtruck.common.truck.route.times.TimeDAO;
-import jeaps.foodtruck.common.truck.route.times.TimeDTO;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.user.User;
@@ -26,8 +23,6 @@ public class RouteDAO {
     private UserDAO userDAO;
     @Autowired
     private OwnerDAO ownerDAO;
-    @Autowired
-    private TimeDAO timeDAO;
 
 
 
@@ -55,11 +50,9 @@ public class RouteDAO {
         trucks.remove(t.get());
 
         Route route = new Route();
-        if(routeDTO.getDays() != null) {
-            route.setDays(TimeFromTimeDTO(routeDTO.getDays()));
-        }
 
-
+        route.setEndTime(routeDTO.getEndTime());
+        route.setStartTime(routeDTO.getStartTime());
         route.setMessage(routeDTO.getMessage());
         route.setLocation(routeDTO.getLocation());
         routeRepo.save(route);
@@ -91,11 +84,8 @@ public class RouteDAO {
             if(route.isPresent()) {
                 List<Route> r = t.getRoute();
                 r.remove(route.get());
-
-                if(routeDTO.getDays() != null) {
-                    route.get().setDays(TimeFromTimeDTO(routeDTO.getDays()));
-                }
-
+                route.get().setEndTime(routeDTO.getEndTime());
+                route.get().setStartTime(routeDTO.getStartTime());
                 route.get().setLocation(routeDTO.getLocation());
                 route.get().setMessage(routeDTO.getMessage());
 
@@ -141,7 +131,7 @@ public class RouteDAO {
         owner.setTrucks(trucks);
         ownerDAO.save(owner);
 
-        deleteTimes(route.get());
+
         this.routeRepo.deleteById(routeID);
     }
 
@@ -156,45 +146,5 @@ public class RouteDAO {
     }
 
 
-    private List<Time> TimeFromTimeDTO(List<TimeDTO> old) {
-        List<Time> time = new ArrayList<>();
-        for(TimeDTO oldTime: old) {
-            if(oldTime.getId() != null) {
-
-                Optional<Time> newTime = timeDAO.findByID(oldTime.getId());
-                if(newTime.isPresent()) {
-
-                    newTime.get().setEndTime(oldTime.getEndTime());
-                    newTime.get().setStartTime(oldTime.getStartTime());
-                    newTime.get().setDay(oldTime.getDay());
-
-                    timeDAO.save(newTime.get());
-                    time.add(newTime.get());
-                } else {
-                    Time newTime2 = new Time();
-                    newTime2.setEndTime(oldTime.getEndTime());
-                    newTime2.setStartTime(oldTime.getStartTime());
-                    newTime2.setDay(oldTime.getDay());
-                    time.add(newTime2);
-                }
-            }
-            else {
-                Time newTime = new Time();
-                newTime.setEndTime(oldTime.getEndTime());
-                newTime.setStartTime(oldTime.getStartTime());
-                newTime.setDay(oldTime.getDay());
-                time.add(newTime);
-            }
-        }
-        return time;
-    }
-
-    private void deleteTimes(Route r) {
-        List<Time> times = r.getDays();
-        for(Time t: times) {
-            this.timeDAO.delete(t.getId());
-        }
-
-    }
 
 }

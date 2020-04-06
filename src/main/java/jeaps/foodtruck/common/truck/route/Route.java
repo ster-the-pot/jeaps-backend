@@ -3,7 +3,6 @@ package jeaps.foodtruck.common.truck.route;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
-import jeaps.foodtruck.common.truck.route.times.Time;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,11 +22,8 @@ public class Route {
     private Location location;
 
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "route_id", referencedColumnName = "id")
-    private List<Time> days = new ArrayList<>();
-
+    Date startTime;
+    Date endTime;
 
     @JsonBackReference
     @ManyToOne
@@ -67,11 +63,20 @@ public class Route {
         this.truck = truck;
     }
 
-    public List<Time> getDays() {
-        return days;
+
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setDays(List<Time> days) {
-        this.days = days;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }
