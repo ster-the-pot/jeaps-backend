@@ -90,6 +90,8 @@ public class CustomerDAO {
         return returns;
     }
 
+
+
     public void editPreferences(String username, Preferences pref) {
 
         User user = userDAO.findByUsername(username);
