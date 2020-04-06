@@ -42,7 +42,7 @@ public class RouteDAO {
 
 
 
-    public Boolean saveRoute(RouteDTO routeDTO, Integer truckID, String username){
+    public Route saveRoute(RouteDTO routeDTO, Integer truckID, String username){
 
         User user = this.userDAO.findByUsername(username);
         Optional<Owner> owner = ownerDAO.findById(user.getId());
@@ -62,6 +62,7 @@ public class RouteDAO {
 
         route.setMessage(routeDTO.getMessage());
         route.setLocation(routeDTO.getLocation());
+        routeRepo.save(route);
 
         List<Route> r = t.get().getRoute();
         r.add(route);
@@ -72,7 +73,7 @@ public class RouteDAO {
         owner.get().setTrucks(trucks);
         ownerDAO.save(owner.get());
 
-        return true;
+        return route;
     }
 
     public Boolean editRoute(RouteDTO routeDTO){

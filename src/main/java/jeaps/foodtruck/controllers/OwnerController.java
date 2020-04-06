@@ -77,10 +77,8 @@ public class OwnerController {
     public Object createRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID,
                               @RequestParam String username) {
 
-        if(this.routeDAO.saveRoute(route, truckID, username)) {
-            return "Successfully added Route";
-        }
-        return "Issue adding Route";
+        return this.routeDAO.saveRoute(route, truckID, username);
+
     }
 
     @RequestMapping(path="/getRoutes")
