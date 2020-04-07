@@ -87,6 +87,10 @@ public class CustomerDAO {
         if(customer.isPresent() && pref.isPresent()) {
             returns.add(pref.get());
         }
+        else{
+            returns.add(new Preferences());
+        }
+        
         return returns;
     }
 
