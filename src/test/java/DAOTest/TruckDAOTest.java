@@ -7,6 +7,7 @@ import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.user.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
@@ -68,20 +69,21 @@ public class TruckDAOTest {
 
     }
 
-    @Test
+    /*@Test
     public void findByName() {
 
-        //when(truckRepo.findByName(truckTest2.getName())).thenReturn(truckTest2);
-        //Truck truck = truckDAO.findByName(truckTest2.getName());
+        when(truckRepo.findByName(truckTest2.getName())).thenReturn(truckTest2);
+        Truck truck = truckDAO.findByName(truckTest2.getName());
 
-       /* assertAll(() -> assertEquals(truckTest2.getRoute(), truck.getRoute()),
+       assertAll(() -> assertEquals(truckTest2.getRoute(), truck.getRoute()),
                 () -> assertEquals(truckTest2.getMenu(), truck.getMenu()),
                 () -> assertEquals(truckTest2.getName(), truck.getName()),
-                () -> assertEquals(truckTest2.getId(), truck.getId()));*/
+                () -> assertEquals(truckTest2.getId(), truck.getId()));
 
-    }
+    }*/
 
     @Test
+    @DisplayName("Test finding all trucks")
     public void findAll() {
 
         when(truckRepo.findAll()).thenReturn(Arrays.asList(truckTest2, truckTest2, truckTest2));

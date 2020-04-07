@@ -1,6 +1,7 @@
 package DAOTest;
 
 import jeaps.foodtruck.common.truck.Truck;
+import jeaps.foodtruck.common.truck.TruckDTO;
 import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,6 +39,7 @@ public class OwnerDAOTest {
 
     protected User userTest = new User();
     protected Optional<Owner> ownerTest = Optional.of(new Owner());
+
     protected Truck truckTest = new Truck();
 
     @Before
@@ -44,28 +47,32 @@ public class OwnerDAOTest {
         ownerRepo = mock(OwnerRepository.class);
         ownerDAO.setOwnerRepo(ownerRepo);
 
-        userRepo = mock(UserRepository.class);
+        userRepo = spy(UserRepository.class);
         userDAO.setUserRepo(userRepo);
 
         userTest.setUsername("username");
         userTest.setPassword("password");
         userTest.setName("name");
         userTest.setEmail("email");
-        userRepo.save(userTest);
+        //userRepo.save(userTest);
 
 
         ownerTest.get().setId(userTest.getId());
         ownerRepo.save(ownerTest.get());
 
+
+
         truckTest.setMenu("Menu");
         truckTest.setName("Name");
     }
 
+    /**
+     * Tests the findByID() function
+     */
     @Test
     @DisplayName("Test finding an owner by their ID")
     public void findByID() {
-        System.out.println(userTest.getUsername());
-        System.out.println(userDAO.findByUsername("TestOwner"));
+
         when(ownerRepo.findById(ownerTest.get().getId())).thenReturn(ownerTest);
         Optional<Owner> owner = ownerDAO.findById(ownerTest.get().getId());
 
@@ -73,21 +80,51 @@ public class OwnerDAOTest {
                 () -> assertEquals(ownerTest.get().getId(), owner.get().getId()));
 
     }
-
+/*
+    /**
+     * Tests the getOwnerStatsByName() function
+     *
     @Test
     @DisplayName("Test getting stats from owner using username")
     public void getOwnerStatsByName() {
-        System.out.println(userTest.getUsername());
+
         //attempt to get the owners stats given a username
-        System.out.println(userDAO.findByUsername("username"));
         when(userRepo.findByUsername(userTest.getUsername())).thenReturn(userTest);
-        Map<String, Object> stats = ownerDAO.getOwnerStats(userTest.getUsername());
+        //System.out.println(userDAO.findByUsername(userTest.getUsername()).getUsername());
+        Map<String, Object> stats = ownerDAO.getOwnerStats("TestOwner");//userTest.getUsername());
         //validate the output
         assertAll(() -> assertEquals(ownerTest.get().getTrucks().size(), stats.get("Trucks")),
                 () -> assertEquals(ownerTest.get().getSubscribers().size(), stats.get("Subscribers")),
                 () -> assertEquals(ownerTest.get().getFoodTypes().size(), stats.get("FoodTypes")),
                 () -> assertEquals(ownerTest.get().getAvgRating(), stats.get("AvgTruckRating")));
     }
+*/
+    /**
+     * Tests the findAll() function for owners
+     */
+    @Test
+    @DisplayName("Test finding all owners")
+    public void testFindAll(){
+
+        //Tell the function to return 3 copies of ownerTest when getting all owners
+        when(ownerDAO.findAll()).thenReturn(Arrays.asList(ownerTest.get(), ownerTest.get(), ownerTest.get()));
+
+        for(Owner o : ownerDAO.findAll()){
+            assertAll(() -> assertEquals(ownerTest.get().getAvgRating(), o.getAvgRating()),
+                      () -> assertEquals(ownerTest.get().getId(), o.getId()),
+                      () -> assertEquals(ownerTest.get().getTrucks().size(), o.getTrucks().size()));
+        }
+    }
 
 
+    /**
+     * Tests that
+     */
+    @Test
+    @DisplayName("Test saving truck to missing owner")
+    public void testSaveTruckNoOwner(){
+        TruckDTO truckDTO = new TruckDTO();
+        when(userRepo.findByUsername("username")).thenReturn(userTest);
+        assertFalse(ownerDAO.saveTruck(truckDTO, userTest.getUsername()));
+    }
 }
