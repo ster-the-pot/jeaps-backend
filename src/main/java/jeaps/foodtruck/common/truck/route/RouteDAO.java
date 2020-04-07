@@ -56,7 +56,13 @@ public class RouteDAO {
 
         Route route = new Route();
 
-
+        route.setSunday(routeDTO.getSunday());
+        route.setMonday(routeDTO.getMonday());
+        route.setTuesday(routeDTO.getTuesday());
+        route.setWednesday(routeDTO.getWednesday());
+        route.setThursday(routeDTO.getThursday());
+        route.setFriday(routeDTO.getFriday());
+        route.setSaturday(routeDTO.getSaturday());
         route.setName(routeDTO.getName());
         route.setMessage(routeDTO.getMessage());
         route.setLocation(routeDTO.getLocation());
@@ -90,7 +96,13 @@ public class RouteDAO {
                 List<Route> r = t.getRoute();
                 r.remove(route.get());
 
-
+                route.get().setSunday(routeDTO.getSunday());
+                route.get().setMonday(routeDTO.getMonday());
+                route.get().setTuesday(routeDTO.getTuesday());
+                route.get().setWednesday(routeDTO.getWednesday());
+                route.get().setThursday(routeDTO.getThursday());
+                route.get().setFriday(routeDTO.getFriday());
+                route.get().setSaturday(routeDTO.getSaturday());
                 route.get().setName(routeDTO.getName());
                 route.get().setLocation(routeDTO.getLocation());
                 route.get().setMessage(routeDTO.getMessage());

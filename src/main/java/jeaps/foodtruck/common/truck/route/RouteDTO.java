@@ -1,14 +1,16 @@
 package jeaps.foodtruck.common.truck.route;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.route.times.Time;
-import jeaps.foodtruck.common.truck.route.times.TimeDTO;
 
 
 import javax.persistence.Embedded;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class RouteDTO {
 
@@ -18,19 +20,36 @@ public class RouteDTO {
     //Date startTime;
     //Date endTime;
     private String name;
-    private List<TimeDTO> days;
-    public RouteDTO(){ };
+   // priprivate vate List<Time> days;
 
+    private Time Sunday;
+
+    private Time Monday;
+
+    private Time Tuesday;
+
+    private Time Wednesday;
+
+    private Time Thursday;
+
+    private Time Friday;
+
+    private Time Saturday;
+
+    public RouteDTO(){ };
     public RouteDTO(Route r){
         if(r.getId() != null) {
             this.id = r.getId();
         }
         this.name = r.getName();
-        //this.startTime = r.getStartTime();
-        //this.endTime = r.getEndTime();
-        List<TimeDTO> convert = new ArrayList<>();
 
-        this.days = convert;
+        this.Sunday = r.getSunday();
+        this.Monday = r.getMonday();
+        this.Tuesday = r.getTuesday();
+        this.Wednesday = r.getWednesday();
+        this.Thursday = r.getThursday();
+        this.Friday = r.getFriday();
+        this.Saturday = r.getSaturday();
         this.location = r.getLocation();
         this.message = r.getMessage();
     }
@@ -59,28 +78,60 @@ public class RouteDTO {
         this.message = message;
     }
 
-    /*public Date getStartTime() {
-        return startTime;
+    public Time getSunday() {
+        return Sunday;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setSunday(Time sunday) {
+        Sunday = sunday;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Time getMonday() {
+        return Monday;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }*/
-
-    public List<TimeDTO> getDays() {
-        return days;
+    public void setMonday(Time monday) {
+        Monday = monday;
     }
 
-    public void setDays(List<TimeDTO> days) {
-        this.days = days;
+    public Time getTuesday() {
+        return Tuesday;
+    }
+
+    public void setTuesday(Time tuesday) {
+        Tuesday = tuesday;
+    }
+
+    public Time getWednesday() {
+        return Wednesday;
+    }
+
+    public void setWednesday(Time wednesday) {
+        Wednesday = wednesday;
+    }
+
+    public Time getThursday() {
+        return Thursday;
+    }
+
+    public void setThursday(Time thursday) {
+        Thursday = thursday;
+    }
+
+    public Time getFriday() {
+        return Friday;
+    }
+
+    public void setFriday(Time friday) {
+        Friday = friday;
+    }
+
+    public Time getSaturday() {
+        return Saturday;
+    }
+
+    public void setSaturday(Time saturday) {
+        Saturday = saturday;
     }
 
     public String getName() {
