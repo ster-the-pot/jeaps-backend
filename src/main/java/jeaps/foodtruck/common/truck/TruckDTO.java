@@ -2,7 +2,6 @@ package jeaps.foodtruck.common.truck;
 
 
 import jeaps.foodtruck.common.truck.food.Food;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,6 +10,7 @@ public class TruckDTO {
     private String name;
     private String menu;
     private Prices price;
+
     private List<Food> food;
 
     public Integer getId() {
