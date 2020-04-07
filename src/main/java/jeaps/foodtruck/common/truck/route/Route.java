@@ -7,7 +7,6 @@ import jeaps.foodtruck.common.truck.route.times.Time;
 
 
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
 public class Route {
@@ -22,34 +21,10 @@ public class Route {
     private Location location;
 
 
-
     @JsonManagedReference
     @OneToOne
-    private Time Sunday;
+    Time days;
 
-    @JsonManagedReference
-    @OneToOne
-    private Time Monday;
-
-    @JsonManagedReference
-    @OneToOne
-    private Time Tuesday;
-
-    @JsonManagedReference
-    @OneToOne
-    private Time Wednesday;
-
-    @JsonManagedReference
-    @OneToOne
-    private Time Thursday;
-
-    @JsonManagedReference
-    @OneToOne
-    private Time Friday;
-
-    @JsonManagedReference
-    @OneToOne
-    private Time Saturday;
 
     //@Enumerated(EnumType.ORDINAL)
     //@OneToMany(cascade = CascadeType.ALL)
@@ -100,61 +75,12 @@ public class Route {
         this.truck = truck;
     }
 
-
-    public Time getSunday() {
-        return Sunday;
+    public Time getDays() {
+        return days;
     }
 
-    public void setSunday(Time sunday) {
-        Sunday = sunday;
-    }
-
-    public Time getMonday() {
-        return Monday;
-    }
-
-    public void setMonday(Time monday) {
-        Monday = monday;
-    }
-
-    public Time getTuesday() {
-        return Tuesday;
-    }
-
-    public void setTuesday(Time tuesday) {
-        Tuesday = tuesday;
-    }
-
-    public Time getWednesday() {
-        return Wednesday;
-    }
-
-    public void setWednesday(Time wednesday) {
-        Wednesday = wednesday;
-    }
-
-    public Time getThursday() {
-        return Thursday;
-    }
-
-    public void setThursday(Time thursday) {
-        Thursday = thursday;
-    }
-
-    public Time getFriday() {
-        return Friday;
-    }
-
-    public void setFriday(Time friday) {
-        Friday = friday;
-    }
-
-    public Time getSaturday() {
-        return Saturday;
-    }
-
-    public void setSaturday(Time saturday) {
-        Saturday = saturday;
+    public void setDays(Time days) {
+        this.days = days;
     }
 
     public String getName() {

@@ -81,6 +81,16 @@ public class OwnerController {
 
     }
 
+    @PostMapping(path="/modifyRoute")
+    public Object createEditRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID,
+                              @RequestParam String username) {
+        if(this.routeDAO.findByID(route.getId()).isPresent()) {
+            return this.routeDAO.editRoute(route);
+        }
+        return this.routeDAO.saveRoute(route, truckID, username);
+
+    }
+
     @RequestMapping(path="/getRoutes")
     public List<RouteDTO> getRoutes(@RequestParam Integer truckID){
         return this.routeDAO.findByTruck(truckID);
