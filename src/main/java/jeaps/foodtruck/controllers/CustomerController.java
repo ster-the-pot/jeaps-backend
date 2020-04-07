@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path="/customer")
@@ -39,7 +41,7 @@ public class CustomerController {
     TokenService tokenService;
 
     @RequestMapping(path="/preferences", method = RequestMethod.GET)
-    public List<Object> getPreferences(@RequestParam String username){
+    public Map<String, Object> getPreferences(@RequestParam String username){
         return customerDAO.getPreferences(username);
     }
 
