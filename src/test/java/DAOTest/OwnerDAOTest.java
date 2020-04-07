@@ -20,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+
 public class OwnerDAOTest {
 
 
@@ -29,7 +30,9 @@ public class OwnerDAOTest {
     @Autowired
     private UserDAO userDAO = new UserDAO();
 
+    @Autowired
     protected OwnerRepository ownerRepo;
+    @Autowired
     protected UserRepository userRepo;
 
     protected User userTest = new User();
@@ -48,11 +51,11 @@ public class OwnerDAOTest {
         userTest.setPassword("password");
         userTest.setName("name");
         userTest.setEmail("email");
-
+        userRepo.save(userTest);
 
 
         ownerTest.get().setId(userTest.getId());
-
+        ownerRepo.save(ownerTest.get());
 
         truckTest.setMenu("Menu");
         truckTest.setName("Name");
@@ -62,6 +65,7 @@ public class OwnerDAOTest {
     @DisplayName("Test finding an owner by their ID")
     public void findByID() {
         System.out.println(userTest.getUsername());
+        System.out.println(userDAO.findByUsername("TestOwner"));
         when(ownerRepo.findById(ownerTest.get().getId())).thenReturn(ownerTest);
         Optional<Owner> owner = ownerDAO.findById(ownerTest.get().getId());
 
@@ -75,11 +79,9 @@ public class OwnerDAOTest {
     public void getOwnerStatsByName() {
         System.out.println(userTest.getUsername());
         //attempt to get the owners stats given a username
+        System.out.println(userDAO.findByUsername("username"));
+        when(userRepo.findByUsername(userTest.getUsername())).thenReturn(userTest);
         Map<String, Object> stats = ownerDAO.getOwnerStats(userTest.getUsername());
-
-        //Get all of the owner's subscribers
-
-
         //validate the output
         assertAll(() -> assertEquals(ownerTest.get().getTrucks().size(), stats.get("Trucks")),
                 () -> assertEquals(ownerTest.get().getSubscribers().size(), stats.get("Subscribers")),
