@@ -47,14 +47,14 @@ public class OwnerDAOTest {
         ownerRepo = mock(OwnerRepository.class);
         ownerDAO.setOwnerRepo(ownerRepo);
 
-        userRepo = spy(UserRepository.class);
+        userRepo = mock(UserRepository.class);
         userDAO.setUserRepo(userRepo);
 
         userTest.setUsername("username");
         userTest.setPassword("password");
         userTest.setName("name");
         userTest.setEmail("email");
-        //userRepo.save(userTest);
+        userRepo.save(userTest);
 
 
         ownerTest.get().setId(userTest.getId());
@@ -118,7 +118,7 @@ public class OwnerDAOTest {
 
 
     /**
-     * Tests that
+     * Tests that having a user that is not an owner will return false
      */
     @Test
     @DisplayName("Test saving truck to missing owner")
