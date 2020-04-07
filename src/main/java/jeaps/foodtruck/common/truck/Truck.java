@@ -8,6 +8,7 @@ import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
 import org.springframework.content.commons.annotations.ContentId;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,7 +26,7 @@ public class Truck {
     //SHOULD BE AN IMAGE??
     //@ContentId private String contentId;
     //@ContentLength private long contentLength;
-    String menu;
+    private String menu;
     //private String menu;
     @Enumerated(EnumType.ORDINAL)
     private Prices price;

@@ -39,7 +39,7 @@ public class OwnerDAOTest {
         ownerTest.get().setId(userTest.getId());
 
 
-        truckTest.setMenu("Menu");
+        //truckTest.setMenu("Menu");
         truckTest.setName("Name");
     }
 

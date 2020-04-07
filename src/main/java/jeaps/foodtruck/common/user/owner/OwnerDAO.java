@@ -14,6 +14,8 @@ import jeaps.foodtruck.common.user.user.notification.Notifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -127,6 +129,9 @@ public class OwnerDAO {
         t.setName(truckDTO.getName());
         t.setFood(truckDTO.getFood());
         t.setPrice(truckDTO.getPrice());
+        //t.setContentId(truckDTO.getContentId());
+
+
 
 
         List<Truck> list = owner.get().getTrucks();
@@ -161,6 +166,9 @@ public class OwnerDAO {
         if(truckDTO.getPrice() != null) {
             t.get().setPrice(truckDTO.getPrice());
         }
+        /*if(truckDTO.getContentId() != null) {
+            t.get().setContentId(truckDTO.getContentId());
+        }*/
 
         trucks.add(t.get());
 
