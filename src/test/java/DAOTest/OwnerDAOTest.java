@@ -60,8 +60,6 @@ public class OwnerDAOTest {
         ownerTest.get().setId(userTest.getId());
         ownerRepo.save(ownerTest.get());
 
-
-
         truckTest.setMenu("Menu");
         truckTest.setName("Name");
     }
@@ -125,6 +123,7 @@ public class OwnerDAOTest {
     public void testSaveTruckNoOwner(){
         TruckDTO truckDTO = new TruckDTO();
         when(userRepo.findByUsername("username")).thenReturn(userTest);
+        when(ownerDAO.saveTruck(truckDTO, userTest.getUsername())).thenCallRealMethod();
         assertFalse(ownerDAO.saveTruck(truckDTO, userTest.getUsername()));
     }
 }

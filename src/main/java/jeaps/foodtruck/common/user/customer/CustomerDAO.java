@@ -87,6 +87,10 @@ public class CustomerDAO {
         if(customer.isPresent() && pref.isPresent()) {
             returns.add(pref.get());
         }
+        else{
+            returns.add(new Preferences());
+        }
+
         return returns;
     }
 
@@ -222,7 +226,9 @@ public class CustomerDAO {
             score += 20;
         }
         //increase truck score based on rating
-        score += 10*truck.getAvgRating();
+        if(truck.getAvgRating() != null){
+            score += 10*truck.getAvgRating();
+        }
         //reduce truck score if the customer is subscribed to the truck
         Customer c = new Customer();
         c.setId(id);
