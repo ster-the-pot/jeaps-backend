@@ -101,6 +101,13 @@ public class OwnerController {
         this.routeDAO.deleteRoute(routeID);
         return "Successfully deleted route";
     }
+
+    @PostMapping(path="/deleteAllRoute")
+    public Object deleteAllRoute(@RequestParam List<Integer> routeID) {
+        this.routeDAO.deleteAllRoute(routeID);
+        return "Successfully deleted route";
+    }
+
     @PostMapping(path="/editRoute")
     public Object editRoute(@RequestBody RouteDTO route) {
         this.routeDAO.editRoute(route);

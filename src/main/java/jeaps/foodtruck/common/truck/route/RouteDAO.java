@@ -129,8 +129,6 @@ public class RouteDAO {
         r.remove(route.get());
 
 
-
-
         t.setRoute(r);
 
         trucks.add(t);
@@ -140,6 +138,35 @@ public class RouteDAO {
 
         deleteTimes(route.get());
         this.routeRepo.deleteById(routeID);
+    }
+
+    public void deleteAllRoute(List<Integer> routeIDs) {
+        for (Integer routeID : routeIDs) {
+            Optional<Route> route = routeRepo.findById(routeID);
+
+            if (!route.isPresent()) {
+                throw new RuntimeException("Route doesn't exist");
+            }
+            Owner owner = route.get().getTruck().getOwner();
+            Truck t = route.get().getTruck();
+
+            List<Truck> trucks = owner.getTrucks();
+            trucks.remove(t);
+
+            List<Route> r = t.getRoute();
+            r.remove(route.get());
+
+
+            t.setRoute(r);
+
+            trucks.add(t);
+
+            owner.setTrucks(trucks);
+            ownerDAO.save(owner);
+
+            deleteTimes(route.get());
+            this.routeRepo.deleteById(routeID);
+        }
     }
 
     public List<RouteDTO> findByTruck(Integer truckID) {
