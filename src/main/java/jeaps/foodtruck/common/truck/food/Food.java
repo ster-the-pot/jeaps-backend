@@ -12,6 +12,9 @@ import java.util.List;
 @Entity
 public class Food {
 
+    @Id
+    private String foodtype;
+
     public Food(){
         this.foodtype = null;
     }
@@ -19,8 +22,6 @@ public class Food {
     public Food(String type){
         this.foodtype = type;
     }
-    @Id
-    private String foodtype;
 
     public String getFoodtype() { return foodtype; }
 

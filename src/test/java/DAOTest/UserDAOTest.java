@@ -6,7 +6,12 @@ import jeaps.foodtruck.common.user.user.UserDTO;
 import jeaps.foodtruck.common.user.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -78,5 +83,36 @@ public class UserDAOTest {
                 () -> assertEquals(userTest.getPassword(), userDTO.getPassword()));
     }
 
+
+
+    @Test
+    @DisplayName("Test finding by ID")
+    public void testFindByID(){
+        when(userRepo.findById(userTest.getId())).thenReturn(Optional.of(userTest));
+
+        Optional<User> u = userDAO.findById(userTest.getId());
+
+        assertAll(() -> assertEquals(userTest.getId(), u.get().getId()),
+                () -> assertEquals(userTest.getUsername(), u.get().getUsername()),
+                () -> assertEquals(userTest.getPassword(), u.get().getPassword()),
+                () -> assertEquals(userTest.getEmail(), u.get().getEmail()),
+                () -> assertEquals(userTest.getName(), u.get().getName()));
+    }
+
+    @Test
+    @DisplayName("Test finding all users")
+    public void testFindAll(){
+        when(userRepo.findAll()).thenReturn(Arrays.asList(userTest, userTest, userTest));
+
+        Iterable<User> allUsers = userDAO.findAll();
+
+        for(User u : allUsers) {
+            assertAll(() -> assertEquals(userTest.getUsername(), u.getUsername()),
+                    () -> assertEquals(userTest.getName(), u.getName()),
+                    () -> assertEquals(userTest.getId(), u.getId()),
+                    () -> assertEquals(userTest.getEmail(), u.getEmail()),
+                    () -> assertEquals(userTest.getPassword(), u.getPassword()));
+        }
+    }
 
 }
