@@ -23,6 +23,7 @@ public class Route {
     /*Date startTime;
     Date endTime;*/
 
+    @Enumerated(EnumType.ORDINAL)
     @OneToMany(cascade = CascadeType.ALL)
     @MapKey
     private Map<Day, Time> days = new HashMap<>();
