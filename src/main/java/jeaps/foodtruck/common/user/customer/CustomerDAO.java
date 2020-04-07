@@ -90,7 +90,7 @@ public class CustomerDAO {
         else{
             returns.add(new Preferences());
         }
-        
+
         return returns;
     }
 

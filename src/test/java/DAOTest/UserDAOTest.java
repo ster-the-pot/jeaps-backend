@@ -6,7 +6,10 @@ import jeaps.foodtruck.common.user.user.UserDTO;
 import jeaps.foodtruck.common.user.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -77,6 +80,5 @@ public class UserDAOTest {
                 () -> assertEquals(userTest.getName(), userDTO.getName()),
                 () -> assertEquals(userTest.getPassword(), userDTO.getPassword()));
     }
-
 
 }
