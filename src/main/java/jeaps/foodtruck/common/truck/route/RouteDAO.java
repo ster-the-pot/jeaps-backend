@@ -56,7 +56,7 @@ public class RouteDAO {
 
         Route route = new Route();
 
-
+        //route.setDays(routeDTO.getDays());
         route.setName(routeDTO.getName());
         route.setMessage(routeDTO.getMessage());
         route.setLocation(routeDTO.getLocation());
@@ -74,7 +74,7 @@ public class RouteDAO {
         return route;
     }
 
-    public Boolean editRoute(RouteDTO routeDTO){
+    public Route editRoute(RouteDTO routeDTO){
         Optional<Route> old = this.findByID(routeDTO.getId());
         if(old.isPresent()) {
             Truck t =  old.get().getTruck();
@@ -90,7 +90,7 @@ public class RouteDAO {
                 List<Route> r = t.getRoute();
                 r.remove(route.get());
 
-
+                //route.get().setDays(routeDTO.getDays());
                 route.get().setName(routeDTO.getName());
                 route.get().setLocation(routeDTO.getLocation());
                 route.get().setMessage(routeDTO.getMessage());
@@ -102,12 +102,13 @@ public class RouteDAO {
 
                 owner.setTrucks(trucks);
                 ownerDAO.save(owner);
+
+                return route.get();
             }
         } else {
             throw new RuntimeException("Route does not exist");
         }
-
-        return true;
+        return null;
     }
 
 
@@ -128,8 +129,6 @@ public class RouteDAO {
         r.remove(route.get());
 
 
-
-
         t.setRoute(r);
 
         trucks.add(t);
@@ -139,6 +138,12 @@ public class RouteDAO {
 
         deleteTimes(route.get());
         this.routeRepo.deleteById(routeID);
+    }
+
+    public void deleteAllRoute(List<Integer> routeIDs) {
+        for (Integer routeID : routeIDs) {
+            this.deleteRoute(routeID);
+        }
     }
 
     public List<RouteDTO> findByTruck(Integer truckID) {
@@ -152,35 +157,6 @@ public class RouteDAO {
     }
 
 
-    private List<Time> TimeFromTimeDTO(List<TimeDTO> old) {
-        List<Time> time = new ArrayList<>();
-        for(TimeDTO oldTime: old) {
-            if(oldTime.getId() != null) {
-
-                Optional<Time> newTime = timeDAO.findByID(oldTime.getId());
-                if(newTime.isPresent()) {
-
-                    newTime.get().setEndTime(oldTime.getEndTime());
-                    newTime.get().setStartTime(oldTime.getStartTime());
-
-                    timeDAO.save(newTime.get());
-                    time.add(newTime.get());
-                } else {
-                    Time newTime2 = new Time();
-                    newTime2.setEndTime(oldTime.getEndTime());
-                    newTime2.setStartTime(oldTime.getStartTime());
-                    time.add(newTime2);
-                }
-            }
-            else {
-                Time newTime = new Time();
-                newTime.setEndTime(oldTime.getEndTime());
-                newTime.setStartTime(oldTime.getStartTime());
-                time.add(newTime);
-            }
-        }
-        return time;
-    }
 
     private void deleteTimes(Route r) {
 

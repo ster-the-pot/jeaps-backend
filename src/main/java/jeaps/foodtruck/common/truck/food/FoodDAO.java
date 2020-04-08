@@ -10,9 +10,6 @@ public class FoodDAO {
     @Autowired
     FoodRepository foodRepo;
 
-    public Iterable<Food> getAllFood() { return foodRepo.findAll();}
-
-
     public void saveFood(String food) {
         Food temp = foodRepo.findByFoodtype(food);
         if(temp != null) {

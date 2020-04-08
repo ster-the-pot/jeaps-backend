@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -82,7 +81,6 @@ public class UserDAOTest {
                 () -> assertEquals(userTest.getName(), userDTO.getName()),
                 () -> assertEquals(userTest.getPassword(), userDTO.getPassword()));
     }
-
 
 
     @Test

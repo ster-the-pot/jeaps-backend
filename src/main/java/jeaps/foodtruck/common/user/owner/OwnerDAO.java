@@ -53,12 +53,23 @@ public class OwnerDAO {
         this.ownerRepo.save(o);
 
     }
+
+    /**
+     * Gets the stats of the owner of a specific truck
+     * @param truckId The truck that the owner owns
+     * @return Information about the owner
+     */
     public Map<String, Object> getOwnerStats(Integer truckId) {
         Optional<Truck> truck = this.truckDAO.findById(truckId);
         Optional<User> user = this.userDAO.findById(truck.get().getOwner().getId());
         return getOwnerStats(user.get().getUsername());
     }
 
+    /**
+     * Gets the stats of the owner with a specified username
+     * @param username The username of the owner to look up
+     * @return Information about the owner
+     */
     public Map<String, Object> getOwnerStats(String username) {
 
         Map<String, Object> map = new HashMap<>();

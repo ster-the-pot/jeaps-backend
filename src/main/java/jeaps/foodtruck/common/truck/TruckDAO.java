@@ -1,6 +1,7 @@
 package jeaps.foodtruck.common.truck;
 
 
+import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.user.customer.Customer;
@@ -110,9 +111,24 @@ public class TruckDAO {
         if(truck.getName() != null && t.getName().contains(truck.getName())) {
             score = score + 1;
         }
-        if(truck.getFood() != null && truck.getFood() == t.getFood()) {
-            score = score + 1;
+        if(truck.getFood() != null) {
+            boolean oneMatch = false;
+            for (Food f : truck.getFood()) {
+                if(oneMatch) {
+                    break;
+                }
+                for (Food f2 : t.getFood()) {
+                    if(f == f2) {
+                        score = score + 1;
+                        oneMatch = true;
+                        break;
+                    }
+                }
+            }
         }
+        /*if(truck.getFood() != null && truck.getFood() == t.getFood()) {
+            score = score + 1;
+        }*/
         return score;
     }
 

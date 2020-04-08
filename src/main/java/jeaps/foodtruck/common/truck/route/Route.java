@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.route.times.Time;
 
+
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
 public class Route {
@@ -20,14 +20,17 @@ public class Route {
     @Embedded
     private Location location;
 
-    /*Date startTime;
-    Date endTime;*/
 
-    @Enumerated(EnumType.ORDINAL)
-    @OneToMany(cascade = CascadeType.ALL)
-    @MapKey
-    private Map<Day, Time> days = new HashMap<>();
+    @JsonManagedReference
+    @OneToOne
+    Time days;
 
+
+    //@Enumerated(EnumType.ORDINAL)
+    //@OneToMany(cascade = CascadeType.ALL)
+    //@MapKey
+    //private Map<Day, Time> days = new HashMap<>();
+    //private List<Time> days= new ArrayList<>();
 
     @JsonBackReference
     @ManyToOne
@@ -35,9 +38,7 @@ public class Route {
 
 
     public Route() {
-        for (Day d : Day.values()) {
-            days.put(d, new Time());
-        }
+
     }
 
 
@@ -74,28 +75,11 @@ public class Route {
         this.truck = truck;
     }
 
-
-   /* public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }*/
-
-    public Map<Day, Time> getDays() {
+    public Time getDays() {
         return days;
     }
 
-    public void setDays(Map<Day, Time> days) {
+    public void setDays(Time days) {
         this.days = days;
     }
 

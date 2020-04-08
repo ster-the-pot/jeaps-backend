@@ -81,6 +81,16 @@ public class OwnerController {
 
     }
 
+    @PostMapping(path="/modifyRoute")
+    public Object createEditRoute(@RequestBody RouteDTO route, @RequestParam Integer truckID,
+                              @RequestParam String username) {
+        if(route.getId() != null && this.routeDAO.findByID(route.getId()).isPresent()) {
+            return this.routeDAO.editRoute(route);
+        }
+        return this.routeDAO.saveRoute(route, truckID, username);
+
+    }
+
     @RequestMapping(path="/getRoutes")
     public List<RouteDTO> getRoutes(@RequestParam Integer truckID){
         return this.routeDAO.findByTruck(truckID);
@@ -91,6 +101,13 @@ public class OwnerController {
         this.routeDAO.deleteRoute(routeID);
         return "Successfully deleted route";
     }
+
+    @PostMapping(path="/deleteAllRoute")
+    public Object deleteAllRoute(@RequestParam List<Integer> routeID) {
+        this.routeDAO.deleteAllRoute(routeID);
+        return "Successfully deleted route";
+    }
+
     @PostMapping(path="/editRoute")
     public Object editRoute(@RequestBody RouteDTO route) {
         this.routeDAO.editRoute(route);
