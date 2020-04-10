@@ -3,6 +3,10 @@ package jeaps.foodtruck.common.truck.route;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.route.times.Time;
+import jeaps.foodtruck.common.truck.route.times.TimeDTO;
+
+import javax.persistence.Embedded;
+import java.util.List;
 
 
 public class RouteDTO {
@@ -12,7 +16,7 @@ public class RouteDTO {
     private String message;
     private String name;
 
-
+    private List<TimeDTO> times;
     //Time days;
 
     public RouteDTO(){ };
@@ -21,7 +25,6 @@ public class RouteDTO {
             this.id = r.getId();
         }
         this.name = r.getName();
-
 
         this.location = r.getLocation();
         this.message = r.getMessage();
@@ -51,13 +54,13 @@ public class RouteDTO {
         this.message = message;
     }
 
-   /* public Time getDays() {
-        return days;
+    public List<TimeDTO> getTimes() {
+        return times;
     }
 
-    public void setDays(Time days) {
-        this.days = days;
-    }*/
+    public void setTimes(List<TimeDTO> times) {
+        this.times = times;
+    }
 
     public String getName() {
         return name;

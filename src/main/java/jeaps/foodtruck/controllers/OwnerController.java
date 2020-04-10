@@ -12,6 +12,7 @@ import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -57,9 +58,18 @@ public class OwnerController {
         return "Successfully deleted truck";
     }
 
+
     @RequestMapping(path="/myTrucks",method=RequestMethod.GET)
-    public List<Truck> findTruck(@RequestParam String username){
-        return this.truckDAO.findByOwner(username);
+    public List<TruckDTO> findTruck(@RequestParam String username){
+        List<Truck> trucks = this.truckDAO.findByOwner(username);
+        List<TruckDTO> returns = new ArrayList<>();
+        for(Truck t: trucks) {
+            TruckDTO truckDTO = new TruckDTO(t);
+            truckDTO.setRoutes(this.routeDAO.findByTruck(t.getId()));
+            returns.add(truckDTO);
+        }
+
+        return returns;
     }
 
 

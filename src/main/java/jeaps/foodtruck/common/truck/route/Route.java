@@ -21,9 +21,9 @@ public class Route {
     private Location location;
 
 
-    @JsonManagedReference
-    @OneToOne
-    Time days;
+    //@JsonManagedReference
+    //@OneToOne
+    //Time days;
 
 
     //@Enumerated(EnumType.ORDINAL)
@@ -75,13 +75,6 @@ public class Route {
         this.truck = truck;
     }
 
-    public Time getDays() {
-        return days;
-    }
-
-    public void setDays(Time days) {
-        this.days = days;
-    }
 
     public String getName() {
         return name;

@@ -9,13 +9,54 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@IdClass(TimeKey.class)
 public class Time {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int routeId;
+    @Id
+    private Day day;
 
-    private Date sundayStartTime;
+    private Date startTime;
+    private Date endTime;
+
+    public int getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(int routeId) {
+        this.routeId = routeId;
+    }
+
+    public Day getDay() {
+        return day;
+    }
+
+    public void setDay(Day day) {
+        this.day = day;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private Integer id;
+
+    /*private Date sundayStartTime;
     private Date mondayStartTime;
     private Date tuesdayStartTime;
     private Date wednesdayStartTime;
@@ -163,5 +204,5 @@ public class Time {
 
     public void setRoute(Route route) {
         this.route = route;
-    }
+    }*/
 }

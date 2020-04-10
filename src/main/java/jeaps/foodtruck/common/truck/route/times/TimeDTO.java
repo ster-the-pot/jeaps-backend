@@ -2,11 +2,51 @@ package jeaps.foodtruck.common.truck.route.times;
 
 import jeaps.foodtruck.common.truck.route.Day;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 public class TimeDTO {
 
-    private Integer id;
+
+    private Day day;
+
+    private Date startTime;
+    private Date endTime;
+
+    public TimeDTO(){};
+    public TimeDTO(Time t) {
+
+        day = t.getDay();
+        startTime = t.getStartTime();
+        endTime = t.getEndTime();
+
+    }
+
+
+    public Day getDay() {
+        return day;
+    }
+
+    public void setDay(Day day) {
+        this.day = day;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+    /*private Integer id;
 
     private Date sundayStartTime;
     private Date mondayStartTime;
@@ -149,5 +189,5 @@ public class TimeDTO {
 
     public void setSaturdayEndTime(Date saturdayEndTime) {
         this.saturdayEndTime = saturdayEndTime;
-    }
+    }*/
 }

@@ -2,6 +2,7 @@ package jeaps.foodtruck.common.truck;
 
 
 import jeaps.foodtruck.common.truck.food.Food;
+import jeaps.foodtruck.common.truck.route.RouteDTO;
 
 import java.util.List;
 
@@ -12,6 +13,17 @@ public class TruckDTO {
     private Prices price;
 
     private List<Food> food;
+    private List<RouteDTO> routes;
+
+    public TruckDTO(){};
+    public TruckDTO(Truck t) {
+        id = t.getId();
+        name = t.getName();
+        menu = t.getMenu();
+        price = t.getPrice();
+        food = t.getFood();
+    }
+
 
     public Integer getId() {
         return id;
@@ -45,13 +57,13 @@ public class TruckDTO {
         this.price = price;
     }
 
-    /*public Food getFood() {
-        return food;
+    public List<RouteDTO> getRoutes() {
+        return routes;
     }
 
-    public void setFood(Food food) {
-        this.food = food;
-    }*/
+    public void setRoutes(List<RouteDTO> routes) {
+        this.routes = routes;
+    }
 
     public List<Food> getFood() {
         return food;

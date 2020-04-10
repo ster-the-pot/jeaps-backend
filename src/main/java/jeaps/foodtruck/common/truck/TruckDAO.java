@@ -4,6 +4,7 @@ package jeaps.foodtruck.common.truck;
 import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.truck.route.Route;
+import jeaps.foodtruck.common.truck.route.RouteDAO;
 import jeaps.foodtruck.common.user.customer.Customer;
 
 import jeaps.foodtruck.common.user.user.User;
@@ -20,6 +21,7 @@ import java.util.stream.StreamSupport;
 public class TruckDAO {
     @Autowired
     private TruckRepository truckRepo;
+
 
     @Autowired
     public void setTruckRepo(TruckRepository truckRepo) {
