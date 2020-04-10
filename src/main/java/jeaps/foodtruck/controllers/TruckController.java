@@ -30,34 +30,17 @@ public class TruckController {
     @Autowired
     OwnerDAO ownerDAO;
 
- /*   @RequestMapping(path="/all")
+   @RequestMapping(path="/all")
     public @ResponseBody
     Iterable<Truck> getAllTrucks(){
         return this.truckDAO.getAllTrucks();
     }
-*/
+
     @RequestMapping(path="/details")
     public @ResponseBody
     Optional<Truck> getUserDetails(@RequestParam Integer truckID){
         return this.truckDAO.findById(truckID);
     }
-
-
-    /*One of the requirements is get nearby trucks.
-We should make a POST endpoint that recieves coordinates
-(lat + long) and an optional distance parameter that returns all trucks in an area*/
-
-    @RequestMapping(path="/getNearbyTrucks")
-    public ResponseEntity<?> getNearbyTrucks(@RequestBody Location loc, @RequestParam Integer distance) throws URISyntaxException {
-        List<Truck> trucks = this.truckDAO.getNearbyTrucks(loc, distance);
-
-
-        map.clear();
-        map.put("TruckList", trucks);
-        return ResponseEntity.created(URI.create("/getNearbyTrucks/done")).body(map);
-    }
-
-
 
     @RequestMapping(path="/ownerStatsTruckId")
     public ResponseEntity<?> ownerStats(@RequestParam Integer truckId) {
@@ -69,6 +52,17 @@ We should make a POST endpoint that recieves coordinates
     @RequestMapping(path="/ownerStatsUsername")
     public ResponseEntity<?> ownerStats(@RequestParam String username){
         return ResponseEntity.created(URI.create("/getNearbyTrucks/done")).body(this.ownerDAO.getOwnerStats(username));
+    }
+
+
+    @RequestMapping(path="/getNearbyTrucks")
+    public ResponseEntity<?> getNearbyTrucks(@RequestBody Location loc, @RequestParam Integer distance) throws URISyntaxException {
+        List<Truck> trucks = this.truckDAO.getNearbyTrucks(loc, distance);
+
+
+        map.clear();
+        map.put("TruckList", trucks);
+        return ResponseEntity.created(URI.create("/getNearbyTrucks/done")).body(map);
     }
 
     /**

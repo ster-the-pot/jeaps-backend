@@ -96,11 +96,7 @@ public class CustomerController {
     /*****************************************************************
      * End Subscribe
      *****************************************************************/
-/*@RequestMapping(path="/searchTruck")
-    public @ResponseBody
-    List<Truck> searchTruck(@RequestParam String username){
-        return this.truckDAO.findALL();
-    }*/
+
 
     /*****************************************************************
      * Start Recommendations
