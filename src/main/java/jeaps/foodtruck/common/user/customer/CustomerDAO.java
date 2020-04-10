@@ -3,6 +3,7 @@ package jeaps.foodtruck.common.user.customer;
 
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
+import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 import jeaps.foodtruck.common.user.customer.preferences.PreferencesDAO;
 import jeaps.foodtruck.common.user.user.User;
@@ -72,23 +73,18 @@ public class CustomerDAO {
 
     }
 
-    public List<Object> getPreferences(String username) {
-        List<Object> returns = new ArrayList<>();
+    public Map<String,Object> getPreferences(String username) {
+        Map<String,Object> returns = new HashMap<>();
         User user = userDAO.findByUsername(username);
 
-        List<Object> userInfo = new ArrayList<>();
-        userInfo.add(user.getId());
-        userInfo.add(user.getUsername());
-        userInfo.add(user.getEmail());
-        returns.add(userInfo);
 
         Optional<Customer> customer = customerRepo.findById(user.getId());
         Optional<Preferences> pref = preferencesDAO.findById(user.getId());
         if(customer.isPresent() && pref.isPresent()) {
-            returns.add(pref.get());
+            returns.put("preferences",pref.get());
         }
         else{
-            returns.add(new Preferences());
+            returns.put("preferences",new Preferences());
         }
 
         return returns;
@@ -186,11 +182,14 @@ public class CustomerDAO {
                 return suggestions;
             }
         }
+
         //Create a map to sort trucks based on scores
         Map<Integer, List<Truck>> truckScores = new HashMap<Integer, List<Truck>>();
         int highscore = 0;
         for(Truck t : suggestions){
             int score = getScore(t, userPrefs.get(), user.getId());
+
+
             if(score > highscore){highscore = score;}
 
             //If the truck does not contain the score, add it
@@ -218,9 +217,22 @@ public class CustomerDAO {
     public Integer getScore(Truck truck, Preferences prefs, Integer id){
         int score = 0;
         //increase truck score if the food is preferred
-        if(truck.getFood() != null && truck.getFood() == prefs.getFood()){
+        if(truck.getFood() != null && truck.getFood() == prefs.getFood()) {
             score += 10;
         }
+        
+        if(truck.getFood() != null) {
+            for (Food f : truck.getFood()) {
+                for (Food f2 : prefs.getFood()) {
+                    if(f == f2) {
+                        score += 1;
+                        break;
+                    }
+                }
+            }
+        }
+
+
         //increase truck score if the price is within budget
         if(truck.getPrice() != null && prefs.getMaxPricePref() != null && truck.getPrice().getFloor() <= prefs.getMaxPricePref().getFloor()){
             score += 20;
@@ -234,6 +246,23 @@ public class CustomerDAO {
         c.setId(id);
         if(c.getTrucks() != null && c.getTrucks().contains(truck)){
             score -= 30;
+        }
+
+        if(truck.getAvgRating() != null) {
+            score += truck.getAvgRating();
+        }
+
+        //No more than 10 points from this
+        Integer numSubs = this.truckDAO.getNumSubscribers(truck.getId());
+        if(numSubs != null) {
+            if(numSubs > 10) {
+                numSubs = 10;
+            }
+            score += numSubs;
+        }
+
+        if(score < 0) {
+            score = 0;
         }
         return score;
     }

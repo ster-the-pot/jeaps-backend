@@ -6,6 +6,8 @@ import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.truck.route.Location;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -16,8 +18,17 @@ public class Preferences {
     private Integer id;
 
 
-    @ManyToOne
-    private Food food;
+    //@ManyToOne
+    //private Food food;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name="CustomerFood",
+            joinColumns={@JoinColumn(name = "customer_id")})
+    private List<Food> food = new ArrayList<>();
+
 
     private String proxPref;
 
@@ -44,12 +55,11 @@ public class Preferences {
         this.id = id;
     }
 
-
-    public Food getFood() {
+    public List<Food> getFood() {
         return food;
     }
 
-    public void setFood(Food food) {
+    public void setFood(List<Food> food) {
         this.food = food;
     }
 

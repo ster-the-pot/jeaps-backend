@@ -15,12 +15,5 @@ public class SearchController {
     @Autowired
     TruckDAO truckDAO;
 
-    @RequestMapping(path="/default")
-    public List<Truck> defaultSearch(@RequestParam String truckName) {
-        return truckDAO.findByName(truckName);
-    }
-    @RequestMapping(path="/advanced")
-    public List<Truck> advancedSearch(@RequestBody TruckDTO truck) {
-        return truckDAO.searchAdvanced(truck);
-    }
+
 }

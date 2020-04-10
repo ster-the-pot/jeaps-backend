@@ -5,13 +5,15 @@ import jeaps.foodtruck.common.truck.Prices;
 import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.truck.route.Location;
 
+import java.util.List;
+
 public class PreferencesDTO {
 
 
     private Integer id;
 
 
-    private Food food;
+    private List<Food> food;
 
     private String proxPref;
 
@@ -29,11 +31,11 @@ public class PreferencesDTO {
     }
 
 
-    public Food getFood() {
+    public List<Food> getFood() {
         return food;
     }
 
-    public void setFood(Food food) {
+    public void setFood(List<Food> food) {
         this.food = food;
     }
 
