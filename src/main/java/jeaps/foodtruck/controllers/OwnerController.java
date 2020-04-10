@@ -41,6 +41,22 @@ public class OwnerController {
     public List<Object> getSubscribers(@RequestParam Integer truckID){
         return this.truckDAO.getSubscribers(truckID);
     }
+
+
+    @RequestMapping(path="/getNumSubscribers")
+    public Integer getNumSubscribers(@RequestParam Integer truckID){
+        return this.truckDAO.getNumSubscribers(truckID);
+    }
+
+    @RequestMapping(path="/getOwnerSubscribers")
+    public List<String> getOwnerSubscribers(@RequestParam String username){
+        return this.ownerDAO.getSubscribers(username);
+    }
+
+    @RequestMapping(path="/getNumOwnerSubscribers")
+    public Integer getNumOwnerSubscribers(@RequestParam String username){
+        return this.ownerDAO.getNumSubscribers(username);
+    }
     /*********************************************************
      * Trucks
      *********************************************************/

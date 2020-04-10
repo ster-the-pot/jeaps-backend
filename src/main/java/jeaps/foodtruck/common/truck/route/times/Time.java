@@ -32,9 +32,9 @@ public class Time {
     private Date saturdayEndTime;
 
 
-    @JsonBackReference
-    @OneToOne
-    private Route route;
+    //@JsonBackReference
+    //@OneToOne
+    //private Route route;
 
 
     public Integer getId() {
@@ -157,11 +157,4 @@ public class Time {
         this.saturdayEndTime = saturdayEndTime;
     }
 
-    public Route getRoute() {
-        return route;
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
-    }
 }

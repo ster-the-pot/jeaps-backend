@@ -56,7 +56,9 @@ public class RouteDAO {
 
         Route route = new Route();
 
-        //route.setDays(routeDTO.getDays());
+        route.setStartTime(routeDTO.getStartTime());
+        route.setEndTime(routeDTO.getEndTime());
+        route.setDays(routeDTO.getDays());
         route.setName(routeDTO.getName());
         route.setMessage(routeDTO.getMessage());
         route.setLocation(routeDTO.getLocation());
@@ -90,7 +92,9 @@ public class RouteDAO {
                 List<Route> r = t.getRoute();
                 r.remove(route.get());
 
-                //route.get().setDays(routeDTO.getDays());
+                route.get().setStartTime(routeDTO.getStartTime());
+                route.get().setEndTime(routeDTO.getEndTime());
+                route.get().setDays(routeDTO.getDays());
                 route.get().setName(routeDTO.getName());
                 route.get().setLocation(routeDTO.getLocation());
                 route.get().setMessage(routeDTO.getMessage());

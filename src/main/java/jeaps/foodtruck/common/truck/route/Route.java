@@ -7,6 +7,7 @@ import jeaps.foodtruck.common.truck.route.times.Time;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Route {
@@ -20,10 +21,13 @@ public class Route {
     @Embedded
     private Location location;
 
+    private Date startTime;
+    private Date endTime;
 
-    @JsonManagedReference
-    @OneToOne
-    Time days;
+    boolean[] days = new boolean[7];
+    //@JsonManagedReference
+    //@OneToOne
+    //Time days;
 
 
     //@Enumerated(EnumType.ORDINAL)
@@ -75,12 +79,29 @@ public class Route {
         this.truck = truck;
     }
 
-    public Time getDays() {
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public boolean[] getDays() {
         return days;
     }
 
-    public void setDays(Time days) {
-        this.days = days;
+    public void setDays(boolean[] days) {
+        System.arraycopy(days, 0, this.days, 0, 7);
+
     }
 
     public String getName() {
