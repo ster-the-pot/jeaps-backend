@@ -232,7 +232,6 @@ public class CustomerDAO {
             }
         }
 
-
         //increase truck score if the price is within budget
         if(truck.getPrice() != null && prefs.getMaxPricePref() != null && truck.getPrice().getFloor() <= prefs.getMaxPricePref().getFloor()){
             score += 20;
