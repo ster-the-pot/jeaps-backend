@@ -217,15 +217,15 @@ public class CustomerDAO {
     public Integer getScore(Truck truck, Preferences prefs, Integer id){
         int score = 0;
         //increase truck score if the food is preferred
-        if(truck.getFood() != null && truck.getFood() == prefs.getFood()) {
-            score += 10;
-        }
+        //if(truck.getFood() != null && truck.getFood() == prefs.getFood()) {
+        //    score += 10;
+        //}
         
         if(truck.getFood() != null) {
             for (Food f : truck.getFood()) {
                 for (Food f2 : prefs.getFood()) {
                     if(f == f2) {
-                        score += 1;
+                        score += 10;
                         break;
                     }
                 }
@@ -254,8 +254,8 @@ public class CustomerDAO {
         //No more than 10 points from this
         Integer numSubs = this.truckDAO.getNumSubscribers(truck.getId());
         if(numSubs != null) {
-            if(numSubs > 10) {
-                numSubs = 10;
+            if(numSubs > 50) {
+                numSubs = 50;
             }
             score += numSubs;
         }
