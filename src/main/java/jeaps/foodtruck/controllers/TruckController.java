@@ -4,6 +4,7 @@ package jeaps.foodtruck.controllers;
 
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
+import jeaps.foodtruck.common.truck.TruckDTO;
 import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +43,6 @@ public class TruckController {
     }
 
 
-    @RequestMapping(path="/search")
-    public @ResponseBody
-    List<Truck> searchTrucks(@RequestParam String name){
-        return null;
-    }
-
-
     /*One of the requirements is get nearby trucks.
 We should make a POST endpoint that recieves coordinates
 (lat + long) and an optional distance parameter that returns all trucks in an area*/
@@ -75,6 +69,26 @@ We should make a POST endpoint that recieves coordinates
     @RequestMapping(path="/ownerStatsUsername")
     public ResponseEntity<?> ownerStats(@RequestParam String username){
         return ResponseEntity.created(URI.create("/getNearbyTrucks/done")).body(this.ownerDAO.getOwnerStats(username));
+    }
+
+    /**
+     * Searches for a truck based on its name
+     * @param truckName The name of the truck to search for
+     * @return A List of trucks with the given name
+     */
+    @RequestMapping(path="/default")
+    public List<Truck> defaultSearch(@RequestParam String truckName) {
+        return truckDAO.findByName(truckName);
+    }
+
+    /**
+     * Searches for a truck based on user-given parameters
+     * @param truck A TruckDTO that has one or more attributes of a truck you wish to find
+     * @return A list of trucks that conform to the user-given parameters
+     */
+    @RequestMapping(path="/advanced")
+    public List<Truck> advancedSearch(@RequestBody TruckDTO truck) {
+        return truckDAO.searchAdvanced(truck);
     }
 
 }

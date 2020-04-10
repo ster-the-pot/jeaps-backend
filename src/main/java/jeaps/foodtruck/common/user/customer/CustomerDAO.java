@@ -72,23 +72,18 @@ public class CustomerDAO {
 
     }
 
-    public List<Object> getPreferences(String username) {
-        List<Object> returns = new ArrayList<>();
+    public Map<String,Object> getPreferences(String username) {
+        Map<String,Object> returns = new HashMap<>();
         User user = userDAO.findByUsername(username);
 
-        List<Object> userInfo = new ArrayList<>();
-        userInfo.add(user.getId());
-        userInfo.add(user.getUsername());
-        userInfo.add(user.getEmail());
-        returns.add(userInfo);
 
         Optional<Customer> customer = customerRepo.findById(user.getId());
         Optional<Preferences> pref = preferencesDAO.findById(user.getId());
         if(customer.isPresent() && pref.isPresent()) {
-            returns.add(pref.get());
+            returns.put("preferences",pref.get());
         }
         else{
-            returns.add(new Preferences());
+            returns.put("preferences",new Preferences());
         }
 
         return returns;

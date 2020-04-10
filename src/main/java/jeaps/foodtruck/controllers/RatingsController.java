@@ -29,24 +29,27 @@ public class RatingsController {
     Map<String, Object> map = new HashMap<>();
 
 
-    @UserLoginToken
+    //@UserLoginToken
     @PostMapping(path="/customer/addRating")
-    public ResponseEntity<?> addRating(@RequestBody RateDTO rate, @RequestParam Integer truckid, HttpServletRequest req) {
-        rateDAO.addRate(rate, truckid, tokenService.getUsername(req));
+    public ResponseEntity<?> addRating(@RequestBody RateDTO rate, @RequestParam Integer truckid, @RequestParam String username/*HttpServletRequest req*/) {
+        //rateDAO.addRate(rate, truckid, tokenService.getUsername(req));
+        rateDAO.addRate(rate, truckid, username);
         return ResponseEntity.ok("Rating successfully added");
     }
 
-    @UserLoginToken
+    //@UserLoginToken
     @PostMapping(path="/customer/editRating")
-    public ResponseEntity<?> editRating(@RequestBody RateDTO rate, @RequestParam Integer truckid, HttpServletRequest req) {
-        rateDAO.editRate(rate, truckid, tokenService.getUsername(req));
+    public ResponseEntity<?> editRating(@RequestBody RateDTO rate, @RequestParam Integer truckid, @RequestParam String username/*HttpServletRequest req*/) {
+        //rateDAO.editRate(rate, truckid, tokenService.getUsername(req));
+        rateDAO.editRate(rate, truckid, username);
         return ResponseEntity.ok("Rating successfully edited");
     }
 
-    @UserLoginToken
+    //@UserLoginToken
     @PostMapping(path="/customer/deleteRating")
-    public ResponseEntity<?> editRating(@RequestParam Integer truckid, HttpServletRequest req) {
-        rateDAO.removeRate(truckid, tokenService.getUsername(req));
+    public ResponseEntity<?> editRating(@RequestParam Integer truckid, @RequestParam String username/*HttpServletRequest req*/) {
+        //rateDAO.removeRate(truckid, tokenService.getUsername(req));
+        rateDAO.removeRate(truckid, username);
         return ResponseEntity.ok("Rating successfully deleted");
     }
 
