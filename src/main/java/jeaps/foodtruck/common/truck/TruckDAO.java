@@ -166,7 +166,6 @@ public class TruckDAO {
        return null;
     }
 
-
     public Optional<Truck> findById(Integer id) { return this.truckRepo.findById(id); }
 
     public List<Truck> findALL() {
@@ -233,5 +232,14 @@ public class TruckDAO {
             return true;
         }
         return false;
+    }
+
+    public Integer getNumSubscribers(Integer truckID) {
+        Optional<Truck> truck = truckRepo.findById(truckID);
+        if(truck.isPresent()) {
+
+            return truck.get().getCustomers().size();
+        }
+        return null;
     }
 }

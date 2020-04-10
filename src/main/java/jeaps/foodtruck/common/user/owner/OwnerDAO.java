@@ -68,12 +68,19 @@ public class OwnerDAO {
         if(owner.isPresent()) {
             List<Truck> trucks = owner.get().getTrucks();
 
-            Set<Customer> subscribed = new HashSet<>();
             Set<Food> foodtypes = new HashSet<>();
+            List<String> customers = new ArrayList<>();
 
             Double average = null;
             Integer num = 0;
             for (Truck t : trucks) {
+                List<Customer> tempCustomers = t.getCustomers();
+                for(Customer c: tempCustomers) {
+                    Optional<User> tempUser = this.userDAO.findById(c.getId());
+                    if(tempUser.isPresent() && !customers.contains(tempUser.get().getUsername())) {
+                        customers.add(tempUser.get().getUsername());
+                    }
+                }
                 if(t.getAvgRating() != null){
                     if(average == null) {
                         average = t.getAvgRating();
@@ -84,14 +91,13 @@ public class OwnerDAO {
                 }
 
                 foodtypes.addAll(t.getFood());
-                subscribed.addAll(t.getCustomers());
             }
             if(average != null) {
                 average = (average / ((double) num));
             }
 
             map.put("Trucks", trucks.size());
-            map.put("Subscribers", subscribed.size());
+            map.put("Subscribers", customers.size());
             map.put("FoodTypes", foodtypes.size());
             map.put("AvgTruckRating", average);
         }
@@ -199,5 +205,34 @@ public class OwnerDAO {
 
     public void setOwnerRepo(OwnerRepository ownerRepo) {
         this.ownerRepo = ownerRepo;
+    }
+
+    public List<String> getSubscribers(String username) {
+
+        User user = this.userDAO.findByUsername(username);
+        Optional<Owner> owner = this.ownerRepo.findById(user.getId());
+
+       if(owner.isPresent()) {
+
+            List<String> customers = new ArrayList<>();
+            List<Truck> trucks = owner.get().getTrucks();
+            for(Truck t: trucks) {
+                List<Customer> tempCustomers = t.getCustomers();
+                for(Customer c: tempCustomers) {
+                    Optional<User> tempUser = this.userDAO.findById(c.getId());
+                    if(tempUser.isPresent() && !customers.contains(tempUser.get().getUsername())) {
+                        customers.add(tempUser.get().getUsername());
+                    }
+                }
+            }
+
+            return customers;
+       }
+
+        throw new RuntimeException("Owner Not found");
+    }
+
+    public Integer getNumSubscribers(String username) {
+        return this.getSubscribers(username).size();
     }
 }

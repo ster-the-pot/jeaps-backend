@@ -17,7 +17,8 @@ public class TimeDAO {
     }
 
     public List<Time> findByRoute(int routeID) {
-        return timeRepository.findByRoute_id(routeID);
+        //return timeRepository.findByRoute_id(routeID);
+        return null;
     }
 
     public void save(Time time) {
