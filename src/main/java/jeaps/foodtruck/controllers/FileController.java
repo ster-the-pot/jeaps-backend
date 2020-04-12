@@ -1,113 +1,58 @@
 package jeaps.foodtruck.controllers;
 
 
-import jeaps.foodtruck.common.file.FileContentStore;
-import jeaps.foodtruck.common.file.FileRepository;
-import jeaps.foodtruck.common.file.UserFile;
+import jeaps.foodtruck.common.image.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
+import java.net.URI;
 
 @RestController
 public class FileController {
 
-    @Autowired private FileRepository filesRepo;
-    @Autowired private FileContentStore contentStore;
+    @Autowired private ImageDAO imageDAO;
 
-    @RequestMapping(value="/files/{fileId}", method = RequestMethod.PUT)
-    public ResponseEntity<?> setContent(HttpServletRequest req, @PathVariable("fileId") Long id, @RequestParam("file") MultipartFile file)
+    @PostMapping(path="/files/save")
+    public ResponseEntity<?> setContent(HttpServletRequest req, @RequestParam("file") MultipartFile file)
             throws IOException {
+        
+        Image i = this.imageDAO.saveFile(file);
 
-        //Optional<UserFile> f = filesRepo.findById(id);
-        UserFile f = new UserFile();
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(i.getId())
+                .toUriString();
 
-        f.setMimeType(file.getContentType());
+        Map<String,Object> str = new HashMap<>();
+        str.put("Image", new ImageDTO(i.getId(), i.getFileName(), fileDownloadUri,
+                file.getContentType(), file.getSize()));
 
-        contentStore.setContent(f, file.getInputStream());
+        return ResponseEntity.created(URI.create("/files/done")).body(str);
 
-        // save updated content-related info
-        filesRepo.save(f);
-
-
-
-        return new ResponseEntity<Object>(HttpStatus.OK);
 
 
     }
 
-    @RequestMapping(value="/files/{fileId}", method = RequestMethod.GET)
-    public ResponseEntity<?> getContent(@PathVariable("fileId") Long id) {
+    @RequestMapping(value="/files/getFile", method = RequestMethod.GET)
+    public ResponseEntity<?> getContent(@RequestParam("fileId") String fileId) {
 
-        Optional<UserFile> f = filesRepo.findById(id);
-        if (f.isPresent()) {
+        Image i = this.imageDAO.getFile(fileId);
 
-            InputStreamResource inputStreamResource = new InputStreamResource(contentStore.getContent(f.get()));
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(i.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + i.getFileName() + "\"")
+                .body(new ByteArrayResource(i.getData()));
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentLength(f.get().getContentLength());
-            headers.set("Content-Type", f.get().getMimeType());
-            return new ResponseEntity<Object>(inputStreamResource, headers, HttpStatus.OK);
-        }
-        return null;
     }
 
-   /*@PostMapping(path="/savefile")
-   public ResponseEntity<?> savefile(HttpServletRequest request, @RequestParam String filename) throws IOException {
-       HashMap<String, Object> str = new HashMap<>();
-
-       str.put("file", userFileDAO.saveUserFile(request, filename));
-       return ResponseEntity.created(URI.create("/login/done")).body(str);
-   }*/
-
-
-
-   /* @PostMapping(path="/savefileOld")
-    public ResponseEntity<?> setContent(@RequestParam String filename) throws IOException {
-
-        File file = new File(filename);
-        FileInputStream input = new FileInputStream(file);
-        MultipartFile multipartFile = new MockMultipartFile("file",
-                    file.getName(), "text/plain", IOUtils.toByteArray(input));
-
-        //Optional<UserFile> f = filesRepo.findById(id);
-        UserFile f = new UserFile();
-
-        f.setMimeType(multipartFile.getContentType());
-
-        try {
-            contentStore.setContent(f, multipartFile.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException("Issue with file");
-        }
-
-
-        filesRepo.save(f);
-
-        return ResponseEntity.ok("Successfully Image");
-
-
-    }*/
-
-   /* @RequestMapping(value="/files/{fileId}", method = RequestMethod.GET)
-    public ResponseEntity<?> getContent(@PathVariable("fileId") Integer id) {
-
-        Optional<UserFile> f = filesRepo.findById(id);
-        if (f.isPresent()) {
-            InputStreamResource inputStreamResource = new InputStreamResource(contentStore.getContent(f.get()));
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentLength(f.get().getFileData().getSize());
-
-            headers.set("Content-Type", "text/plain");
-            return new ResponseEntity<Object>(inputStreamResource, headers, HttpStatus.OK);
-        }
-        return null;
-    }*/
 }
