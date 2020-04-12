@@ -1,6 +1,8 @@
 package jeaps.foodtruck.common.truck;
 
 
+import jeaps.foodtruck.common.image.Image;
+import jeaps.foodtruck.common.image.ImageDAO;
 import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.truck.route.Route;
@@ -10,6 +12,7 @@ import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +23,8 @@ import java.util.stream.StreamSupport;
 public class TruckDAO {
     @Autowired
     private TruckRepository truckRepo;
+    @Autowired
+    private ImageDAO imageDAO;
 
     @Autowired
     public void setTruckRepo(TruckRepository truckRepo) {
@@ -46,18 +51,58 @@ public class TruckDAO {
     }
 
 
+    public Image saveMenu(Integer truckID, MultipartFile file) {
+        Optional<Truck> truck = this.truckRepo.findById(truckID);
+        if(truck.isPresent()) {
+            if(truck.get().getMenu() != null) {
+                this.deleteMenu(truckID);
+            }
+            Image i = this.imageDAO.saveFile(file);
+
+            truck.get().setMenu(i);
+
+            this.truckRepo.save(truck.get());
+            return i;
+        }
+        throw new RuntimeException("Failed to save menu");
+    }
+
+    public Image getMenu(Integer truckID) {
+        Optional<Truck> truck = this.truckRepo.findById(truckID);
+        if(truck.isPresent()) {
+            return truck.get().getMenu();
+        }
+        throw new RuntimeException("Failed to get menu");
+    }
+
+    public void deleteMenu(Integer truckID) {
+        Optional<Truck> truck = this.truckRepo.findById(truckID);
+        if(truck.isPresent()) {
+            Image i = truck.get().getMenu();
+            if(i != null) {
+                this.imageDAO.deleteFile(i.getId());
+            }
+            truck.get().setMenu(null);
+            this.truckRepo.save(truck.get());
+        }
+    }
+
+
 
     public void deleteById(Integer truckID) {
         this.truckRepo.deleteById(truckID);
     }
 
     public Iterable<Truck> getAllTrucks() {
-        return this.truckRepo.findAll();
+        Iterable<Truck> trucks = truckRepo.findAll();
+        trucks.forEach(t -> t.setMenu(null));
+        return trucks;
     }
 
     public List<Truck> findByName(String name){
-
-        return this.truckRepo.findByNameIgnoreCaseContaining(name);
+        List<Truck> trucks = this.truckRepo.findByNameIgnoreCaseContaining(name);
+        trucks.forEach(t -> t.setMenu(null));
+        return trucks;
     }
 
     public List<Truck> searchAdvanced(TruckDTO truck) {
@@ -68,6 +113,8 @@ public class TruckDAO {
         }
 
         Iterable<Truck> suggestions = truckRepo.findAll();
+        suggestions.forEach(t -> t.setMenu(null));
+
 
         //Create a map to sort trucks based on scores
         Map<Integer, List<Truck>> truckScores = new HashMap<Integer, List<Truck>>();
@@ -137,7 +184,9 @@ public class TruckDAO {
 
     public List<Truck> findByOwner(String username) {
         Integer id = this.userDAO.findByUsername(username).getId();
-        return this.truckRepo.findByOwner_id(id);
+        List<Truck> trucks = this.truckRepo.findByOwner_id(id);
+        trucks.forEach(t -> t.setMenu(null));
+        return trucks;
     }
 
     public List<Object> getSubscribers(Integer id) {
@@ -166,19 +215,20 @@ public class TruckDAO {
        return null;
     }
 
-    public Optional<Truck> findById(Integer id) { return this.truckRepo.findById(id); }
+    public Optional<Truck> findById(Integer id) {
+        Optional<Truck> trucks = this.truckRepo.findById(id);
+        trucks.get().setMenu(null);
+        return trucks;
+    }
 
     public List<Truck> findALL() {
         Iterable<Truck> iter =  this.truckRepo.findAll();
+        iter.forEach(t -> t.setMenu(null));
+
         return StreamSupport.stream(iter.spliterator(), false)
                         .collect(Collectors.toList());
     }
 
-    // to find trucks within x distance
-    public List<Truck> findALLWithin(Integer distance){
-
-        return null;
-    }
 
 
     public List<Truck> getNearbyTrucks(Location loc, Integer distance) {
@@ -189,6 +239,9 @@ public class TruckDAO {
         }
 
         List<Truck> allTrucks = (List<Truck>) this.truckRepo.findAll();
+        allTrucks.forEach(t -> t.setMenu(null));
+
+
         List<Truck> inRange = new ArrayList<>();
         for(Truck t: allTrucks) {
             List<Route> truckRoutes = t.getRoute();

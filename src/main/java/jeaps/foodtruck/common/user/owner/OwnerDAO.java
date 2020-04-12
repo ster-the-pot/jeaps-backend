@@ -140,7 +140,7 @@ public class OwnerDAO {
         //Truck t = new Truck(truckDTO.getName(), truckDTO.getRoute(), truckDTO.getType().name(), truckDTO.getMenu());
 
         Truck t = new Truck();
-        t.setMenu(truckDTO.getMenu());
+        //t.setMenu(truckDTO.getMenu());
         t.setName(truckDTO.getName());
         t.setFood(truckDTO.getFood());
         t.setPrice(truckDTO.getPrice());
@@ -156,6 +156,9 @@ public class OwnerDAO {
         //this.truckRepo.save(t);
         return true;
     }
+
+
+
     public void editTruck(TruckDTO truckDTO, Integer truckID) {
         Optional<Truck> t =  truckDAO.findById(truckID);
 
@@ -166,9 +169,9 @@ public class OwnerDAO {
         trucks.remove(t);
 
 
-        if(truckDTO.getMenu() != null) {
+       /* if(truckDTO.getMenu() != null) {
             t.get().setMenu(truckDTO.getMenu());
-        }
+        }*/
         if(truckDTO.getFood() != null) {
             t.get().setFood(truckDTO.getFood());
         }

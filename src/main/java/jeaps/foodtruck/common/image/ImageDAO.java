@@ -10,7 +10,7 @@ import java.io.IOException;
 @Repository
 public class ImageDAO {
     @Autowired
-    private ImageRepository imageRepository;
+    private ImageRepository imageRepo;
 
     public Image saveFile(MultipartFile file) {
         // Normalize file name
@@ -24,14 +24,18 @@ public class ImageDAO {
 
             Image i = new Image(fileName, file.getContentType(), file.getBytes());
 
-            return imageRepository.save(i);
+            return imageRepo.save(i);
         } catch (IOException ex) {
             throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
 
     public Image getFile(String fileId) {
-        return imageRepository.findById(fileId)
+        return imageRepo.findById(fileId)
                 .orElseThrow(() -> new RuntimeException("File not found with id " + fileId));
+    }
+
+    public void deleteFile(String fileId) {
+        this.imageRepo.deleteById(fileId);
     }
 }

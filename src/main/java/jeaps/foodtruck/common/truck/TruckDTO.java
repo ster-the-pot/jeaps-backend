@@ -8,10 +8,29 @@ import java.util.List;
 public class TruckDTO {
     private Integer id;
     private String name;
-    private String menu;
     private Prices price;
 
     private List<Food> food;
+    private Double avgRating;
+
+    public TruckDTO(){};
+
+    public TruckDTO(Truck t) {
+        this.id = t.getId();
+        this.name = t.getName();
+        this.price = t.getPrice();
+        this.food = t.getFood();
+        this.avgRating = t.getAvgRating();
+    }
+
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
+    }
 
     public Integer getId() {
         return id;
@@ -29,14 +48,6 @@ public class TruckDTO {
         this.name = name;
     }
 
-    public String getMenu() {
-        return menu;
-    }
-
-    public void setMenu(String menu) {
-        this.menu = menu;
-    }
-
     public Prices getPrice() {
         return price;
     }
@@ -44,14 +55,6 @@ public class TruckDTO {
     public void setPrice(Prices price) {
         this.price = price;
     }
-
-    /*public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
-    }*/
 
     public List<Food> getFood() {
         return food;

@@ -23,7 +23,7 @@ public class FileController {
     @Autowired private ImageDAO imageDAO;
 
     @PostMapping(path="/files/save")
-    public ResponseEntity<?> setContent(HttpServletRequest req, @RequestParam("file") MultipartFile file)
+    public ResponseEntity<?> setContent(@RequestParam MultipartFile file)
             throws IOException {
         
         Image i = this.imageDAO.saveFile(file);

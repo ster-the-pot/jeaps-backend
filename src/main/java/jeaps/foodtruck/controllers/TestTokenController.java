@@ -42,6 +42,7 @@ public class TestTokenController {
         }
     }
 
+    @CrossOrigin
     @UserLoginToken
     @GetMapping("/getMessage/customer")
     public String getMessage(HttpServletRequest req){
