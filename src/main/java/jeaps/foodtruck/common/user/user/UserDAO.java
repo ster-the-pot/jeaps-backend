@@ -1,8 +1,12 @@
 package jeaps.foodtruck.common.user.user;
 
+import jeaps.foodtruck.common.image.Image;
+import jeaps.foodtruck.common.image.ImageDAO;
+import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -16,6 +20,8 @@ public class UserDAO {
     //Repository of user objects
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private ImageDAO imageDAO;
 
     public void setUserRepo(UserRepository userRepo) {
         this.userRepo = userRepo;
@@ -84,13 +90,59 @@ public class UserDAO {
      * @return A User object created from the data in the database
      */
     public User findByUsername(String username){
-        return this.userRepo.findByUsername(username);
+        User u = this.userRepo.findByUsername(username);
+        u.setProfilePicture(null);
+        return u;
     }
 
 
-    public Optional<User> findById(Integer id) { return this.userRepo.findById(id); }
+    public Optional<User> findById(Integer id) {
+        Optional<User> u =  this.userRepo.findById(id);
+        u.ifPresent(user -> user.setProfilePicture(null));
+        return u;
+    }
 
-    public Iterable<User> findAll() { return this.userRepo.findAll(); }
+    public Iterable<User> findAll() {
+        Iterable<User> u = this.userRepo.findAll();
+        u.forEach(user -> user.setProfilePicture(null));
+        return u;
+    }
+
+
+    public Image saveProfile(String username, MultipartFile file) {
+        User user = this.userRepo.findByUsername(username);
+
+        if(user.getProfilePicture() != null) {
+            this.deleteProfile(username);
+        }
+        Image i = this.imageDAO.saveFile(file);
+
+        user.setProfilePicture(i);
+        this.userRepo.save(user);
+        return i;
+
+    }
+
+    public Image getProfile(String username) {
+        User user = this.userRepo.findByUsername(username);
+        return user.getProfilePicture();
+
+    }
+
+    public void deleteProfile(String username) {
+        User user = this.userRepo.findByUsername(username);
+
+        Image i = user.getProfilePicture();
+        Image old = this.imageDAO.getFile(i.getId());
+        if(i != null && old != null) {
+            this.imageDAO.deleteFile(i.getId());
+        }
+        user.setProfilePicture(null);
+        this.userRepo.save(user);
+
+
+    }
+
 }
 
 

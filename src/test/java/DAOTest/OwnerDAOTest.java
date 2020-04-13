@@ -60,8 +60,8 @@ public class OwnerDAOTest {
         ownerTest.get().setId(userTest.getId());
         ownerRepo.save(ownerTest.get());
 
-        truckTest.setMenu("Menu");
-        truckTest.setName("Name");
+        //truckTest.setMenu("Menu");
+        //truckTest.setName("Name");
     }
 
     /**
