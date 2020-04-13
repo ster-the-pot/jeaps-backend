@@ -221,12 +221,10 @@ public class OwnerDAO {
         this.ownerRepo = ownerRepo;
     }
 
-    public List<String> getSubscribers(String username) {
+    public List<String> getSubscribers(Integer id) {
+        Optional<Owner> owner = this.ownerRepo.findById(id);
 
-        User user = this.userDAO.findByUsername(username);
-        Optional<Owner> owner = this.ownerRepo.findById(user.getId());
-
-       if(owner.isPresent()) {
+        if(owner.isPresent()) {
 
             List<String> customers = new ArrayList<>();
             List<Truck> trucks = owner.get().getTrucks();
@@ -241,10 +239,16 @@ public class OwnerDAO {
             }
 
             return customers;
-       }
+        }
 
         throw new RuntimeException("Owner Not found");
     }
+
+    public List<String> getSubscribers(String username) {
+        User user = this.userDAO.findByUsername(username);
+        return this.getSubscribers(user.getId());
+    }
+
 
     public Integer getNumSubscribers(String username) {
         return this.getSubscribers(username).size();

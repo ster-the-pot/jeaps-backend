@@ -280,6 +280,12 @@ public class TruckDAO {
         trucks.forEach(t -> t.setMenu(null));
         return trucks;
     }
+    public List<Truck> findByOwner(Integer id) {
+        List<Truck> trucks = this.truckRepo.findByOwner_id(id);
+        trucks.forEach(t -> t.setMenu(null));
+        return trucks;
+    }
+
 
     public List<Object> getSubscribers(Integer id) {
         List<Object> returns = new ArrayList<>();
@@ -349,7 +355,7 @@ public class TruckDAO {
     }
 
 
-    private Boolean checkDistance(Location locGiven, Location locTest, Integer distance) {
+    public Boolean checkDistance(Location locGiven, Location locTest, Integer distance) {
 
         // The math module contains a function
         // named toRadians which converts from
