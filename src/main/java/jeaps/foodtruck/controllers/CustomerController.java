@@ -2,6 +2,8 @@ package jeaps.foodtruck.controllers;
 
 import jeaps.foodtruck.Token.TokenService;
 import jeaps.foodtruck.Token.UserLoginToken;
+import jeaps.foodtruck.common.image.Image;
+import jeaps.foodtruck.common.image.ImageDTO;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.rate.Rate;
@@ -12,8 +14,13 @@ import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -82,6 +89,7 @@ public class CustomerController {
         return this.customerDAO.getSubscribedTrucks(username);
     }
 
+
     @PostMapping(path="/subscribe")
     public Object subscribeToTruck(@RequestParam String username, @RequestParam Integer truckID) {
         this.customerDAO.subscribeToTruck(username, truckID);
@@ -108,4 +116,5 @@ public class CustomerController {
     /*****************************************************************
      * End Recommendations
      *****************************************************************/
+
 }

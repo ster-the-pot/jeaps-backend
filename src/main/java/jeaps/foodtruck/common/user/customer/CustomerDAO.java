@@ -4,8 +4,11 @@ package jeaps.foodtruck.common.user.customer;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.food.Food;
+import jeaps.foodtruck.common.truck.route.Route;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
 import jeaps.foodtruck.common.user.customer.preferences.PreferencesDAO;
+import jeaps.foodtruck.common.user.owner.Owner;
+import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,8 @@ public class CustomerDAO {
 
     @Autowired
     private TruckDAO truckDAO;
-
+    @Autowired
+    private OwnerDAO ownerDAO;
     @Autowired
     private PreferencesDAO preferencesDAO;
 
@@ -164,42 +168,51 @@ public class CustomerDAO {
 
 
     public List<Truck> getRecommendations(String username) {
+
         //Initialise the list of trucks to return
-        List<Truck> suggestions = new ArrayList<Truck>();
+
         //Get the user who we are providing recommendations for
         User user = userDAO.findByUsername(username);
         //Get the preferences of the user
         Optional<Preferences> userPrefs = preferencesDAO.findById(user.getId());
-        //Get all trucks within a set distance                  *********right now there is no distance calculation***********
 
-        suggestions = truckDAO.findALL();
-        //If there are no preferences, return a random set of trucks
-        if(!userPrefs.isPresent()){
-            if(suggestions.size() > NUM_RECS){
-                return suggestions.subList(0, NUM_RECS-1);
-            }
-            else{
-                return suggestions;
-            }
-        }
+        Iterable<Owner> owners = this.ownerDAO.findAll();
 
         //Create a map to sort trucks based on scores
         Map<Integer, List<Truck>> truckScores = new HashMap<Integer, List<Truck>>();
         int highscore = 0;
-        for(Truck t : suggestions){
-            int score = getScore(t, userPrefs.get(), user.getId());
-
-
-            if(score > highscore){highscore = score;}
-
-            //If the truck does not contain the score, add it
-            if(!truckScores.containsKey(score)){
-                truckScores.put(score, new ArrayList<Truck>());
+        for(Owner o: owners) {
+            int added = 0;
+            List<Truck> trucks = this.truckDAO.findByOwner(o.getId());
+            List<String> customerNames = this.ownerDAO.getSubscribers(o.getId());
+            //If the owner has a truck that the customer has subscribed to then add weight to all its trucks
+            if(customerNames.contains(username)) {
+                added += 20;
             }
-            //Add the truck to the right score bracket
-            truckScores.get(score).add(t);
+            for(Truck t: trucks) {
+                //for(Truck t : suggestions){
+                int score;
+                if (!userPrefs.isPresent()) {
+                    score = getScore(t, null, user.getId(), added);
+                } else {
+                    score = getScore(t, userPrefs.get(), user.getId(), added);
+                }
+
+                if(score > highscore){highscore = score;}
+
+                //If the truck does not contain the score, add it
+                if(!truckScores.containsKey(score)){
+                    truckScores.put(score, new ArrayList<Truck>());
+                }
+                //Add the truck to the right score bracket
+                truckScores.get(score).add(t);
+            }
+
+
+
         }
-        suggestions = new ArrayList<Truck>();
+
+        ArrayList<Truck> suggestions = new ArrayList<Truck>();
 
         while(highscore >= 0 && suggestions.size() < NUM_RECS){
             if(truckScores.get(highscore) != null){
@@ -214,44 +227,60 @@ public class CustomerDAO {
         return suggestions;
     }
 
-    public Integer getScore(Truck truck, Preferences prefs, Integer id){
-        int score = 0;
+    public Integer getScore(Truck truck, Preferences prefs, Integer id, Integer added) {
+        //Add the already accumulated score
+        int score = added;
+
         //increase truck score if the food is preferred
-        //if(truck.getFood() != null && truck.getFood() == prefs.getFood()) {
-        //    score += 10;
-        //}
-        
-        if(truck.getFood() != null) {
-            for (Food f : truck.getFood()) {
-                for (Food f2 : prefs.getFood()) {
-                    if(f == f2) {
-                        score += 10;
+        if(prefs != null) {
+
+            if(prefs.getLocation() != null && prefs.getProxPref() != null) {
+                for(Route r: truck.getRoute()){
+                    if(this.truckDAO.checkDistance(r.getLocation(), prefs.getLocation(), Integer.parseInt(prefs.getProxPref()))) {
+                        score += 20;
                         break;
                     }
                 }
             }
+
+            if (truck.getFood() != null) {
+                for (Food f : truck.getFood()) {
+                    for (Food f2 : prefs.getFood()) {
+                        if (f == f2) {
+                            score += 10;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //increase truck score if the price is within budget
+            if (truck.getPrice() != null && prefs.getMaxPricePref() != null && truck.getPrice().getFloor() <= prefs.getMaxPricePref().getFloor()) {
+                if(truck.getPrice().getFloor() == prefs.getMaxPricePref().getFloor()) {
+                    score += 20;
+                } else {
+                    score += 10;
+                }
+            }
+
         }
 
-        //increase truck score if the price is within budget
-        if(truck.getPrice() != null && prefs.getMaxPricePref() != null && truck.getPrice().getFloor() <= prefs.getMaxPricePref().getFloor()){
-            score += 20;
-        }
         //increase truck score based on rating
         if(truck.getAvgRating() != null){
-            score += 10*truck.getAvgRating();
+            score += 10 * truck.getAvgRating();
+        } else {
+            //If the truck has no ratings we will assume it has a rating of 3....
+            score += 30;
         }
+
         //reduce truck score if the customer is subscribed to the truck
-        Customer c = new Customer();
-        c.setId(id);
-        if(c.getTrucks() != null && c.getTrucks().contains(truck)){
+        Optional<Customer> c = this.customerRepo.findById(id);
+        if(c.isPresent() && c.get().getTrucks().contains(truck)){
             score -= 30;
         }
 
-        if(truck.getAvgRating() != null) {
-            score += truck.getAvgRating();
-        }
 
-        //No more than 10 points from this
+        //No more than 50 points from this
         Integer numSubs = this.truckDAO.getNumSubscribers(truck.getId());
         if(numSubs != null) {
             if(numSubs > 50) {
@@ -260,9 +289,8 @@ public class CustomerDAO {
             score += numSubs;
         }
 
-        if(score < 0) {
-            score = 0;
-        }
+
+        //System.out.println(truck.getId() + ":" + score);
         return score;
     }
 

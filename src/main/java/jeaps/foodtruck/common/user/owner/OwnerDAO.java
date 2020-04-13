@@ -140,7 +140,7 @@ public class OwnerDAO {
         //Truck t = new Truck(truckDTO.getName(), truckDTO.getRoute(), truckDTO.getType().name(), truckDTO.getMenu());
 
         Truck t = new Truck();
-        t.setMenu(truckDTO.getMenu());
+        //t.setMenu(truckDTO.getMenu());
         t.setName(truckDTO.getName());
         t.setFood(truckDTO.getFood());
         t.setPrice(truckDTO.getPrice());
@@ -156,6 +156,9 @@ public class OwnerDAO {
         //this.truckRepo.save(t);
         return t;
     }
+
+
+
     public void editTruck(TruckDTO truckDTO, Integer truckID) {
         Optional<Truck> t =  truckDAO.findById(truckID);
 
@@ -166,9 +169,9 @@ public class OwnerDAO {
         trucks.remove(t);
 
 
-        if(truckDTO.getMenu() != null) {
+       /* if(truckDTO.getMenu() != null) {
             t.get().setMenu(truckDTO.getMenu());
-        }
+        }*/
         if(truckDTO.getFood() != null) {
             t.get().setFood(truckDTO.getFood());
         }
@@ -218,12 +221,10 @@ public class OwnerDAO {
         this.ownerRepo = ownerRepo;
     }
 
-    public List<String> getSubscribers(String username) {
+    public List<String> getSubscribers(Integer id) {
+        Optional<Owner> owner = this.ownerRepo.findById(id);
 
-        User user = this.userDAO.findByUsername(username);
-        Optional<Owner> owner = this.ownerRepo.findById(user.getId());
-
-       if(owner.isPresent()) {
+        if(owner.isPresent()) {
 
             List<String> customers = new ArrayList<>();
             List<Truck> trucks = owner.get().getTrucks();
@@ -238,10 +239,16 @@ public class OwnerDAO {
             }
 
             return customers;
-       }
+        }
 
         throw new RuntimeException("Owner Not found");
     }
+
+    public List<String> getSubscribers(String username) {
+        User user = this.userDAO.findByUsername(username);
+        return this.getSubscribers(user.getId());
+    }
+
 
     public Integer getNumSubscribers(String username) {
         return this.getSubscribers(username).size();

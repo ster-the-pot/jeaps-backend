@@ -46,8 +46,8 @@ public class RouteDAOTest {
         //routeTest.setDate(new Date("2020-12-12"));
 
 
-        truckTest2.setMenu("Menu");
-        truckTest2.setName("Name");
+        //truckTest2.setMenu("Menu");
+        //truckTest2.setName("Name");
 
         SetrouteTest = new LinkedHashSet<>();
         SetrouteTest.add(routeTest);

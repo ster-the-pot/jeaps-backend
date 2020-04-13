@@ -1,6 +1,7 @@
 package jeaps.foodtruck.common.user.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jeaps.foodtruck.common.image.Image;
 import jeaps.foodtruck.common.user.user.notification.Notifications;
 
 import javax.persistence.*;
@@ -31,9 +32,22 @@ public class User {
     private String password;
 
     @JsonManagedReference
+    @ManyToOne
+    private Image profilePicture;
+
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Notifications> notifications = new ArrayList<>();
+
+
+    public Image getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(Image profilePicture) {
+        this.profilePicture = profilePicture;
+    }
 
     public List<Notifications> getNotifications() {
         return notifications;
