@@ -25,8 +25,14 @@ public class Truck {
     @JsonManagedReference
     @ManyToOne
     private Image menu;
-    //String menu;
-    //private String menu;
+
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Image> pictures = new ArrayList<>();
+
+
+
     @Enumerated(EnumType.ORDINAL)
     private Prices price;
 
@@ -78,6 +84,14 @@ public class Truck {
     public Truck(String name, Image menu){
         this.setName(name);
         this.setMenu(menu);
+    }
+
+    public List<Image> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Image> pictures) {
+        this.pictures = pictures;
     }
 
     public Integer getId() {

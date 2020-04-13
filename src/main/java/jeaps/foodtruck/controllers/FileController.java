@@ -44,7 +44,7 @@ public class FileController {
     }
 
     @RequestMapping(value="/files/getFile", method = RequestMethod.GET)
-    public ResponseEntity<?> getContent(@RequestParam("fileId") String fileId) {
+    public ResponseEntity<?> getContent(@RequestParam String fileId) {
 
         Image i = this.imageDAO.getFile(fileId);
 

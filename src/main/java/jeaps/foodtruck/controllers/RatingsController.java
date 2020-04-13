@@ -29,7 +29,7 @@ public class RatingsController {
 
     Map<String, Object> map = new HashMap<>();
 
-    
+
     @UserLoginToken
     @PostMapping(path="/customer/addRating")
     public ResponseEntity<?> addRating(@RequestBody RateDTO rate, @RequestParam Integer truckid, /*@RequestParam String username*/HttpServletRequest req) {

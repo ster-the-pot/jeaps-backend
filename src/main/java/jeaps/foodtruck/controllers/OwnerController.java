@@ -1,5 +1,9 @@
 package jeaps.foodtruck.controllers;
 
+import java.util.Base64;
+
+import jeaps.foodtruck.common.image.ImageDAO;
+import org.apache.commons.lang3.ArrayUtils;
 import jeaps.foodtruck.common.image.Image;
 import jeaps.foodtruck.common.image.ImageDTO;
 import jeaps.foodtruck.common.truck.Truck;
@@ -14,16 +18,17 @@ import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping(path="/owner")
@@ -37,6 +42,8 @@ public class OwnerController {
     RouteDAO routeDAO;
     @Autowired
     OwnerDAO ownerDAO;
+    @Autowired
+    ImageDAO imageDAO;
 
     @RequestMapping(path="/details", method = RequestMethod.GET)
     public User getUserDetails(@RequestParam String username){
@@ -69,6 +76,9 @@ public class OwnerController {
         return this.ownerDAO.getNumSubscribers(username);
     }
 
+    /************************************************************************
+     * Image
+     ************************************************************************/
     //Editing works here too
     @PostMapping(path="/addMenu")
     public ResponseEntity<?> addMenu(@RequestParam MultipartFile file, @RequestParam Integer truckId) {
@@ -109,6 +119,55 @@ public class OwnerController {
     }
 
 
+    //Editing works here too
+    @PostMapping(path="/addPictures")
+    public ResponseEntity<?> addPictures(@RequestParam MultipartFile[] file, @RequestParam Integer truckId) {
+        if(file == null) {
+            throw new RuntimeException("No files given");
+        }
+        Map<String,Object> str = new HashMap<>();
+        for(MultipartFile f: file) {
+            Image i = this.truckDAO.savePicture(truckId, f);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/downloadFile/")
+                    .path(i.getId())
+                    .toUriString();
+            str.put("Image", new ImageDTO(i.getId(), i.getFileName(), fileDownloadUri,
+                    f.getContentType(), f.getSize()));
+        }
+        return ResponseEntity.created(URI.create("/addPictures/done")).body(str);
+    }
+
+    @PostMapping(path="/deletePicture")
+    public ResponseEntity<?> deletePicture(@RequestParam Integer truckId, @RequestParam String imageId) {
+        this.truckDAO.deletePicture(imageId, truckId);
+        return ResponseEntity.ok("Picture successfully deleted");
+    }
+    @PostMapping(path="/deleteAllPicture")
+    public ResponseEntity<?> deleteAllPicture(@RequestParam Integer truckId) {
+        this.truckDAO.deleteAllPicture(truckId);
+        return ResponseEntity.ok("Pictures successfully deleted");
+    }
+
+    @RequestMapping(value="/getPictureIds", method = RequestMethod.GET)
+    public ResponseEntity<?> getPictures(@RequestParam Integer truckId) throws IOException {
+        Map<String,Object> str = new HashMap<>();
+        str.put("Ids", this.truckDAO.getPictureIds(truckId));
+        return ResponseEntity.created(URI.create("/addPictures/done")).body(str);
+    }
+    @RequestMapping(value="/getImage", method = RequestMethod.GET)
+    public ResponseEntity<?> getImage(@RequestParam String fileId) throws IOException {
+        Image i = this.imageDAO.getFile(fileId);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(i.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + i.getFileName() + "\"")
+                .body(new ByteArrayResource(i.getData()));
+    }
+
+    /************************************************************************
+     * End Image
+     ************************************************************************/
     /*********************************************************
      * Trucks
      *********************************************************/
