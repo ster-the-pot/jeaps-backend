@@ -12,7 +12,9 @@ import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="/owner")
@@ -62,10 +64,10 @@ public class OwnerController {
      *********************************************************/
     @PostMapping(path="/createTruck")
     public Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
-        if(this.ownerDAO.saveTruck(truck, username)) {
-            return "Successfully added truck";
-        }
-        return "Issue adding truck";
+        Map<String,Object> ret = new HashMap();
+        ret.put("truck",this.ownerDAO.saveTruck(truck, username))
+
+        return ret;
     }
     @PostMapping(path="/deleteTruck")
     public Object deleteTruck(@RequestParam Integer truckID) {
