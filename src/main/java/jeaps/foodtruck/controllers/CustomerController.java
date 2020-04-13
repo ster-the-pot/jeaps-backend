@@ -89,6 +89,7 @@ public class CustomerController {
         return this.customerDAO.getSubscribedTrucks(username);
     }
 
+
     @PostMapping(path="/subscribe")
     public Object subscribeToTruck(@RequestParam String username, @RequestParam Integer truckID) {
         this.customerDAO.subscribeToTruck(username, truckID);
@@ -116,43 +117,4 @@ public class CustomerController {
      * End Recommendations
      *****************************************************************/
 
-
-    //Editing works here too
-    @PostMapping(path="/addProfile")
-    public ResponseEntity<?> addProfile(@RequestParam MultipartFile file, @RequestParam Integer truckId) {
-
-        Image i = this.truckDAO.saveMenu(truckId, file);
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(i.getId())
-                .toUriString();
-
-        Map<String,Object> str = new HashMap<>();
-        str.put("Image", new ImageDTO(i.getId(), i.getFileName(), fileDownloadUri,
-                file.getContentType(), file.getSize()));
-
-        return ResponseEntity.created(URI.create("/addProfile/done")).body(str);
-    }
-
-    @PostMapping(path="/deleteProfile")
-    public ResponseEntity<?> deleteProfile(@RequestParam Integer truckId) {
-        this.truckDAO.deleteMenu(truckId);
-        return ResponseEntity.ok("Profile picture successfully deleted");
-    }
-
-
-    @RequestMapping(value="/getProfile", method = RequestMethod.GET)
-    public ResponseEntity<?> getProfile(@RequestParam Integer truckId) {
-
-        Image i = this.truckDAO.getMenu(truckId);
-        if(i == null) {
-            return ResponseEntity.ok("No Profile picture");
-        }
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(i.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + i.getFileName() + "\"")
-                .body(new ByteArrayResource(i.getData()));
-
-    }
 }

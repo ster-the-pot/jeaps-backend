@@ -133,7 +133,8 @@ public class UserDAO {
         User user = this.userRepo.findByUsername(username);
 
         Image i = user.getProfilePicture();
-        if(i != null) {
+        Image old = this.imageDAO.getFile(i.getId());
+        if(i != null && old != null) {
             this.imageDAO.deleteFile(i.getId());
         }
         user.setProfilePicture(null);

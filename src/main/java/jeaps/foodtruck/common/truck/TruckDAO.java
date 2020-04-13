@@ -82,7 +82,7 @@ public class TruckDAO {
         if(truck.isPresent()) {
             Image i = truck.get().getMenu();
             Image testImage = this.imageDAO.getFile(i.getId());
-            if(i != null && testImage != null) {
+            if(i != null) {
                 this.imageDAO.deleteFile(i.getId());
             }
             truck.get().setMenu(null);
@@ -109,8 +109,12 @@ public class TruckDAO {
 
     public List<Image> saveAllPicture(Integer truckID, MultipartFile[] file) {
         Optional<Truck> truck = this.truckRepo.findById(truckID);
+
         List<Image> newImages = new ArrayList<>();
         if(truck.isPresent()) {
+            if(!truck.get().getPictures().isEmpty()) {
+                this.deleteAllPicture(truckID);
+            }
 
             for(MultipartFile f: file) {
                 Image i = this.imageDAO.saveFile(f);
@@ -125,13 +129,13 @@ public class TruckDAO {
         throw new RuntimeException("Failed to save Picture");
     }
 
-    public List<Image> getPictures(Integer truckID) {
+   /* public List<Image> getPictures(Integer truckID) {
         Optional<Truck> truck = this.truckRepo.findById(truckID);
         if(truck.isPresent()) {
             return truck.get().getPictures();
         }
         throw new RuntimeException("Failed to get Pictures");
-    }
+    }*/
 
     public List<String> getPictureIds(Integer truckID) {
         Optional<Truck> truck = this.truckRepo.findById(truckID);
@@ -166,7 +170,7 @@ public class TruckDAO {
                 this.imageDAO.deleteFile(old.getId());
             }
 
-            truck.get().setPictures(null);
+            truck.get().setPictures(new ArrayList<>());
             this.truckRepo.save(truck.get());
         }
     }
