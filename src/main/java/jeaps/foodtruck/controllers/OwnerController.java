@@ -65,8 +65,7 @@ public class OwnerController {
     @PostMapping(path="/createTruck")
     public Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
         Map<String,Object> ret = new HashMap();
-        ret.put("truck",this.ownerDAO.saveTruck(truck, username))
-
+        ret.put("truck",this.ownerDAO.saveTruck(truck, username));
         return ret;
     }
     @PostMapping(path="/deleteTruck")
