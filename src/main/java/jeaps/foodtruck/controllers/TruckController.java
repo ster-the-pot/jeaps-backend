@@ -2,6 +2,7 @@ package jeaps.foodtruck.controllers;
 
 
 
+import jeaps.foodtruck.common.truck.SearchDTO;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.TruckDTO;
@@ -85,4 +86,13 @@ public class TruckController {
         return truckDAO.searchAdvanced(truck);
     }
 
+    /**
+     * Searches for a truck based on user-given parameters
+     * @param searchParam A SearchDTO that has one or more attributes of desired truck
+     * @return A list of trucks that conform to the user-given parameters
+     */
+    @RequestMapping(path="/advanced/search")
+    public List<Truck> superAdvancedSearch(@RequestBody SearchDTO searchParam) {
+        return truckDAO.superAdvancedSearch(searchParam);
+    }
 }

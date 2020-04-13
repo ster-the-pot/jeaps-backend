@@ -237,7 +237,135 @@ public class TruckDAO {
         return result;
     }
 
+    /*=============================================================
+              START: Ashley's attempt at an advanced search
+    =============================================================*/
+    public List<Truck> superAdvancedSearch(SearchDTO searchParam) {
 
+        if(searchParam == null) {
+            throw new RuntimeException("Invalid search parameters given");
+        }
+
+        // gather all trucks from database
+        Iterable<Truck> suggestions = truckRepo.findAll();
+        suggestions.forEach(t -> t.setMenu(null));
+
+        Map<Truck, Integer> searchResults = new HashMap<>();
+
+        // cycle through each search parameter, scoring each truck (0-6)
+        // ignore null/empty/zero parameters
+        for (Truck t : suggestions) {
+            int score = 0;
+
+            // check name
+            if (!"".equals(searchParam.getName())) {
+                if (searchParam.getName().equals(t.getName())) {
+                    score++;
+                }
+            }
+            else {
+                score++;
+            }
+
+            // check rating
+            if (searchParam.getRating() != 0) {
+                if (searchParam.getRating() <= t.getAvgRating()) {
+                    score++;
+                }
+            }
+            else {
+                score++;
+            }
+
+            // check price
+            if (searchParam.getPrice() != 0) {
+                if (searchParam.getPrice() <= t.getPrice().ordinal()) {
+                    score++;
+                }
+            }
+            else {
+                score++;
+            }
+
+            // check food type
+            if (!"".equals(searchParam.getFoodType())) {
+                if (checkFood(t, searchParam.getFoodType())) {
+                    score++;
+                }
+            }
+            else {
+                score++;
+            }
+
+            // check if open
+            if (searchParam.isOpen()) {
+                if (checkIfOpen(t)) {
+                    score++;
+                }
+            }
+            else {
+                score++;
+            }
+
+            // check location
+            if (searchParam.getLocation() != null) {
+                if (checkIfNearby(t, searchParam.getLocation())) {
+                    score++;
+                }
+            }
+            else {
+                score++;
+            }
+
+            // check if score is high enough to be sent as a result
+            if (score >= 4) {
+                searchResults.put(t, score);
+            }
+        }
+
+        // sort results by score
+        List<Map.Entry<Truck, Integer>> sorter = new ArrayList<>(searchResults.entrySet());
+        sorter.sort(Comparator.comparing(Map.Entry::getValue));
+
+        List<Truck> highest = new ArrayList<>();
+        sorter.forEach(e -> highest.add(e.getKey()));
+
+        return highest;
+    }
+
+    // checks if truck's food types contains the given type
+    private boolean checkFood(Truck t, String s) {
+        for (Food f : t.getFood()) {
+            if (f.getFoodtype().equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // checks if truck is currently open
+    private boolean checkIfOpen(Truck t) {
+        for (Route r : t.getRoute()) {
+            if (r.getStartTime().before(new Date()) && r.getEndTime().after(new Date())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // checks if truck is nearby
+    private boolean checkIfNearby(Truck t, Location l) {
+        for (Route r : t.getRoute()) {
+            if (checkDistance(l, r.getLocation(), 20)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*=============================================================
+              END: Ashley's attempt at an advanced search
+    =============================================================*/
 
     public Integer getScore(Truck t, TruckDTO truck){
         int score = 0;
