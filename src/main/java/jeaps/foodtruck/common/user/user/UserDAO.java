@@ -37,7 +37,7 @@ public class UserDAO {
 
     /**
      * Creates a user from a userDTO and saves it to the database
-     *
+ save    *
      * @param u The userDTO to get the user details from
      * @return The ID of the user saved into the database
      */

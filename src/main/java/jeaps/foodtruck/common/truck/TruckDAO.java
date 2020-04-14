@@ -187,13 +187,13 @@ public class TruckDAO {
 
     public Iterable<Truck> getAllTrucks() {
         Iterable<Truck> trucks = truckRepo.findAll();
-        trucks.forEach(t -> t.setMenu(null));
+        trucks.forEach(t -> {t.setMenu(null); t.setPictures(null);});
         return trucks;
     }
 
     public List<Truck> findByName(String name){
         List<Truck> trucks = this.truckRepo.findByNameIgnoreCaseContaining(name);
-        trucks.forEach(t -> t.setMenu(null));
+        trucks.forEach(t -> {t.setMenu(null); t.setPictures(null);});
         return trucks;
     }
 
@@ -205,8 +205,7 @@ public class TruckDAO {
         }
 
         Iterable<Truck> suggestions = truckRepo.findAll();
-        suggestions.forEach(t -> t.setMenu(null));
-
+        suggestions.forEach(t -> {t.setMenu(null); t.setPictures(null);});
 
         //Create a map to sort trucks based on scores
         Map<Integer, List<Truck>> truckScores = new HashMap<Integer, List<Truck>>();
@@ -439,12 +438,12 @@ public class TruckDAO {
     public List<Truck> findByOwner(String username) {
         Integer id = this.userDAO.findByUsername(username).getId();
         List<Truck> trucks = this.truckRepo.findByOwner_id(id);
-        trucks.forEach(t -> t.setMenu(null));
+        trucks.forEach(t -> {t.setMenu(null); t.setPictures(null);});
         return trucks;
     }
     public List<Truck> findByOwner(Integer id) {
         List<Truck> trucks = this.truckRepo.findByOwner_id(id);
-        trucks.forEach(t -> t.setMenu(null));
+        trucks.forEach(t -> {t.setMenu(null); t.setPictures(null);});
         return trucks;
     }
 
@@ -483,7 +482,7 @@ public class TruckDAO {
 
     public List<Truck> findALL() {
         Iterable<Truck> iter =  this.truckRepo.findAll();
-        iter.forEach(t -> t.setMenu(null));
+        iter.forEach(t -> {t.setMenu(null); t.setPictures(null);});
 
         return StreamSupport.stream(iter.spliterator(), false)
                         .collect(Collectors.toList());
@@ -499,7 +498,7 @@ public class TruckDAO {
         }
 
         List<Truck> allTrucks = (List<Truck>) this.truckRepo.findAll();
-        allTrucks.forEach(t -> t.setMenu(null));
+        allTrucks.forEach(t -> {t.setMenu(null); t.setPictures(null);});
 
 
         List<Truck> inRange = new ArrayList<>();
