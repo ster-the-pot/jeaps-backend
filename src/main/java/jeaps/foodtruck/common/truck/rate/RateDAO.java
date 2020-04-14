@@ -1,5 +1,7 @@
 package jeaps.foodtruck.common.truck.rate;
 
+import jeaps.foodtruck.common.image.Image;
+import jeaps.foodtruck.common.image.ImageDAO;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.user.customer.Customer;
@@ -10,6 +12,7 @@ import jeaps.foodtruck.common.user.user.User;
 import jeaps.foodtruck.common.user.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.Optional;
 @Repository
 public class RateDAO {
     @Autowired
-    RateRepository rateRepository;
+    RateRepository rateRepo;
 
     @Autowired
     TruckDAO truckDAO;
@@ -28,6 +31,8 @@ public class RateDAO {
     UserDAO userDAO;
     @Autowired
     OwnerDAO ownerDAO;
+    @Autowired
+    ImageDAO imageDAO;
 
     public List<Rate> getRatingsObject(Integer truck_id) {
 
@@ -134,7 +139,7 @@ public class RateDAO {
             owner.setTrucks(trucks);
             ownerDAO.save(owner);
 
-            this.rateRepository.delete(rate);
+            this.rateRepo.delete(rate);
         }
     }
 
@@ -149,7 +154,7 @@ public class RateDAO {
 
 
     public Rate findByTruckAndCustomer(Integer truck_id, String username) {
-        List<Rate> rates = rateRepository.findByTruck_id(truck_id);
+        List<Rate> rates = rateRepo.findByTruck_id(truck_id);
         for(Rate r: rates) {
             if (r.getSender().equals(username)) {
                 return r;
@@ -173,5 +178,88 @@ public class RateDAO {
             truck.setAvgRating(null);
         }
 
+    }
+
+
+    public Image savePicture(Integer truckID, String username, MultipartFile file) {
+
+        Rate rate = this.findByTruckAndCustomer(truckID, username);
+        if (rate != null) {
+            Image i = this.imageDAO.saveFile(file);
+            List<Image> pictures = rate.getPictures();
+            pictures.add(i);
+            rate.setPictures(pictures);
+            this.rateRepo.save(rate);
+            return i;
+        }
+        throw new RuntimeException("Failed to save Picture");
+    }
+
+    public List<Image> saveAllPicture(Integer truckID, String username, MultipartFile[] file) {
+        Rate rate = this.findByTruckAndCustomer(truckID, username);
+        List<Image> newImages = new ArrayList<>();
+        if (rate != null) {
+            if(!rate.getPictures().isEmpty()) {
+                this.deleteAllPicture(truckID, username);
+            }
+            for(MultipartFile f: file) {
+                Image i = this.imageDAO.saveFile(f);
+                newImages.add(i);
+            }
+
+            rate.setPictures(newImages);
+            this.rateRepo.save(rate);
+        }
+
+        throw new RuntimeException("Failed to save Picture");
+    }
+
+    /*public List<Image> getPictures(Integer truckID) {
+        Optional<Truck> truck = this.truckRepo.findById(truckID);
+        if(truck.isPresent()) {
+            return truck.get().getPictures();
+        }
+        throw new RuntimeException("Failed to get Pictures");
+    }*/
+
+    public List<String> getPictureIds(Integer truckID, String username) {
+        //Optional<Truck> truck = this.truckRepo.findById(truckID);
+        Rate rate = this.findByTruckAndCustomer(truckID, username);
+
+        if(rate != null) {
+            List<String> str = new ArrayList<>();
+            for(Image i: rate.getPictures()) {
+                str.add(i.getId());
+            }
+            return str;
+        }
+        throw new RuntimeException("Failed to get Picture ids");
+    }
+
+    public void deletePicture(String imageID, Integer truckID, String username) {
+        Rate rate = this.findByTruckAndCustomer(truckID, username);
+        Image oldImage = this.imageDAO.getFile(imageID);
+        if(rate != null) {
+            List<Image> i = rate.getPictures();
+            i.remove(oldImage);
+
+            rate.setPictures(i);
+            this.rateRepo.save(rate);
+            this.imageDAO.deleteFile(imageID);
+        }
+    }
+
+    public void deleteAllPicture(Integer truckID, String username) {
+
+        Rate rate = this.findByTruckAndCustomer(truckID, username);
+        if(rate != null) {
+            List<Image> i = rate.getPictures();
+            for(Image old: i) {
+                this.imageDAO.deleteFile(old.getId());
+            }
+
+            rate.setPictures(new ArrayList<>());
+            this.rateRepo.save(rate);
+        }
     }
 }

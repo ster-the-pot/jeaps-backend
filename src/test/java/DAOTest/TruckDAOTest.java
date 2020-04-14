@@ -48,12 +48,12 @@ public class TruckDAOTest {
         ownerTest.get().setId(userTest.getId());
 
 
-        truckTest.get().setMenu("Menu");
-        truckTest.get().setName("Name");
+        //truckTest.get().setMenu("Menu");
+        //truckTest.get().setName("Name");
 
 
-        truckTest2.setMenu("Menu");
-        truckTest2.setName("Name");
+        //truckTest2.setMenu("Menu");
+        //truckTest2.setName("Name");
     }
 
     @Test

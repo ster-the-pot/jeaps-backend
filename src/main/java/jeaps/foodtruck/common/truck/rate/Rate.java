@@ -1,12 +1,16 @@
 package jeaps.foodtruck.common.truck.rate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jeaps.foodtruck.common.image.Image;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.user.customer.Customer;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Rate {
@@ -20,6 +24,10 @@ public class Rate {
     @CreationTimestamp
     private Date createDateTime;
 
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Image> pictures = new ArrayList<>();
+
 
     @JsonBackReference
     @ManyToOne()
@@ -27,6 +35,13 @@ public class Rate {
 
     private String sender;
 
+    public List<Image> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Image> pictures) {
+        this.pictures = pictures;
+    }
 
     public Integer getId() {
         return id;
