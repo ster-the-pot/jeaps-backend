@@ -269,7 +269,7 @@ public class TruckDAO {
                     score++;
                 }
                 if(searchParam.getName() != null && t.getName() != null && t.getName().equals(searchParam.getName())){
-                    score+=2;
+                    score += 2;
                 }
             }
             else {
@@ -309,7 +309,10 @@ public class TruckDAO {
             // check if open
             if (searchParam.isOpen()) {
                 if (checkIfOpen(t)) {
-                    score++;
+                    score += 2;
+                }
+                else {
+                    score--;
                 }
             }
             else {
@@ -319,7 +322,7 @@ public class TruckDAO {
             // check location
             if (searchParam.getLocation() != null) {
                 if (checkIfNearby(t, searchParam.getLocation())) {
-                    score++;
+                    score += 2;
                 }
             }
             else {
