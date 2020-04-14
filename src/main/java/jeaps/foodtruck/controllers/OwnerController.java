@@ -103,16 +103,16 @@ public class OwnerController {
     }
 
     @PostMapping(path="/deleteMenu")
-    public ResponseEntity<?> deleteMenu(@RequestParam Integer truckId) {
-        this.truckDAO.deleteMenu(truckId);
+    public ResponseEntity<?> deleteMenu(@RequestParam Integer truckID) {
+        this.truckDAO.deleteMenu(truckID);
         return ResponseEntity.ok("Menu successfully deleted");
     }
 
 
     @RequestMapping(value="/getMenu", method = RequestMethod.GET)
-    public ResponseEntity<?> getMenu(@RequestParam Integer truckId) {
+    public ResponseEntity<?> getMenu(@RequestParam Integer truckID) {
 
-        Image i = this.truckDAO.getMenu(truckId);
+        Image i = this.truckDAO.getMenu(truckID);
         if(i == null) {
             return ResponseEntity.ok("No Menu");
         }
