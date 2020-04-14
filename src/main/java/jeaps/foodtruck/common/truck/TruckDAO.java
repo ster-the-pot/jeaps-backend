@@ -258,9 +258,13 @@ public class TruckDAO {
             int score = 0;
 
             // check name
-            if (!"".equals(searchParam.getName())) {
-                if (searchParam.getName() != null && t.getName() != null && searchParam.getName().contains(t.getName())) {
+            if (searchParam != null && !"".equals(searchParam.getName())) {
+
+                if (searchParam.getName() != null && t.getName() != null && t.getName().contains(searchParam.getName())) {
                     score++;
+                }
+                if(searchParam.getName() != null && t.getName() != null && t.getName().equals(searchParam.getName())){
+                    score+=2;
                 }
             }
             else {
@@ -329,6 +333,7 @@ public class TruckDAO {
 
         List<Truck> highest = new ArrayList<>();
         sorter.forEach(e -> highest.add(e.getKey()));
+
 
         return highest;
     }
