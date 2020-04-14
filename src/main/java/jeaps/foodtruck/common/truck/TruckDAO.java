@@ -279,7 +279,7 @@ public class TruckDAO {
 
             // check price
             if (searchParam.getPrice() != 0) {
-                if (searchParam.getPrice() <= t.getPrice().ordinal()) {
+                if (searchParam.getPrice() >= t.getPrice().ordinal()) {
                     score++;
                 }
             }
