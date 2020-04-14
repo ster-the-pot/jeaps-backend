@@ -177,9 +177,21 @@ public class OwnerController {
      * Trucks
      *********************************************************/
     @PostMapping(path="/createTruck")
-    public Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
+    public Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username, @RequestParam MultipartFile file) {
         Map<String,Object> ret = new HashMap();
-        ret.put("truck",this.ownerDAO.saveTruck(truck, username));
+        Truck t = this.ownerDAO.saveTruck(truck, username);
+        ret.put("truck", t);
+
+
+        if(file != null) {
+            Image i = this.truckDAO.saveMenu(t.getId(), file);
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/downloadFile/")
+                    .path(i.getId())
+                    .toUriString();
+            ret.put("Image", new ImageDTO(i.getId(), i.getFileName(), fileDownloadUri,
+                    file.getContentType(), file.getSize()));
+        }
         return ret;
     }
     @PostMapping(path="/deleteTruck")
@@ -195,8 +207,11 @@ public class OwnerController {
 
 
     @PostMapping(path="/editTruck")
-    public Object editTruck(@RequestBody TruckDTO truck, @RequestParam Integer truckID) {
+    public Object editTruck(@RequestBody TruckDTO truck, @RequestParam Integer truckID, @RequestParam MultipartFile file) {
         this.ownerDAO.editTruck(truck, truckID);
+        if(file != null) {
+            Image i = this.truckDAO.saveMenu(truckID, file);
+        }
         return "Successfully updated truck";
     }
 
