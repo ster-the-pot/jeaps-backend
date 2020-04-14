@@ -39,7 +39,9 @@ public class RateDAO {
         Optional<Truck> truck = truckDAO.findById(truck_id);
 
         if(truck.isPresent()) {
-            return truck.get().getRate();
+            List<Rate> rate = truck.get().getRate();
+            rate.forEach(r -> r.setPictures(null));
+            return rate;
         }
         return new ArrayList<Rate>();
     }
@@ -155,6 +157,7 @@ public class RateDAO {
 
     public Rate findByTruckAndCustomer(Integer truck_id, String username) {
         List<Rate> rates = rateRepo.findByTruck_id(truck_id);
+        rates.forEach(r -> r.setPictures(null));
         for(Rate r: rates) {
             if (r.getSender().equals(username)) {
                 return r;
