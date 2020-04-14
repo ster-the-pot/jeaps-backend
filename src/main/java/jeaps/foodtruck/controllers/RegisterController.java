@@ -11,8 +11,12 @@ import jeaps.foodtruck.common.user.owner.OwnerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
 import java.net.URI;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -32,16 +36,45 @@ public class RegisterController {
     @Autowired
     TokenService tokenService;
 
+    /**
+     * Hashes the password of a user
+     * @param user the user to hash the password of
+     * @return a UserDTO with a hashed password
+     */
+    private UserDTO hashPass(UserDTO user){
+
+        //Hash the password
+        MessageDigest md = null;
+        String credHash = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+            md.update(user.getPassword().getBytes());
+            byte[] digest = md.digest();
+            // Convert byte array into signum representation
+            BigInteger no = new BigInteger(1, digest);
+            // Convert message digest into hex value
+            credHash = no.toString(16).toUpperCase();
+
+            //Set the hashed password before saving
+            user.setPassword(credHash);
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println("The MD5 algorithm has ceased to exist");
+        }
+
+        return user;
+    }
+
     @PostMapping(path="/register/customer")
     public String registerCustomer(@RequestBody UserDTO user) {
-        Integer id = this.userRepo.save(user);
+
+        Integer id = this.userRepo.save(hashPass(user));
         this.customerRepo.save(id);
         return "Successfully saved Customer";
     }
 
     @PostMapping(path="/register/owner")
     public String registerOwner(@RequestBody UserDTO user){
-        Integer id = this.userRepo.save(user);
+        Integer id = this.userRepo.save(hashPass(user));
         this.ownerRepo.save(id);
         return "Successfully saved Owner";
     }
@@ -49,6 +82,8 @@ public class RegisterController {
 
     @PostMapping(path="/login")
     public ResponseEntity<?> LoginUser(@RequestBody UserDTO user) {
+
+        user = hashPass(user);
 
         User login = this.userRepo.findByUsername(user.getUsername());
         if (login == null || login.getId() == null || !login.getPassword().equals(user.getPassword())) {
