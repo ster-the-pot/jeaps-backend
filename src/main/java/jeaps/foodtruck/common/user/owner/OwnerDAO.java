@@ -123,7 +123,7 @@ public class OwnerDAO {
      * @param username
      * @return
      */
-    public Boolean saveTruck(TruckDTO truckDTO, String username){
+    public Truck saveTruck(TruckDTO truckDTO, String username){
 
         //Gets the user information given the username
         User user = this.userDAO.findByUsername(username);
@@ -133,7 +133,7 @@ public class OwnerDAO {
 
         //If the user is not an owner
         if(!owner.isPresent()) {
-            return false;
+            return null;
         }
 
         //Creates and sets the information of the truck
@@ -154,7 +154,7 @@ public class OwnerDAO {
 
 
         //this.truckRepo.save(t);
-        return true;
+        return t;
     }
 
 

@@ -25,10 +25,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
+
 
 @RestController
 @RequestMapping(path="/owner")
@@ -98,16 +103,16 @@ public class OwnerController {
     }
 
     @PostMapping(path="/deleteMenu")
-    public ResponseEntity<?> deleteMenu(@RequestParam Integer truckId) {
-        this.truckDAO.deleteMenu(truckId);
+    public ResponseEntity<?> deleteMenu(@RequestParam Integer truckID) {
+        this.truckDAO.deleteMenu(truckID);
         return ResponseEntity.ok("Menu successfully deleted");
     }
 
 
     @RequestMapping(value="/getMenu", method = RequestMethod.GET)
-    public ResponseEntity<?> getMenu(@RequestParam Integer truckId) {
+    public ResponseEntity<?> getMenu(@RequestParam Integer truckID) {
 
-        Image i = this.truckDAO.getMenu(truckId);
+        Image i = this.truckDAO.getMenu(truckID);
         if(i == null) {
             return ResponseEntity.ok("No Menu");
         }
@@ -173,10 +178,11 @@ public class OwnerController {
      *********************************************************/
     @PostMapping(path="/createTruck")
     public Object createTruck(@RequestBody TruckDTO truck, @RequestParam String username) {
-        if(this.ownerDAO.saveTruck(truck, username)) {
-            return "Successfully added truck";
-        }
-        return "Issue adding truck";
+        Map<String,Object> ret = new HashMap();
+        Truck t = this.ownerDAO.saveTruck(truck, username);
+        ret.put("truck", t);
+
+        return ret;
     }
     @PostMapping(path="/deleteTruck")
     public Object deleteTruck(@RequestParam Integer truckID) {
