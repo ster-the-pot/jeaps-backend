@@ -255,6 +255,11 @@ public class TruckDAO {
         // cycle through each search parameter, scoring each truck (0-6)
         // ignore null/empty/zero parameters
         for (Truck t : suggestions) {
+
+            if (t == null) {
+                continue;
+            }
+
             int score = 0;
 
             // check name
@@ -339,7 +344,7 @@ public class TruckDAO {
             return false;
         }
         for (Food f : t.getFood()) {
-            if (f.getFoodtype().equals(s)) {
+            if (f.getFoodtype() != null && f.getFoodtype().equals(s)) {
                 return true;
             }
         }
@@ -352,6 +357,11 @@ public class TruckDAO {
             return false;
         }
         for (Route r : t.getRoute()) {
+
+            if (r.getStartTime() == null || r.getEndTime() == null) {
+                continue;
+            }
+
             if (r.getStartTime().before(new Date()) && r.getEndTime().after(new Date())) {
                 return true;
             }
@@ -365,6 +375,12 @@ public class TruckDAO {
             return false;
         }
         for (Route r : t.getRoute()) {
+
+            if (r.getLocation() == null || r.getLocation().getLatitude() == null
+                    || r.getLocation().getLongitude() == null) {
+                continue;
+            }
+
             if (checkDistance(l, r.getLocation(), 20)) {
                 return true;
             }
