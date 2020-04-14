@@ -5,13 +5,13 @@ import jeaps.foodtruck.common.truck.route.Location;
 public class SearchDTO {
 
     private String name;
-    private int rating;
-    private int price;
+    private Integer rating;
+    private Integer price;
     private String foodType;
     private boolean isOpen;
     private Location location;
 
-    public SearchDTO(String name, int rating, int price, String foodType, boolean isOpen, Location location) {
+    public SearchDTO(String name, Integer rating, Integer price, String foodType, boolean isOpen, Location location) {
         this.name = name;
         this.rating = rating;
         this.price = price;
@@ -28,7 +28,7 @@ public class SearchDTO {
         this.name = name;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return this.rating;
     }
 
@@ -36,7 +36,7 @@ public class SearchDTO {
         this.rating = rating;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return this.price;
     }
 

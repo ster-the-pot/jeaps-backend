@@ -259,7 +259,7 @@ public class TruckDAO {
 
             // check name
             if (!"".equals(searchParam.getName())) {
-                if (searchParam.getName().equals(t.getName())) {
+                if (searchParam.getName() != null && t.getName() != null && searchParam.getName().contains(t.getName())) {
                     score++;
                 }
             }
@@ -268,8 +268,8 @@ public class TruckDAO {
             }
 
             // check rating
-            if (searchParam.getRating() != 0) {
-                if (searchParam.getRating() <= t.getAvgRating()) {
+            if (searchParam.getRating() != null && searchParam.getRating() != 0) {
+                if (t.getAvgRating() != null && searchParam.getRating() <= t.getAvgRating()) {
                     score++;
                 }
             }
@@ -278,8 +278,8 @@ public class TruckDAO {
             }
 
             // check price
-            if (searchParam.getPrice() != 0) {
-                if (searchParam.getPrice() >= t.getPrice().ordinal()) {
+            if (searchParam.getPrice() != null && searchParam.getPrice() != 0) {
+                if (t.getPrice() != null && searchParam.getPrice() >= t.getPrice().ordinal()) {
                     score++;
                 }
             }
@@ -288,7 +288,7 @@ public class TruckDAO {
             }
 
             // check food type
-            if (!"".equals(searchParam.getFoodType())) {
+            if (searchParam.getFoodType() != null && !"".equals(searchParam.getFoodType())) {
                 if (checkFood(t, searchParam.getFoodType())) {
                     score++;
                 }
@@ -335,6 +335,9 @@ public class TruckDAO {
 
     // checks if truck's food types contains the given type
     private boolean checkFood(Truck t, String s) {
+        if(t.getFood() == null){
+            return false;
+        }
         for (Food f : t.getFood()) {
             if (f.getFoodtype().equals(s)) {
                 return true;
@@ -345,6 +348,9 @@ public class TruckDAO {
 
     // checks if truck is currently open
     private boolean checkIfOpen(Truck t) {
+        if(t.getRoute() == null){
+            return false;
+        }
         for (Route r : t.getRoute()) {
             if (r.getStartTime().before(new Date()) && r.getEndTime().after(new Date())) {
                 return true;
@@ -355,6 +361,9 @@ public class TruckDAO {
 
     // checks if truck is nearby
     private boolean checkIfNearby(Truck t, Location l) {
+        if(t.getRoute() == null){
+            return false;
+        }
         for (Route r : t.getRoute()) {
             if (checkDistance(l, r.getLocation(), 20)) {
                 return true;
