@@ -31,7 +31,7 @@ public class TruckController {
     @Autowired
     OwnerDAO ownerDAO;
 
-   @RequestMapping(path="/all")
+    @RequestMapping(path="/all")
     public @ResponseBody
     Iterable<Truck> getAllTrucks(){
         return this.truckDAO.getAllTrucks();
@@ -56,7 +56,7 @@ public class TruckController {
     }
 
 
-    @RequestMapping(path="/getNearbyTrucks")
+    @PostMapping(path="/getNearbyTrucks")
     public ResponseEntity<?> getNearbyTrucks(@RequestBody Location loc, @RequestParam Integer distance) throws URISyntaxException {
         List<Truck> trucks = this.truckDAO.getNearbyTrucks(loc, distance);
 
