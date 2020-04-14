@@ -7,11 +7,11 @@ public class SearchDTO {
     private String name;
     private Integer rating;
     private Integer price;
-    private String foodType;
+    private String[] foodType;
     private boolean isOpen;
     private Location location;
 
-    public SearchDTO(String name, Integer rating, Integer price, String foodType, boolean isOpen, Location location) {
+    public SearchDTO(String name, Integer rating, Integer price, String[] foodType, boolean isOpen, Location location) {
         this.name = name;
         this.rating = rating;
         this.price = price;
@@ -44,11 +44,11 @@ public class SearchDTO {
         this.price = price;
     }
 
-    public String getFoodType() {
+    public String[] getFoodType() {
         return this.foodType;
     }
 
-    public void setFoodType(String foodType) {
+    public void setFoodType(String[] foodType) {
         this.foodType = foodType;
     }
 

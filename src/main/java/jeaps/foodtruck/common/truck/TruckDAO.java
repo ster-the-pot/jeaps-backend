@@ -263,7 +263,7 @@ public class TruckDAO {
             int score = 0;
 
             // check name
-            if (searchParam != null && !"".equals(searchParam.getName())) {
+            if (!"".equals(searchParam.getName())) {
 
                 if (searchParam.getName() != null && t.getName() != null && t.getName().contains(searchParam.getName())) {
                     score++;
@@ -297,7 +297,7 @@ public class TruckDAO {
             }
 
             // check food type
-            if (searchParam.getFoodType() != null && !"".equals(searchParam.getFoodType())) {
+            if (searchParam.getFoodType() != null) {
                 if (checkFood(t, searchParam.getFoodType())) {
                     score++;
                 }
@@ -345,12 +345,12 @@ public class TruckDAO {
     }
 
     // checks if truck's food types contains the given type
-    private boolean checkFood(Truck t, String s) {
+    private boolean checkFood(Truck t, String[] s) {
         if(t.getFood() == null){
             return false;
         }
         for (Food f : t.getFood()) {
-            if (f.getFoodtype() != null && f.getFoodtype().equals(s)) {
+            if (f.getFoodtype() != null && Arrays.asList(s).contains(f.getFoodtype())) {
                 return true;
             }
         }
