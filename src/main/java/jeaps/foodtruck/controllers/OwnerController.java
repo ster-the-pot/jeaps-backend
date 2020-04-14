@@ -60,6 +60,7 @@ public class OwnerController {
         this.userDAO.update(user);
         return "Successfully updated Owner info";
     }
+
     @RequestMapping(path="/getSubscribers")
     public List<Object> getSubscribers(@RequestParam Integer truckID){
         return this.truckDAO.getSubscribers(truckID);

@@ -40,6 +40,13 @@ public class RatingsController {
 
     Map<String, Object> map = new HashMap<>();
 
+    @UserLoginToken
+    @PostMapping(path="/customer/getRating")
+    public ResponseEntity<?> getRatings(HttpServletRequest req) {
+        map.put("CustomerRatings", this.rateDAO.findByCustomer(tokenService.getUsername(req)));
+        return ResponseEntity.created(URI.create("/getCustomerRating/done")).body(map);
+    }
+
 
     @UserLoginToken
     @PostMapping(path="/customer/addRating")

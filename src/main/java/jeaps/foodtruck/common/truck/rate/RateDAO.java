@@ -34,6 +34,14 @@ public class RateDAO {
     @Autowired
     ImageDAO imageDAO;
 
+
+    public List<Rate> findByCustomer(String username) {
+        List<Rate> rate = this.rateRepo.findBySender(username);
+        rate.forEach(r -> r.setPictures(null));
+        return rate;
+
+    }
+
     public List<Rate> getRatingsObject(Integer truck_id) {
 
         Optional<Truck> truck = truckDAO.findById(truck_id);

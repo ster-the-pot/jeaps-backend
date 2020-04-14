@@ -7,6 +7,7 @@ import jeaps.foodtruck.common.image.ImageDTO;
 import jeaps.foodtruck.common.truck.Truck;
 import jeaps.foodtruck.common.truck.TruckDAO;
 import jeaps.foodtruck.common.truck.rate.Rate;
+import jeaps.foodtruck.common.truck.rate.RateDAO;
 import jeaps.foodtruck.common.truck.rate.RateDTO;
 import jeaps.foodtruck.common.user.customer.CustomerDAO;
 import jeaps.foodtruck.common.user.customer.preferences.Preferences;
@@ -42,10 +43,12 @@ public class CustomerController {
     @Autowired
     CustomerDAO customerDAO;
 
+
     HashMap<String, Object> map = new HashMap<>();
 
     @Autowired
     TokenService tokenService;
+
 
     @RequestMapping(path="/preferences", method = RequestMethod.GET)
     public Map<String, Object> getPreferences(@RequestParam String username){

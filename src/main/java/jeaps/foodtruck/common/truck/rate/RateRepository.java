@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface RateRepository extends CrudRepository<Rate, Integer> {
     List<Rate> findByTruck_id(Integer id);
+    List<Rate> findBySender(String username);
 }
