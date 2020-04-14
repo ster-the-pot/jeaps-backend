@@ -332,9 +332,10 @@ public class TruckDAO {
             }
         }
 
-        // sort results by score
+        // sort results by score (in descending order)
         List<Map.Entry<Truck, Integer>> sorter = new ArrayList<>(searchResults.entrySet());
         sorter.sort(Comparator.comparing(Map.Entry::getValue));
+        Collections.reverse(sorter);
 
         List<Truck> highest = new ArrayList<>();
         sorter.forEach(e -> highest.add(e.getKey()));
