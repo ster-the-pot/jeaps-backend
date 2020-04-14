@@ -114,7 +114,7 @@ public class CustomerDAO {
 
     }
 
-    public void subscribeToTruck(String username, Integer truckID) {
+    public Optional<Truck> subscribeToTruck(String username, Integer truckID) {
         User user = userDAO.findByUsername(username);
         Optional<Customer> customer = customerRepo.findById(user.getId());
         Optional<Truck> truck = truckDAO.findById(truckID);
@@ -134,9 +134,11 @@ public class CustomerDAO {
 
 
             customerRepo.save(customer.get());
+            return truck;
 
 
         } //HOW ARE WE THROWING ERRORS AGAIN?????
+        return null;
     }
 
     public void unsubscribeToTruck(String username, Integer truckID) {

@@ -95,8 +95,8 @@ public class CustomerController {
 
     @PostMapping(path="/subscribe")
     public Object subscribeToTruck(@RequestParam String username, @RequestParam Integer truckID) {
-        this.customerDAO.subscribeToTruck(username, truckID);
-        return "Successfully subscribed to truck";
+        return this.customerDAO.subscribeToTruck(username, truckID);
+
     }
 
     @PostMapping(path="/unsubscribe")
