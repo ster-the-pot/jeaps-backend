@@ -114,7 +114,7 @@ public class OwnerController {
 
         Image i = this.truckDAO.getMenu(truckID);
         if(i == null) {
-            return ResponseEntity.ok("No Menu");
+            return ResponseEntity.status(404).body("no image");
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(i.getFileType()))
