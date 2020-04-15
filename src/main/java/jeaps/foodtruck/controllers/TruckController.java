@@ -56,8 +56,10 @@ public class TruckController {
     }
 
 
-    @PostMapping(path="/getNearbyTrucks")
+    @PostMapping( path="/getNearbyTrucks")
     public ResponseEntity<?> getNearbyTrucks(@RequestBody Location loc, @RequestParam Integer distance) throws URISyntaxException {
+
+
         List<Truck> trucks = this.truckDAO.getNearbyTrucks(loc, distance);
 
         map.clear();

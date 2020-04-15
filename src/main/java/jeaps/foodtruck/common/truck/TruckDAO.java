@@ -518,22 +518,28 @@ public class TruckDAO {
         // The math module contains a function
         // named toRadians which converts from
         // degrees to radians.
-        double lon1 = Math.toRadians(locGiven.getLongitude());
-        double lon2 = Math.toRadians(locTest.getLongitude());
+        if(locGiven.getLatitude() == null || locGiven.getLongitude() == null || locTest.getLatitude() == null || locTest.getLongitude() == null) {
+            return false;
+        }
+
+
+
+
+        double R = 3958.8;
+
         double lat1 = Math.toRadians(locGiven.getLatitude());
         double lat2 = Math.toRadians(locTest.getLatitude());
-        // Haversine formula
-        double dlon = lon2 - lon1;
-        double dlat = lat2 - lat1;
-        double a = Math.pow(Math.sin(dlat / 2), 2)
-                + Math.cos(lat1) * Math.cos(lat2)
-                * Math.pow(Math.sin(dlon / 2),2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        // Radius of earth in kilometers. Use 3956
-        // for miles
-        double r = 3956;
+        double difLat = Math.toRadians(locGiven.getLatitude() - locTest.getLatitude());
+        double difLon = Math.toRadians(locGiven.getLongitude() - locTest.getLongitude());
 
-        if(( c * r ) <= (double)distance) {
+
+        double a = Math.pow(Math.sin(difLat/2), 2.0) +
+                Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(difLon/2), 2.0);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+
+
+        if(( c * R ) <= (double)distance) {
             return true;
         }
         return false;

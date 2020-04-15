@@ -236,14 +236,14 @@ public class CustomerDAO {
         //increase truck score if the food is preferred
         if(prefs != null) {
 
-            /*if(prefs.getLocation() != null && prefs.getProxPref() != null) {
+            if(prefs.getLocation() != null && prefs.getProxPref() != null) {
                 for(Route r: truck.getRoute()){
                     if(this.truckDAO.checkDistance(r.getLocation(), prefs.getLocation(), Integer.parseInt(prefs.getProxPref()))) {
                         score += 20;
                         break;
                     }
                 }
-            }*/
+            }
 
             if (truck.getFood() != null) {
                 for (Food f : truck.getFood()) {
