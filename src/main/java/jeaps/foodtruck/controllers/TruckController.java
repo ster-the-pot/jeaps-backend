@@ -60,7 +60,6 @@ public class TruckController {
     public ResponseEntity<?> getNearbyTrucks(@RequestBody Location loc, @RequestParam Integer distance) throws URISyntaxException {
         List<Truck> trucks = this.truckDAO.getNearbyTrucks(loc, distance);
 
-
         map.clear();
         map.put("TruckList", trucks);
         return ResponseEntity.created(URI.create("/getNearbyTrucks/done")).body(map);
