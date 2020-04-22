@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,7 +96,7 @@ public class RatingsControllerTest {
         when(rateDAO.getAvgRating(any(Integer.class))).thenReturn(1.0);
         Map<String, Double> m = (Map<String, Double>) rCntrl.getAverageRating(tID).getBody();
         assertAll(()-> assertEquals(true, m.containsKey("Ratings")),
-                ()->assertEquals(1.0, m.get("Ratings")));
+                ()->assertEquals(1.0, (Double) m.get("Ratings")));
     }
 
     @Test
