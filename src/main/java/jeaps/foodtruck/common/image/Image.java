@@ -1,5 +1,7 @@
 package jeaps.foodtruck.common.image;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jeaps.foodtruck.common.user.user.User;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,6 +18,10 @@ public class Image {
 
     @Lob
     private byte[] data;
+
+    @JsonBackReference
+    @OneToOne
+    private User user;
 
     public Image() {
 
