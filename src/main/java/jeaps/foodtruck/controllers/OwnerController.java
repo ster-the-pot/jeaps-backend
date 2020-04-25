@@ -1,9 +1,6 @@
 package jeaps.foodtruck.controllers;
 
-import java.util.Base64;
-
 import jeaps.foodtruck.common.image.ImageDAO;
-import org.apache.commons.lang3.ArrayUtils;
 import jeaps.foodtruck.common.image.Image;
 import jeaps.foodtruck.common.image.ImageDTO;
 import jeaps.foodtruck.common.truck.Truck;
@@ -18,7 +15,6 @@ import jeaps.foodtruck.common.user.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +25,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
 
 
 @RestController
