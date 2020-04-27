@@ -407,6 +407,9 @@ public class TruckDAO {
 
         Location tLocation = getAvgLocation(t);
 
+        if (tLocation.getLatitude() == 0.0 && tLocation.getLongitude() == 0.0) {
+            return -2.0;
+        }
         return Location.getDistance(l, tLocation);
     }
 
