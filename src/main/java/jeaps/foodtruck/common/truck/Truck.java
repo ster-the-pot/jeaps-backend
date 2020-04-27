@@ -52,7 +52,7 @@ public class Truck {
 
     private Double avgRating;
 
-    private double distanceFromUser;
+    private Double distanceFromUser = -2.0;
 
 
     @JsonBackReference
