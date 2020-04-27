@@ -321,7 +321,10 @@ public class TruckDAO {
             // check location
             if (searchParam.getLocation() != null) {
                 if (checkIfNearby(t, searchParam.getLocation())) {
-                    score += 2;
+                    score += 3;
+                }
+                else {
+                    score--;
                 }
 
                 // set distance from user
