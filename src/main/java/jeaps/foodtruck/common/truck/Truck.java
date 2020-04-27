@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jeaps.foodtruck.common.image.Image;
 import jeaps.foodtruck.common.truck.food.Food;
 import jeaps.foodtruck.common.truck.rate.Rate;
+import jeaps.foodtruck.common.truck.route.Location;
 import jeaps.foodtruck.common.user.customer.Customer;
 import jeaps.foodtruck.common.user.owner.Owner;
 import jeaps.foodtruck.common.truck.route.Route;
@@ -50,6 +51,8 @@ public class Truck {
 
 
     private Double avgRating;
+
+    private Location avgLocation = null;
 
 
     @JsonBackReference
@@ -176,4 +179,12 @@ public class Truck {
         this.avgRating = avgRating;
     }
 
+
+    public Location getAvgLocation() {
+        return this.avgLocation;
+    }
+
+    public void setAvgLocation(Location avgLocation) {
+        this.avgLocation = avgLocation;
+    }
 }

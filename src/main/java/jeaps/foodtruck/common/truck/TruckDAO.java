@@ -261,6 +261,9 @@ public class TruckDAO {
 
             int score = 0;
 
+            // get truck's average location
+            t.setAvgLocation(getAvgLocation(t));
+
             // check name
             if (!"".equals(searchParam.getName())) {
 
@@ -406,8 +409,10 @@ public class TruckDAO {
             tempLong += r.getLocation().getLongitude();
         }
 
-        tempLat /= t.getRoute().size();
-        tempLong /= t.getRoute().size();
+        if (t.getRoute().size() > 0) {
+            tempLat /= t.getRoute().size();
+            tempLong /= t.getRoute().size();
+        }
 
         return new Location(tempLong, tempLat);
     }
