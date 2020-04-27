@@ -396,6 +396,22 @@ public class TruckDAO {
         return false;
     }
 
+    // gets truck's average location
+    private Location getAvgLocation(Truck t) {
+        double tempLat = 0.0;
+        double tempLong = 0.0;
+
+        for (Route r : t.getRoute()) {
+            tempLat += r.getLocation().getLatitude();
+            tempLong += r.getLocation().getLongitude();
+        }
+
+        tempLat /= t.getRoute().size();
+        tempLong /= t.getRoute().size();
+
+        return new Location(tempLong, tempLat);
+    }
+
     /*=============================================================
               END: Ashley's attempt at an advanced search
     =============================================================*/
