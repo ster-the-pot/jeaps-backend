@@ -27,4 +27,13 @@ public class Location {
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
+
+    // gets the distance between two locations
+    public static double getDistance(Location L1, Location L2) {
+
+        double temp1 = (L1.latitude - L2.latitude) * (L1.latitude - L2.latitude);
+        double temp2 = (L1.longitude - L2.longitude) * (L1.longitude - L2.longitude);
+
+        return java.lang.Math.sqrt(temp1 + temp2);
+    }
 }

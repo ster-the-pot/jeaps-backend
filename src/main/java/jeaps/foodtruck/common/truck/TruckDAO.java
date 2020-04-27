@@ -261,9 +261,6 @@ public class TruckDAO {
 
             int score = 0;
 
-            // get truck's average location
-            t.setAvgLocation(getAvgLocation(t));
-
             // check name
             if (!"".equals(searchParam.getName())) {
 
@@ -326,8 +323,14 @@ public class TruckDAO {
                 if (checkIfNearby(t, searchParam.getLocation())) {
                     score += 2;
                 }
+
+                // set distance from user
+                t.setDistanceFromUser(getDistanceFromUser(t, searchParam.getLocation()));
             }
             else {
+
+                // set default distance for when there's no specified location
+                t.setDistanceFromUser(-1.0);
                 score++;
             }
 
@@ -397,6 +400,14 @@ public class TruckDAO {
             }
         }
         return false;
+    }
+
+    // gets truck's distance from user using its average location
+    private double getDistanceFromUser(Truck t, Location l) {
+
+        Location tLocation = getAvgLocation(t);
+
+        return Location.getDistance(l, tLocation);
     }
 
     // gets truck's average location

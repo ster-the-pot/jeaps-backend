@@ -52,7 +52,7 @@ public class Truck {
 
     private Double avgRating;
 
-    private Location avgLocation = null;
+    private double distanceFromUser = 0.0;
 
 
     @JsonBackReference
@@ -180,11 +180,11 @@ public class Truck {
     }
 
 
-    public Location getAvgLocation() {
-        return this.avgLocation;
+    public double getDistanceFromUser() {
+        return this.distanceFromUser;
     }
 
-    public void setAvgLocation(Location avgLocation) {
-        this.avgLocation = avgLocation;
+    public void setDistanceFromUser(double distanceFromUser) {
+        this.distanceFromUser = distanceFromUser;
     }
 }
