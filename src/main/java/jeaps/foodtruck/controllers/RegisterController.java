@@ -20,6 +20,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @CrossOrigin
 @RestController
@@ -65,19 +66,47 @@ public class RegisterController {
         return user;
     }
 
+    public static boolean isValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
     @PostMapping(path="/register/customer")
-    public String registerCustomer(@RequestBody UserDTO user) {
+    public ResponseEntity<?> registerCustomer(@RequestBody UserDTO user) {
+        if(!isValid(user.getEmail())){
+            return ResponseEntity.status(422).body("Invalid email format");
+        }
+
+        if(this.userRepo.existsByUsername(user.getUsername())){
+            return ResponseEntity.status(422).body("Username already in use");
+        }
 
         Integer id = this.userRepo.save(hashPass(user));
         this.customerRepo.save(id);
-        return "Successfully saved Customer";
+        return ResponseEntity.ok("Successfully saved Customer");
     }
 
     @PostMapping(path="/register/owner")
-    public String registerOwner(@RequestBody UserDTO user){
+    public ResponseEntity<?> registerOwner(@RequestBody UserDTO user){
+        if(!isValid(user.getEmail())){
+            return ResponseEntity.status(422).body("Invalid email format");
+        }
+
+        if(this.userRepo.existsByUsername(user.getUsername())){
+            return ResponseEntity.status(422).body("Username already in use");
+        }
+
         Integer id = this.userRepo.save(hashPass(user));
         this.ownerRepo.save(id);
-        return "Successfully saved Owner";
+        return ResponseEntity.ok("Successfully saved Owner");
     }
 
 
@@ -87,13 +116,13 @@ public class RegisterController {
         user = hashPass(user);
 
         if(!this.userRepo.existsByUsername(user.getUsername())){
-            return ResponseEntity.status(403).body("Invalid Credentials");
+            return ResponseEntity.status(401).body("Invalid Credentials");
         }
 
         User login = this.userRepo.findByUsername(user.getUsername());
 
         if (login == null || login.getId() == null || !login.getPassword().equals(user.getPassword())) {
-            return ResponseEntity.status(403).body("Invalid Credentials");
+            return ResponseEntity.status(401).body("Invalid Credentials");
         }
 
         Optional<Owner> owner = this.ownerRepo.findById(login.getId());
