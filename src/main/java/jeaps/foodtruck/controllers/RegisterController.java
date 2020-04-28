@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.math.BigInteger;
 import java.net.URI;
 
@@ -85,9 +86,14 @@ public class RegisterController {
 
         user = hashPass(user);
 
+        if(!this.userRepo.existsByUsername(user.getUsername())){
+            return ResponseEntity.status(403).body("Invalid Credentials");
+        }
+
         User login = this.userRepo.findByUsername(user.getUsername());
+
         if (login == null || login.getId() == null || !login.getPassword().equals(user.getPassword())) {
-            return ResponseEntity.status(404).body("Invalid Credentials");
+            return ResponseEntity.status(403).body("Invalid Credentials");
         }
 
         Optional<Owner> owner = this.ownerRepo.findById(login.getId());

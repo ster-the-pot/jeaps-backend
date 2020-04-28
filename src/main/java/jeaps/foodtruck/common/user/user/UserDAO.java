@@ -157,6 +157,9 @@ public class UserDAO {
         return pat.matcher(email).matches();
     }
 
+    public boolean existsByUsername(String username) {
+        return this.userRepo.existsByUsername(username);
+    }
 }
 
 
