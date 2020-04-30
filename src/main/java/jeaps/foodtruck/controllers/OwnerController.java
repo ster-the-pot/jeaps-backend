@@ -190,6 +190,11 @@ public class OwnerController {
         return this.truckDAO.findByOwner(username);
     }
 
+    @RequestMapping(path="/getOwner",method=RequestMethod.GET)
+    public String getOwner(@RequestParam Integer truckID){
+        return this.ownerDAO.getOwner(truckID);
+    }
+
 
     @PostMapping(path="/editTruck")
     public Object editTruck(@RequestBody TruckDTO truck, @RequestParam Integer truckID) {

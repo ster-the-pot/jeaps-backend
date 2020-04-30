@@ -54,6 +54,12 @@ public class OwnerDAO {
 
     }
 
+    public String getOwner(Integer truckID) {
+        Optional<Truck> truck = this.truckDAO.findById(truckID);
+        Optional<User> user = this.userDAO.findById(truck.get().getOwner().getId());
+        return user.get().getUsername();
+    }
+
     /**
      * Gets the stats of the owner of a specific truck
      * @param truckId The truck that the owner owns
